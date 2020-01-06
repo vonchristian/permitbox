@@ -1,32 +1,53 @@
 @font-face {
+  font-family: 'montserrat-light-webfont';
+  src: font-url('montserrat-light-webfont.eot');
+  src: font-url('montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
+       font-url('montserrat-light-webfont.woff') format('woff'),
+       font-url('montserrat-light-webfont.woff2') format('woff2'),
+       font-url('montserrat-light-webfont.ttf') format('truetype'),
+       font-url('montserrat-light-webfont.svg#montserrat-light-webfont') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family:  'montserrat-regular-webfont';
+  src: font-url('montserrat-regular-webfont.eot');
+  src: font-url('montserrat-regular-webfont.eot?#iefix') format('embedded-opentype'),
+       font-url('montserrat-regular-webfont.woff') format('woff'),
+       font-url('montserrat-regular-webfont.woff2') format('woff2'),
+       font-url('montserrat-regular-webfont.ttf') format('truetype'),
+       font-url('montserrat-regular-webfont.svg#montserrat-light-webfont') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+
     font-family: 'roboto-condensed-webfont';
-    src: font-url('roboto-condensed-webfont.eot');
-    src: font-url('roboto-condensed-webfont.eot?#iefix') format('embedded-opentype'),
-         font-url('roboto-condensed-webfont.woff') format('woff'),
-         font-url('roboto-condensed-webfont.ttf') format('truetype'),
-         font-url('roboto-condensed-webfont.svg#roboto-condensed-webfont') format('svg');
+    src: font_url('roboto-condensed-webfont.eot') format('eot');
+    src: font_url('roboto-condensed-webfont.eot?#iefix') format('embedded-opentype'),
+         font_url('roboto-condensed-webfont.woff') format('woff'),
+         font_url('roboto-condensed-webfont.woff2') format('woff2'),
+         font_url('roboto-condensed-webfont.ttf') format('truetype'),
+         font_url('roboto-condensed-webfont.svg#roboto-condensed-webfont') format('svg');
     font-weight: normal;
     font-style: normal;
+  }
 
-    font-family: 'open_sans_light';
-    src: font-url('open_sans_light.eot');
-    src: font-url('open_sans_light.eot?#iefix') format('embedded-opentype'),
-         font-url('open_sans_light.woff') format('woff'),
-         font-url('open_sans_light.ttf') format('truetype'),
-         font-url('open_sans_light.svg#open_sans_light') format('svg');
-    font-weight: normal;
-    font-style: normal;
+  @font-face {
 
-    font-family: 'open_sans_regular';
-    src: font-url('open_sans_regular.eot');
-    src: font-url('open_sans_regular.eot?#iefix') format('embedded-opentype'),
-         font-url('open_sans_regular.woff') format('woff'),
-         font-url('open_sans_regular.ttf') format('truetype'),
-         font-url('open_sans_regular.svg#open_sans_light') format('svg');
+    font-family: 'roboto-regular-webfont';
+    src: font_url('roboto-regular-webfont-webfont.eot') format('eot');
+    src: font_url('roboto-regular-webfont-webfont.eot?#iefix') format('embedded-opentype'),
+         font_url('roboto-regular-webfont-webfont.woff') format('woff'),
+         font_url('roboto-regular-webfont-webfont.woff2') format('woff2'),
+
+         font_url('roboto-regular-webfont-webfont.ttf') format('truetype'),
+         font_url('roboto-regular-webfont-webfont.svg#roboto-regular-webfont') format('svg');
     font-weight: normal;
     font-style: normal;
 }
-
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
