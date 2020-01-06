@@ -1,0 +1,7 @@
+<%= simple_form_for @category, url: :gov_module_bplo_settings_business_tax_categories do |f| %>
+  <%= f.input :title %>
+  <%= f.input :description %>
+  <%= f.input :revenue_account_id, collection: current_locality.accounts.revenues.map{ |a| [a.name, a.id] }, input_html: { id: 'business-tax-category-revenue-account' } %>
+  <%= f.input :discount_account_id, collection: current_locality.accounts.revenues.map{ |a| [a.name, a.id] }, input_html: { id: 'business-tax-category-discount-account' } %>
+  <%= f.submit 'Create Business Tax Category' %>
+<% end %>

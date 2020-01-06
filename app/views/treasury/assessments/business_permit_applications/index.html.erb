@@ -1,0 +1,14 @@
+<%=form_tag treasury_assessments_business_permit_applications_path, method: :get, id: "search-form" do %>
+  <div class="input-group">
+    <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search assessment...", type: "search" %>
+    <span class="input-group-btn">
+      <%= button_tag(type: 'submit', class: "btn") do %>
+        <i class="fa fa-search"></i>
+      <% end %>
+    </span>
+  </div>
+<% end %>
+<br>
+<% @vouchers.each do |voucher| %>
+  <%= render 'treasury/assessment_vouchers/partials/header', voucher: voucher %>
+<% end %>

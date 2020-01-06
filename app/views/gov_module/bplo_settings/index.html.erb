@@ -1,0 +1,220 @@
+<div classs='container'>
+<div class='card'>
+  <div class='card-header'>
+    <h3 class='title-up'> Settings </h3>
+  </div>
+  <div classs='card-body'>
+<%= link_to 'Charges', gov_module_bplo_settings_charges_path, class: 'btn btn-danger' %>
+<%= link_to 'Business Tax Categories', gov_module_bplo_settings_business_tax_categories_path %>
+<%= link_to 'Line of Business Settings', gov_module_bplo_settings_line_of_businesses_path %>
+<%= link_to 'New Discount', new_gov_module_bplo_settings_discount_path %>
+<%= link_to 'New Signatory', new_gov_module_bplo_settings_signatory_path %>
+<%= link_to 'New Public Market', new_gov_module_bplo_settings_public_market_path %>
+<%= link_to 'Set Capital Tax', new_gov_module_bplo_settings_capital_tax_config_path %>
+<%= link_to 'New Surcharge', new_gov_module_bplo_settings_surcharge_path %>
+<% if current_locality.capital_tax_configs.present? %>
+  <h2><%= current_locality.capital_tax_configs.recent.rate %></h2>
+  <small>CAPITAL TAX RATE</small>
+<% end %>
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <%= simple_form_for Registries::BusinessRegistry.new, url: :business_registries do |f| %>
+          <div class="row">
+            <div class="col-md-9">
+              <p> Upload Businesses </p>
+              <%= f.input :spreadsheet, label: false %>
+              <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+              <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
+
+            </div>
+            <div class="col-md-3">
+              <%= button_tag(class: "btn btn-sm btn-outline-danger float-right", id:"s-upload") do %>
+                <span><i class="fa fa-arrow-alt-circle-up"></i> Upload</span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <%= simple_form_for Registries::TricycleRegistry.new, url: :tricycle_registries do |f| %>
+            <div class="row">
+              <div class="col-md-9">
+                <p> Upload Tricycles </p>
+                <%= f.input :spreadsheet, label: false %>
+                <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+                <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
+
+              </div>
+              <div class="col-md-3">
+                <%= button_tag(class: "btn btn-sm btn-outline-danger float-right", id:"s-upload") do %>
+                  <span><i class="fa fa-arrow-alt-circle-up"></i> Upload</span>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+  <div class="card">
+    <div class="card-header">
+
+    </div>
+    <div class="card-body">
+      <% current_locality.charges.each do |charge| %>
+        <div class="row min-margin">
+          <div class="col-md-8">
+            <%= charge.name %>
+          </div>
+          <div class="col-md-3">
+            <%= number_to_currency charge.amount %>
+          </div>
+          <div class="col-md-1">
+            <%= link_to edit_gov_module_bplo_settings_charge_path(charge) do %>
+              <span class="text-danger"><i class="fa fa-edit"></i>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<% @employees.each do |employee| %>
+  <%= employee.full_name %>
+  <%= employee.designation %>
+  <%= link_to 'Assign Cash Account', new_gov_module_employee_cash_account_path(employee), data: {modal: true} %>
+<% end %>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-9">
+            <h3 class="card-title"> Business Tax Categories </h3>
+          </div>
+          <div class="col-md-3">
+            <%= link_to new_businesses_section_business_tax_category_path do  %>
+              <span class="btn btn-outline-danger btn-sm" data-toggle="tooltip" title="New Business Tax Category"><i class="fa fa-plus-circle"></i> New</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <% @business_tax_categories.each do |business_tax_category| %>
+          <div class="row">
+            <div class="col-md-12">
+              <%= link_to business_tax_category.title, businesses_section_business_tax_category_path(business_tax_category) %>
+            </div>
+          </div>
+          <hr>
+        <% end %>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-9">
+            <h3 class="card-title">Competetive Index Categories </h3>
+          </div>
+          <div class="col-md-3">
+            <%= link_to new_gov_module_bplo_settings_competetive_index_category_path do %>
+              <span class="btn btn-danger" title="New Category" data-toggle="tooltip"><i class="fa fa-plus-circle"></i> New </span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <% @competetive_index_categories.each do |category| %>
+          <div class="row min-margin">
+            <div class="col-md-9">
+              <%= category.name %>
+            </div>
+            <div class="col-md-3">
+              <%= link_to 'Update', edit_gov_module_bplo_settings_competetive_index_category_path(category) %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-9">
+            <h3 class="card-title"> Line of Business Categories </h3>
+          </div>
+          <div class="col-md-3">
+            <%= link_to new_businesses_section_line_of_business_category_path do %>
+              <span class="btn btn-outline-danger btn-sm" data-toggle="tooltip" title="New Line of Business Category">
+                <i class="fa fa-plus-circle"></i> New
+              </span>
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <% @line_of_business_categories.each do |line_of_business_category| %>
+          <div class="row">
+            <div class="col-md-12">
+              <%= link_to line_of_business_category.title, businesses_section_line_of_business_category_path(line_of_business_category) %>
+            </div>
+          </div>
+          <hr>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-9">
+            <h3 class="card-title"> Sanitary Inspection </h3>
+          </div>
+          <div class="col-md-3">
+            <%= link_to new_businesses_section_sanitary_inspection_config_path do %>
+            <span class="btn btn-outline-danger btn-sm float-right" data-toggle="tooltip" title="New Sanitary Inspection"><i class="fa fa-plus-circle"></i> New
+            </span>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Requirements </h3>
+      </div>
+      <div class="card-body">
+      </div>
+    </div>
+  </div>
+</div>
+
+<% @sanitary_inspection_configs.each do |sanitary_inspection_config| %>
+  <%= sanitary_inspection_config.range %>
+<% end %>
+<hr>
+<strong><i class="fa fa-file mr-1"></i> Requirements </strong>
+<%= link_to 'New Requirement', new_businesses_section_document_path, class: "btn btn-outline-danger btn-sm float-right" %>
+<% @documents.each do |document| %>
+  <%= document.title %>
+  <%= document.issuing_office_name %>
+  <%= document.description %>
+  <%= link_to "Add Prerequisite", new_businesses_section_document_prerequisite_path(document), class: "btn btn-outline-danger btn-sm" %>
+<% end %>
+<% Locations::Locality.all.each do |locality| %>
+  <%= locality.name %>
+  <%= link_to 'Update Logo', edit_locality_path(locality) %>
+<% end %>
+
+<%= link_to 'New Agency', new_gov_module_settings_agency_path, class: "btn btn-outline-danger" %>
+<% Agency.all.each do |agency| %>
+  <%= agency.name %>
+<% end %>

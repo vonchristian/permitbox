@@ -1,0 +1,137 @@
+
+.title-up {
+  font-family: 'montserrat-light-webfont';
+  font-weight: 100 !important;
+}
+
+.subtitle-up {
+  font-family: 'montserrat-light-webfont';
+
+  font-weight: 40 !important;
+}
+
+.font-roboto-regular-webfont {
+  font-family: "roboto-regular-webfont"
+}
+
+.font-montserrat-regular-webfont {
+  font-family: "montserrat-regular-webfont"
+}
+
+.font-montserrat-light-webfont {
+  font-family: "montserrat-light-webfont"
+}
+.condensed-text {
+    font-family: 'roboto-condensed-webfont';
+}
+
+$nav-pills-underline-link-active-color: #cccccc !default;
+$nav-pills-underline-link-hover-color: #343a40 !default;
+
+$nav-pills-underline-bg:    transparent !default;
+$nav-pills-underline-active-bg:    transparent !default;
+$nav-pills-underline-hover-bg:    transparent !default;
+
+$nav-pills-underline-border-width:    3px !default;
+
+.nav-pills-underline{
+  .nav-link {
+
+
+    &.active,
+    .show > & {
+      color: $nav-pills-underline-link-active-color;
+      //background-color: $nav-pills-underline-active-bg;
+
+    }
+  }
+
+  > li.nav-item {
+    > a.nav-link {
+
+
+      border-bottom-width: $nav-pills-underline-border-width;
+      border-bottom: 0.5rem solid;
+      border-bottom-color: transparent;
+      border-radius: 0px;
+      font-size: 0.9rem;
+    }
+
+    > a.nav-link.active,
+    > a.nav-link.active:hover,
+    > a.nav-link:hover
+    {
+      text-decoration: none;
+
+      border-bottom-width: $nav-pills-underline-border-width;
+      border-bottom-style: solid;
+      border-bottom-color: #1830E0;
+      font-weight: bold;
+    }
+
+    // bg
+    > a.nav-link.active{
+      background-color: $nav-pills-underline-active-bg !important;
+      color: #1830E0;
+    }
+
+
+
+    // color
+    > a.nav-link.active:hover,
+    > a.nav-link:hover
+    {
+      color: $nav-pills-underline-link-hover-color;
+      background-color: $nav-pills-underline-hover-bg !important;
+
+    }
+
+  }
+
+
+
+}
+
+.min-margin {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+}
+.fa-slim {
+  -webkit-text-stroke: 2px white;
+}
+
+.badge-outline {
+     font-size: 12px;
+     line-height: 1;
+     padding: .375rem .5625rem;
+     font-weight: normal
+ }
+
+ .badge-outline-primary {
+     color: #405189;
+     border: 1px solid #405189
+ }
+
+ .badge.badge-pill {
+     border-radius: 10rem
+ }
+
+ .badge-outline-info {
+     color: #3da5f4;
+     border: 1px solid #3da5f4;
+ }
+
+ .badge-outline-danger {
+     color: #f1536e;
+     border: 1px solid #f1536e;
+ }
+
+ .badge-outline-success {
+     color: #00D477;
+     border: 1px solid #00D477;
+ }
+
+ .badge-outline-warning {
+     color: #fda006;
+     border: 1px solid #fda006;
+ }

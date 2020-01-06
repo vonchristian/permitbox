@@ -1,0 +1,12 @@
+<% @tricycle.voucher_amounts.each do |voucher_amount| %>
+  <%= voucher_amount.name %>
+<% end %>
+<%=simple_form_for [@tricycle, @assessment], url: :gov_module_tricycle_assessments do |f| %>
+  <%= f.input :date, as: :string, input_html: { class: "datepicker" } %>
+  <%= f.input :tricycle_id, input_html: { value: @tricycle.id }, as: :hidden %>
+  <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+  <%= f.input :account_number, input_html: { value: SecureRandom.uuid }, as: :hidden %>
+
+
+  <%= f.submit "Save Assessment", class: "btn btn-primary float-right" %>
+<% end %>

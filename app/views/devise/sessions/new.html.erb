@@ -1,0 +1,56 @@
+
+<div class="container">
+  <br>
+  <br>
+  <br>
+  <div class="row">
+
+
+  <div class="col-md-4">
+  </div>
+  <div class="col-md-4">
+    <center>
+      <%=image_tag("permit_box.png", height: 120, width: 120, class: "img-square") %>
+    </center>
+    <br>
+    <div class="card">
+      <div class="card-body">
+      <p class="card-title"> Sign in to Permit Box </p>
+
+      <%= simple_form_for(resource, as: resource_name, :url => session_path(resource_name),
+        wrapper_mappings: {boolean: :vertical_boolean }) do |f| %>
+        <%= f.input :email, placeholder: "Email", input_html:{class: "form-control input-lg"}, label: "Email address" %>
+        <div class="row">
+          <div class="col-md-5">
+            <label class="form-control-label">
+              Password
+            </label>
+          </div>
+          <div class="col-md-7">
+            <small class="float-right"><b>
+              <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+                <%= link_to "Forgot your password?", new_user_password_path(@user) %><br />
+              <% end -%>
+            </b>
+            </small>
+          </div>
+        </div>
+        <%= f.input :password, placeholder: "Password",  input_html:{class: "form-control input-lg"}, label: false  %>
+        <%= f.submit "Sign in", class: "btn btn-primary btn-flat btn-block", data: {disable_with: "Signing in..."} %>
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <div class="card-footer">
+    <div class="card-body">
+      <small>
+        New to Permit Hub?
+        <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+          <%= link_to "Create an Account", new_user_registration_path(@user) %><br />
+        <% end -%>
+      </small>
+    </div>
+  </div>
+</div>
+</div>
+</div>

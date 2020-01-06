@@ -1,0 +1,10 @@
+<div class="card">
+  <div class="card-header">
+  </div>
+  <div class="card-body">
+    <%= simple_form_for @business, url: :gov_module_business_ownership_type do |f| %>
+      <%= f.input :ownership_type_id, collection: current_locality.ownership_types.map{|a| [a.title, a.id] }, as: :radio_buttons %>
+      <%= f.submit 'Update Ownership', class: "btn btn-primary float-right" %>
+    <% end %>
+  </div>
+</div>

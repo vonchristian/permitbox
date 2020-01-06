@@ -1,0 +1,59 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"> Application Details </h3>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+      </div>
+      <div class="col-md-5">
+        <%= simple_form_for @tricycle_permit_application, url: :gov_module_permit_applications_tricycle_permit_application do |f| %>
+          <%= f.input :application_date, autofocus: true, as: :string, input_html: { class: "datepicker" } %>
+          <%= f.input :application_number, input_html: { value: @tricycle_permit_application.application_number } %>
+          <%= f.input :tricycle_type, collection: Tricycle.tricycle_types.keys.to_a.map{ |a| [a.titleize, a] }, as: :radio_buttons, checked: @tricycle_permit_application.tricycle_type %>
+          <%= f.input :mtop_number, label: "MTOP Number", input_html: { value: @tricycle_permit_application.mtop_number } %>
+          <%= f.input :plate_number, input_html: { value: @tricycle_permit_application.plate_number } %>
+          <%= f.input :make, label: "Make/Brand", placeholder: 'ex. Honda', input_html: { value: @tricycle.make } %>
+          <%= f.input :tricycle_model, input_html: { value: @tricycle_permit_application.tricycle_model } %>
+          <%= f.input :color, input_html: { value: @tricycle_permit_application.color } %>
+          <%= f.input :tricycle_id, input_html: { value: @tricycle_permit_application.tricycle_id }, as: :hidden %>
+          <% if @tricycle.taxpayer_owners.present? %>
+            <%= f.input :taxpayer_id, collection: @tricycle.taxpayer_owners.map{ |taxpayer| taxpayer.full_name } %>
+          <% else %>
+            <%= f.input :taxpayer_id, input_html: { value: @tricycle_permit_application.taxpayer_id }, as: :hidden %>
+          <% end %>
+
+          <%= f.input :tricycle_organization_id, collection: current_locality.tricycle_organizations.all.map{ |a| [a.abbreviated_name, a.id] }, default: @tricycle_permit_application.tricycle_organization %>
+          <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
+          <hr>
+          <h3 class="card-title">Address Details </h3>
+          <div class="min-margin"></div>
+
+          <%= f.input :complete_address, input_html: { value: @tricycle_permit_application.complete_address } %>
+          <%= f.input :street_id, collection: current_locality.streets.map{|a| [a.name, a.id] } %>
+          <%= f.input :barangay_id, collection: current_locality.barangays.map{|a| [a.name, a.id] } %>
+          <%= f.input :account_number, input_html: { value: SecureRandom.uuid }, as: :hidden %>
+          <hr>
+          <%= f.submit "Save Application", class: "btn btn-primary float-right" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#gov_module_tricycles_permit_application_tricycle_organization_id").select2({
+      theme: "bootstrap"
+    });
+
+    $("#gov_module_tricycles_permit_application_barangay_id").select2({
+      theme: "bootstrap"
+    });
+
+
+    $("#gov_module_tricycles_permit_application_street_id").select2({
+      theme: "bootstrap"
+    });
+  });
+</script>

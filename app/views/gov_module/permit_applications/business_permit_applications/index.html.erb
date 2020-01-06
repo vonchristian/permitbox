@@ -1,0 +1,24 @@
+<%=form_tag gov_module_permit_applications_business_permit_applications_path, method: :get, id: "search-form" do %>
+  <div class="input-group">
+    <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search applications...", type: "search" %>
+     &nbsp;
+      <%= button_tag(type: 'submit', class: "btn btn-outline-primary") do %>
+        <i class="fa fa-search"></i>Search
+      <% end %>
+
+  </div>
+<% end %>
+<br>
+<% @business_permit_applications.each do |permit_application| %>
+  <div class="card">
+    <div class="card-body">
+      <%= link_to permit_application.name, gov_module_permit_applications_business_permit_application_path(permit_application) %><br>
+      <small class="text-muted">
+        <i class="fa fa-calendar"></i> <%=permit_application.application_date.strftime("%B %e, %Y") %>
+        &nbsp; &nbsp;
+        <i class="fa fa-circle"></i> <%=permit_application.application_number %>
+
+      </small>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,19 @@
+<%= link_to gov_module_taxpayer_path(taxpayer) do %>
+  <div class="row">
+    <div class="col-md-2">
+      <%= image_tag(taxpayer.avatar, height: 45, width: 45, class: "img-circle") %>
+    </div>
+    <div class="col-md-6">
+      <b><%= taxpayer.full_name %></b><br>
+      <small class="text-muted"><i class="fa fa-map-marker"><%= taxpayer.current_location_complete_address %></i></small>
+    </div>
+    <div class="col-md-2">
+      <%= taxpayer.businesses.count %> <br>
+      <small> Businesses </small>
+    </div>
+    <div class="col-md-2">
+      <%= taxpayer.tricycles.count %> <br>
+      <small> Tricycles </small>
+    </div>
+  </div>
+<% end %>

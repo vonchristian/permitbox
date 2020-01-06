@@ -1,0 +1,78 @@
+<% business_permit_application.voucher_amounts.non_discount_amounts.order(:amount_cents).reverse.each do |voucher_amount| %>
+  <div class="row">
+    <div class="col-md-7">
+      <%= voucher_amount.name %>
+    </div>
+    <div class="col-md-2">
+      <%=link_to gov_module_permit_applications_business_permit_application_voucher_amount_path(business_permit_application_id: @business_permit_application.id, id: voucher_amount.id), method: :delete, data: {confirm: "Are you sure you want to delete this charge?" } do %>
+       <span class="text-danger" data-toggle="tooltip" title="Remove"><i class="fa fa-times mr-3"></i> </span>
+      <% end %>
+      <%=link_to edit_gov_module_permit_applications_business_permit_application_voucher_amount_path(business_permit_application_id: @business_permit_application.id, id: voucher_amount.id) do %>
+       <span class="text-warning" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> </span>
+      <% end %>
+    </div>
+
+    <div class="col-md-3">
+      <span class="float-right">
+        <%= number_to_currency voucher_amount.amount %>
+      </span>
+    </div>
+  </div>
+  <br>
+<% end %>
+<hr class="min-margin">
+<div class="row min-margin">
+  <div class="col-md-8">
+    SUBTOTAL
+  </div>
+  <div class="col-md-4">
+    <span class="float-right">
+      <%= number_to_currency business_permit_application.voucher_amounts.non_discount_amounts.total %>
+    </span>
+  </div>
+</div>
+<% business_permit_application.voucher_amounts.discount_amounts.each do |voucher_amount| %>
+  <div class="row min-margin">
+    <div class="col-md-7">
+      <%= voucher_amount.name %>
+    </div>
+    <div class="col-md-2">
+      <%=link_to gov_module_permit_applications_business_permit_application_voucher_amount_path(business_permit_application_id: @business_permit_application.id, id: voucher_amount.id), method: :delete do %>
+       <span class="text-danger" data-toggle="tooltip" title="Remove"><i class="fa fa-times mr-3"></i> </span>
+      <% end %>
+      <%=link_to edit_gov_module_permit_applications_business_permit_application_voucher_amount_path(business_permit_application_id: @business_permit_application.id, id: voucher_amount.id) do %>
+       <span class="text-warning" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> </span>
+      <% end %>
+    </div>
+
+    <div class="col-md-3">
+      <span class="float-right">
+        - <%= number_to_currency voucher_amount.amount %>
+      </span>
+    </div>
+  </div>
+<% end %>
+<hr>
+<div class="row min-margin text-danger">
+  <div class="col-md-8">
+    TOTAL DISCOUNTS
+  </div>
+  <div class="col-md-4">
+    <span class="float-right">
+      - <%= number_to_currency business_permit_application.voucher_amounts.discount_amounts.total %>
+    </span>
+  </div>
+</div>
+<hr>
+<div class="row min-margin">
+  <div class="col-md-8">
+    <h3 class="card-title"> TOTAL </h3>
+  </div>
+  <div class="col-md-4">
+    <h3 class="card-title">
+      <span class="float-right">
+        <%= number_to_currency business_permit_application.voucher_amounts.total_less_discount %>
+      </span>
+    </h3>
+  </div>
+</div>

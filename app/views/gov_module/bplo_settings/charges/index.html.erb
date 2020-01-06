@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-8">
+        <%=form_tag gov_module_bplo_settings_charges_path, method: :get, id: "search-form" do %>
+          <div class="input-group">
+            <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search charge...", type: "search" %>
+            <span class="input-group-btn">
+              <%= button_tag(type: 'submit', class: "btn") do %>
+                <i class="fa fa-search"></i>
+              <% end %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-md-4">
+        <%= link_to 'New Charge', new_gov_module_bplo_settings_charge_path, class: 'btn btn-danger float-right' %>
+      </div>
+    </div>
+    <br>
+<div class="table table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th> Charge </th>
+        <th> Amount </th>
+        <th> Revenue Account </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @charges.each do |charge| %>
+        <tr>
+          <td><%= charge.name %></td>
+          <td><%= number_to_currency charge.amount %></td>
+          <td><%= charge.revenue_account_name %></td>
+        </tr>
+      <% end %>
+    </table>
+      <%== pagy_nav(@pagy) %>

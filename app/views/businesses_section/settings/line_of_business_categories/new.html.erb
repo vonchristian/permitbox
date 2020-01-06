@@ -1,0 +1,6 @@
+<%= simple_form_for @line_of_business_category, url: :businesses_section_line_of_business_categories do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :title %>
+  <%= f.input :revenue_account_id, collection: Accounting::Revenue.all.map{|a| [a.name, a.id] }, input_html: { id: "revenueAccountSelect" }  %>
+  <%= f.submit "Create Line Of Business Category" %>
+<% end %>

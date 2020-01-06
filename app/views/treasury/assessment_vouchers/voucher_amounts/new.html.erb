@@ -1,0 +1,9 @@
+<%= simple_form_for [@voucher, @voucher_amount], url: :treasury_assessment_voucher_voucher_amounts do |f| %>
+  <%= f.input :name %>
+  <%= f.input :amount %>
+  <%= f.input :account_id, collection: current_locality.accounts.assets.map{|account| [account.name, account.id] } %>
+  <%= f.input :amountable_id, input_html: { value: @voucher.payee_id } %>
+  <%= f.input :amountable_type, input_html: { value: @voucher.payee_type } %>
+
+  <%= f.submit %>
+<% end %>

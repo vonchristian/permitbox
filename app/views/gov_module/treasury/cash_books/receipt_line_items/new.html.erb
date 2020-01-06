@@ -1,0 +1,5 @@
+<%= simple_form_for @line_item, url: :gov_module_treasury_cash_book_receipt_line_items do |f| %>
+  <%= f.input :amount %>
+  <%= f.input :account_id, collection: current_locality.accounts.revenues.map{|a| [a.name, a.id] } %>
+  <%= f.submit %>
+<% end %>

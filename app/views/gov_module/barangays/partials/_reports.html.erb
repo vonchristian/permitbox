@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"> Reports </h3>
+
+  </div>
+  <div class="card-body">
+    <%= link_to "Without Permits", gov_module_barangay_businesses_without_permits_path(@barangay, format: 'xlsx') %><br>
+    <span class="text-muted"> Generate report for businesses without permits </span>
+<hr>
+    <h3 class="card-title"> With Permits </h3>
+    <%= form_tag({:action => "index", format: 'xlsx', controller: "gov_module/barangays/business_permits" }, {:method => :get})  do %>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <%= text_field_tag :from_date, @date, :class => 'datepicker form-control border-input', :placeholder => "From Date" %>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <%= text_field_tag :to_date, @date, :class => 'datepicker form-control border-input', :placeholder => "To Date" %>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <button type="submit" class="btn btn-default"> Go</button>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+</div>

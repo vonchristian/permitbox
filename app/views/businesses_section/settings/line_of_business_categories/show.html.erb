@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-9">
+            <h3 class="card-title"><%= @line_of_business_category.title %></h3>
+          </div>
+          <div class="col-md-3">
+            <%= link_to 'New Line Of Business', new_businesses_section_line_of_business_category_line_of_business_path(@line_of_business_category), class: 'btn btn-primary' %>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <% @line_of_business_category.line_of_businesses.each do |line_of_business| %>
+          <div class="row min-margin">
+            <div class="col-md-6">
+              <%= line_of_business.name %><br>
+              <span class="text-muted"><%= line_of_business.competetive_index_category_name %>
+            </div>
+            <div class="col-md-3">
+              <%= number_to_currency line_of_business.fee_amount %>
+            </div>
+            <div class="col-md-3">
+              <%= link_to 'Update', edit_businesses_section_line_of_business_category_line_of_business_path(line_of_business_category_id: @line_of_business_category.id, id: line_of_business.id) %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

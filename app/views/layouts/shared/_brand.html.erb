@@ -1,0 +1,6 @@
+<!-- Brand Logo -->
+    <a href="/" class="brand-link">
+  <%#= image_tag(current_locality.logo, class: "brand-image img-circle elevation-1") if current_locality.logo.attached? %>
+      <span class="brand-text font-weight-light mr-4"><%= current_locality.try(:name) ||
+      "BPLS" %> </span>
+    </a>

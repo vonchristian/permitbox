@@ -1,0 +1,75 @@
+<br>
+<br>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-5 mb-6">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Create your account</h4>
+              </div>
+              <div class="card-body">
+                <%= simple_form_for @taxpayer_account, url: :taxpayer_account_registration do |f| %>
+                  <%= f.error_notification %>
+                  <%= f.input :first_name, autofocus: true, required: true %>
+                  <%= f.input :middle_name, required: true %>
+                  <%= f.input :last_name, required: true %>
+                  <%= f.input :email,
+                            required: true,
+                            input_html: { autocomplete: "email" }%>
+                            <small class="help-block">
+                              We’ll occasionally send updates about your account to this inbox. We’ll never share your email address with anyone.
+                            </small>
+                            <br><br>
+                  <%= f.input :password,
+                            required: true,
+                            hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                            input_html: { autocomplete: "new-password" } %>
+                  <%= f.input :password_confirmation,
+                            required: true,
+                            input_html: { autocomplete: "new-password" } %>
+                            By clicking “Create an account” below, you agree to our <%= link_to 'terms of service' %> and <%= link_to 'privacy statement' %>. We’ll occasionally send you account related emails.
+                            <hr />
+                  <%= f.button :submit, "Create My Account", class: "btn btn-primary float-right" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-4">
+              <h3 class="card-title"> You will &nbsp; <i class="fa fa-heart text-danger"></i> &nbsp; Permit Hub </h3>
+              <p class="text-muted"> Apply, pay and print your business permits online.</p>
+              <div class="row">
+                <div class="col-md-2">
+                  <i class="fa fa-credit-card fa-2x"></i>
+                </div>
+                <div class="col-md-9">
+                  Real time fees calculation letting you know how much will it cost.
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-2">
+                  <i class="fa fa-wifi fa-2x"></i>
+                </div>
+                <div class="col-md-9">
+                  No more long lines and waiting. Procees your permits 24/7 self-service anywhere you have an internet connection.
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-2">
+                  <i class="fa fa-bolt fa-2x"></i>
+                </div>
+                <div class="col-md-9">
+                  Permit Hub reduces complex permitting process in  in 3 easy steps. Apply, pay and print your permits online.
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

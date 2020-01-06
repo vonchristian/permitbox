@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="card-body">
+    <%= link_to 'New Business', new_taxpayer_business_location_path(@taxpayer), class: "btn btn-primary" %>
+  </div>
+</div>
+      <% @businesses.each do |business| %>
+        <%= link_to taxpayer_business_path(business) do %>
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-1">
+                  <%#= image_tag(business.locality.logo, height: 40, width: 40) %>
+                </div>
+                <div class="col-md-9">
+                  <b><%= business.name %></b><br>
+                  <small><i class="fa fa-map-marker"></i> <%= business.current_location_complete_address %></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+  </div>
+</div>

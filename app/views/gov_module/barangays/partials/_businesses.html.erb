@@ -1,0 +1,21 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"> Businesses </h3>
+  </div>
+  <div class="card-body">
+    <% @businesses.each do |business| %>
+      <div class="post">
+        <div class="user-block">
+          <%= image_tag("business_logo_placeholder.png", class: "img-circle img-bordered-sm mr-3", height: 45, width: 45) %>
+          <span class="username">
+            <%= link_to business.name, gov_module_business_path(business) %>
+          </span>
+          <span class="description">
+            <i class="fa fa-map-marker"></i> <%= business.current_location_complete_address %>
+          </span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+

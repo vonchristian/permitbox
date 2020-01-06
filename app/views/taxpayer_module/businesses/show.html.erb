@@ -1,0 +1,164 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-12">
+          <h4><%= @business.name %></h4>
+          <br>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-2">
+              <i class="fa fa-map-marker fa-2x"></i>
+            </div>
+            <div class="col-md-10">
+              <%= @business.locations.last.try(:details) %><br>
+              <small>LOCATION</small>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-2">
+              <i class="fa fa-file-alt fa-2x img-circle"></i>
+            </div>
+            <div class="col-md-10">
+              <h3 class="card-title"><%= @business.required_documents.count %></h3>
+              <small>REQUIREMENTS</small>
+              <br>
+              <span class="badge bg-success">
+                <%= @business.required_documents.approved.count %> Approved </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-2">
+               <i class="fa fa-calculator img-circle fa-2x"></i>
+            </div>
+            <div class="col-md-10">
+              <h3 class="card-title"><%= number_to_currency @business.voucher_amounts.total %></h3>
+              <small>TOTAL COST</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+
+        <div class="tab-content">
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="card-title"> Requirements </h3>
+          <span class="text-muted">List of requirements applicable to your business </span>
+          <br>
+          <br>
+          <% @business.required_documents.each do |required_document| %>
+          <div id="accordion">
+            <div class="row">
+              <div class="col-md-12">
+                  <div id="<%=required_document.title.gsub(" ", "") %>">
+                    <div class="row">
+                      <div class="col-md-8">
+                        <h5 class="mb-0">
+                          <button class="btn btn-link" data-toggle="collapse" data-target="#collapse<%=required_document.title.gsub(" ", "") %>">
+                          <i class="fa fa-chevron-down"></i> <%= required_document.title %>
+                          </button>
+                        </h5>
+                      </div>
+                      <div class="col-md-4">
+                        <% if required_document.approved? %>
+                          <span class="text-success"><i class="fa fa-check"></i> Approved </span>
+                          <%= link_to taxpayer_module_business_required_document_path(id: required_document.id, business_id: @business.id, format: :pdf) do %>
+                            <span class="text-primary" data-toggle="tooltip" title="Download PDF"><i class="fa fa-download"></i> </span>
+                          <% end %>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="collapse<%=required_document.title.gsub(" ", "") %>" class="collapse" data-parent="#accordion">
+                    <div class="row">
+                      <div class="col-md-1">
+                      </div>
+                      <div class="col-md-5">
+                        Application Date:
+                      </div>
+                      <div class="col-md-6">
+                        <%= required_document.current_application_date.try(:strftime, "%B %e, %Y") %>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-1">
+                      </div>
+                      <div class="col-md-5">
+                        Approval Date
+                      </div>
+                      <div class="col-md-6">
+                        <%= required_document.current_approval_date.try(:strftime, "%B %e, %Y") %>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-1">
+                      </div>
+                      <div class="col-md-6">
+                        Processing Time
+                      </div>
+                      <div class="col-md-5">
+                        <% if required_document.current_application && required_document.current_approval %>
+                          <span class="badge bg-success">
+                            <%= precise_distance_of_time_in_words(required_document.current_application_date, required_document.current_approval_date) %>
+                          </span>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+          <% end %>
+        </div>
+
+
+        <div class="col-md-6">
+          <h3 class="card-title">Fees and Taxes </h3>
+          <span class="text-muted">List of fees and taxes applicable to your business </span>
+          <br>
+          <br>
+          
+          <hr>
+          <div class="row">
+            <div class="col-md-8">
+              <h3 class="card-title"> Total Initial Cost </h3>
+            </div>
+            <div class="col-md-3">
+              <h3 class="card-title">
+                <span class="pull-right">
+                  <b class="float-right"><%= number_to_currency @business.voucher_amounts.total %></b>
+                </span>
+              </h3>
+            </div>
+          </div>
+          <br>
+          <span class="text-muted">
+            <i class="fa fa-calculator"></i>*Your fees and taxes estimates has been finalized. Please note that
+            the City reserves the right to modify fees and taxes based on
+            additional staff determination.
+          </span>
+          <hr>
+
+          <hr>
+
+
+        </div>
+
+
+      </div>
+      <hr>
+
+    </div>
+  </div>
+</div>

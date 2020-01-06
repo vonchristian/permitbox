@@ -1,0 +1,29 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-9">
+        <h3 class="card-title"> Businesses </h3>
+      </div>
+      <div class="col-md-3">
+        <% if policy(:business_permit_application).new? %>
+          <%= link_to new_gov_module_permit_applications_business_permit_application_path(applicant_id: @taxpayer.id) do %>
+            <span class="btn btn-outline-primary btn-sm float-right" data-toggle="tooltip" title="New Business">
+              <i class="fa fa-plus-circle"></i> New Application
+            </span>
+          <% end %>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+    <% @businesses.each do |business| %>
+      <div class="card">
+        <div class="card-body">
+          <%= render 'gov_module/businesses/partials/header', business: business %>
+        </div>
+      </div>
+    <% end %>
+
+</div>

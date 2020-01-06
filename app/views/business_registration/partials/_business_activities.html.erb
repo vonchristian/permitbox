@@ -1,0 +1,55 @@
+<div class="card">
+  <div class="card-header bg-light">
+    <h3 class="card-title"> Business Activities </h3>
+    <p> Please select ALL the appropriate business activities apliccable to your business. </p>
+  </div>
+  <div class="card-body">
+    <%=form_tag new_business_registration_business_activity_path(cart_id: @cart.id), method: :get, id: "search-form" do %>
+        <div class="input-group">
+          <%= text_field_tag :line_of_business_search, params[:line_of_business_search], class: "search-query form-control border-input", placeholder: "Search business activity...", type: "search" %>
+          <%= hidden_field_tag :locality_id, @locality.id %>
+          <%= hidden_field_tag :cart_id, @cart.id %>
+
+          <span class="input-group-btn">
+            <%= button_tag(type: 'submit', class: "btn") do %>
+              <i class="fa fa-search"></i>
+            <% end %>
+          </span>
+        </div>
+      <% end %>
+      <% if @line_of_businesses.blank? %>
+        <span>No business activity found. </span>
+      <% else %>
+        <% @line_of_businesses.each do |line_of_business| %>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-3">
+              <%= simple_form_for @line_of_business, url: :business_registration_line_of_businesses do |ff| %>
+                <%= ff.input :line_of_business_id, input_html: { value: line_of_business.id }, as: :hidden %>
+                <%= ff.input :cart_id, input_html: { value: @cart.id }, as: :hidden %>
+                <%= ff.input :taxpayer_id, input_html: { value: @cart.taxpayer.id }, as: :hidden %>
+                <%= ff.input :locality_id, input_html: { value: @locality.id }, as: :hidden %>
+                <% if @cart.line_of_businesses.include?(line_of_business) %>
+                  <span class="btn btn-success btn-sm disabled"><i class="fa fa-check-circle"></i> Selected </span>
+                <% else %>
+                  <%= button_tag( :class => "btn btn-outline-primary btn-sm") do %>
+                    <i class="fa fa-plus-circle"></i> Select
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+            <div class="col-md-6">
+              <br>
+              <%= line_of_business.name %>
+            </div>
+          </div>
+          <hr>
+        <% end %>
+        <%= will_paginate @line_of_businesses %>
+      <% end %>
+      <hr>
+      <%= link_to 'Save and Proceed', new_business_registration_location_path(cart_id: @cart.id), class: "btn btn-primary float-right" %>
+    </div>
+  </div>
+

@@ -1,0 +1,52 @@
+  <div class="card">
+    <div class="card-body">
+          <h3 class="card-title"> Location </h3>
+          <span class="text-muted">Please be specific with the location of your business. It will be
+            used for monitoring purposes.</span>
+          <hr>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-9">
+            <%= simple_form_for @location, url: :business_registration_locations do |f| %>
+              <%= f.input :complete_address %>
+              <%= f.input :street_id, collection: @locality.streets.map{|a| [a.name, a.id] } %>
+              <%= f.input :barangay_id, collection: @locality.barangays.map{|a| [a.name, a.id] } %>
+              <%= f.input :locality_id, input_html: { value: @locality.id }, as: :hidden %>
+              <%= f.input :province_id, input_html: { value: @locality.province_id }, as: :hidden %>
+              <%= f.input :cart_id, input_html: { value: @cart.id }, as: :hidden %>
+              <%= f.input :business_area, label: "Business Are (in square meters)" %>
+                <%= f.input :rented, as: :radio_buttons, label: "Are you renting your establishment?" %>
+                <div id="rent-details">
+                  <%= f.input :monthly_rental%>
+                  <h3 class="card-title"> Lessor Details </h3>
+
+                  <%= f.input :lessor_name, label: "Full Name" %>
+                  <%= f.input :lessor_address, label: "Address" %>
+                  <%= f.input :lessor_email, label: "Email" %>
+                  <%= f.input :lessor_contact_number, label: "Contact Number" %>
+                </div>
+
+
+                  <hr>
+              <%= f.input :market_vendor, as: :radio_buttons , label: "Are you a market vendor?" %>
+
+                  <%= f.input :public_market_id, collection: PublicMarket.all.map{|a| [a.name, a.id] } %>
+                  <%= f.input :tenancy_type, collection: Tenancy.tenancy_types.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
+              <%= f.submit "Save and Continue", class: "btn btn-primary float-right" %>
+              <br>
+            <% end %>
+          </div>
+        </div>
+
+        </div>
+
+      </div>
+
+<script type="text/javascript">
+ $( document ).on('turbolinks:load', function() {
+    $("#business_registration_location_processing_barangay_id").select2({
+      theme: "bootstrap";
+    });
+  });
+</script>

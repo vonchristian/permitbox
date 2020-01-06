@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Our Partners</h2>
+        <p class="text-muted">
+          Permit Hub has partnered with leading cities and municipalities across the country to provide you with a modern portal to permitting process. If you can't find your city or municipality here, please <%= link_to 'Start a Petition' %> for them to partner with us.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<%=form_tag new_taxpayer_business_location_path(current_taxpayer), method: :get, id: "search-form" do %>
+              <div class="input-group">
+                <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search city or municipality...", type: "search" %>
+                <span class="input-group-btn">
+                  <%= button_tag(type: 'submit', class: "btn") do %>
+                    <i class="fa fa-search"></i>
+                  <% end %>
+                </span>
+              </div>
+            <% end %>
+            <br>
+<div class="row">
+
+<% @localities.each do |locality| %>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <% if locality.logo.attachment.present? %>
+                <%= image_tag(locality.logo.attachment, height: 90, width: 90, class: "img-circle") %>
+              <% else %>
+                <%= image_tag("government_default_logo.png", height: 90, width: 90, class: "img-circle") %>
+              <% end %>
+            </div>
+            <div class="col-md-8">
+              <h3><%= locality.name %></h3><br>
+              <%= link_to 'Start a Business', new_taxpayer_business_registration_path(locality_id: locality.id, taxpayer_id: @taxpayer.id, cart_id: Cart.create(taxpayer_id: @taxpayer.id, locality_id: locality.id).id), class: "btn btn-primary" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <br>
+<% end %>
+</div>

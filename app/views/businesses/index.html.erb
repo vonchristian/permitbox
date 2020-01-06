@@ -1,0 +1,35 @@
+
+<%=form_tag businesses_path, method: :get, id: "search-form" do %>
+  <div class="input-group">
+    <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search business...", type: "search" %>
+    <span class="input-group-btn">
+      <%= button_tag(type: 'submit', class: "btn") do %>
+        <i class="fa fa-search"></i>
+      <% end %>
+    </span>
+  </div>
+<% end %>
+            <br>
+<div class="container">
+<div class="card-columns">
+  <% @businesses.each do |business| %>
+    <%= link_to business do %>
+        <div class="card">
+          <div class="card-block">
+              <% if business.avatar.attachment.present? %>
+                <%= image_tag(business.avatar, class: "card-img-top") %>
+              <% else %>
+                <%= image_tag("business_logo_placeholder.png",class: "img-fluid card-img-top") %>
+              <% end %>
+              <div class="card-body">
+              <h4 class="card-title"><%= business.name %></h4>
+
+              <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+      </div>
+<% end %>
+    <% end %>
+  </div>
+<%= will_paginate @businesses %>
+</div>

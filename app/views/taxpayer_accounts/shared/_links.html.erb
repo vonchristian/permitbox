@@ -1,0 +1,21 @@
+<%- if controller_name != 'sessions' %>
+  <%= link_to "Log in", new_taxpayer_account_session_path(@taxpayer_account) %><br />
+<% end -%>
+
+
+
+
+
+<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+  <%= link_to "Didn't receive confirmation instructions?", new_taxpayer_account_confirmation_path(@taxpayer_account) %><br />
+<% end -%>
+
+<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+  <%= link_to "Didn't receive unlock instructions?", new_taxpayer_account_unlock_path(@taxpayer_account) %><br />
+<% end -%>
+
+<%- if devise_mapping.omniauthable? %>
+  <%- resource_class.omniauth_providers.each do |provider| %>
+    <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(@taxpayer_account, provider) %><br />
+  <% end -%>
+<% end -%>

@@ -1,0 +1,8 @@
+<% @documents.each do |document| %>
+  <%= document.title %>
+
+  <%= simple_form_for [@business, @required_document], url: :business_required_documents do |f| %>
+    <%= f.input :document_id, input_html: { value: document.id } %>
+    <%= f.submit "Add" %>
+  <% end %>
+<% end %>

@@ -1,0 +1,7 @@
+<% @classifications.each do |classification| %>
+  <%= classification.title %>
+  <%= simple_form_for [@real_property, @classification], url: :real_property_classifications do |f| %>
+    <%= f.input :classification_id, input_html: { value: classification.id } %>
+    <%= f.submit "Select" %>
+  <% end %>
+<% end %>

@@ -1,0 +1,8 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"> Taxpayers </h3>
+  </div>
+</div>
+<% @taxpayers.each do |taxpayer| %>
+  <%= render 'gov_module/taxpayers/partials/header', taxpayer: taxpayer %>
+<% end %>

@@ -1,0 +1,30 @@
+<div class="card">
+  <div id="businessChargeAccordion">
+    <div class="card-header">
+      <button class="btn btn-link" data-toggle="collapse" data-target="#businessCharge">
+      <h3 class="card-title">Taxes and Fees</h3>
+      <%= number_to_currency @cart.voucher_amounts.total %>
+      </button>
+    </div>
+  </div>
+  <div id="businessCharge" class="collapse" data-parent="#businessChargeAccordion">
+    <div class="card-body">
+      <% if @cart.voucher_amounts.present? %>
+        <% @cart.voucher_amounts.each do |voucher_amount| %>
+          <div class="row">
+            <div class="col-md-8">
+              <%= voucher_amount.name %>
+            </div>
+            <div class="col-md-4">
+              <%= number_to_currency voucher_amount.amount %>
+            </div>
+          </div>
+          <br>
+        <% end %>
+      <% else %>
+        Start answering questions to seed estimated costs of your permit application here.
+      <% end %>
+    </div>
+  </div>
+</div>
+

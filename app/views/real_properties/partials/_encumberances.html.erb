@@ -1,0 +1,18 @@
+<div class="tab-pane <%= 'active' if current_page?(real_property_encumberances_path(@real_property)) %>" id="real-property-profile-tab" role="tabpanel" aria-labelledby="real-property-encumberances-tab">
+  <h3 class="card-title">Encumberances </h3>
+  <%= link_to 'New Encumberance', new_real_property_encumberance_path(@real_property), class: "btn btn-primary" %>
+  <% @encumberances.each do |encumberance| %>
+    <%= encumberance.title %>
+    <% if !encumberance.cancelled? %>
+      <%= link_to "Cancel", real_property_encumberance_cancellations_path(encumberance_id: encumberance.id), method: :post, data: { confirm_with: "Are you sure?" } %>
+    <% end %>
+    <% encumberance.uploads.each do |upload| %>
+      <% if upload.variable? %>
+        <%= link_to image_tag(upload, height: 100, width: 100), rails_blob_path(upload, disposition: :inline) %>
+      <% elsif upload.previewable? %>
+        <%= link_to image_tag(upload.preview(resize: "200x200")), rails_blob_path(upload, disposition: :attachment) %>
+      <% end %>
+    <% end %>
+    <hr>
+  <% end %>
+</div>

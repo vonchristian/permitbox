@@ -1,0 +1,5 @@
+<%= simple_form_for @agency, multipart: true, url: :gov_module_settings_agencies do |f| %>
+  <%= f.input :title %>
+  <%= f.input :logo, as: :file %>
+  <%= f.submit %>
+<% end %>

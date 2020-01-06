@@ -1,0 +1,8 @@
+<%= link_to "New Adjustment Factor", new_configurations_adjustment_factor_path, class: "btn btn-danger" %>
+<%= link_to 'New General Revision', new_configurations_general_revision_path, class: "btn btn-danger" %>
+<%= link_to 'New Classification', new_configurations_classification_path, class: "btn btn-danger" %>
+
+<% @classifications.each do |classification| %>
+  <%= link_to classification.title, configurations_classification_path(classification) %>
+<% end %>
+

@@ -1,0 +1,9 @@
+<%= simple_form_for [@business_tax_category, @gross_sales_tax_range], url: :businesses_section_business_tax_category_gross_sales_tax_ranges do |f| %>
+  <%= f.input :minimum_gross_sale %>
+  <%= f.input :maximum_gross_sale %>
+  <%= f.input :tax_amount, label: "Tax per Annum" %>
+  <%= f.input :business_tax_category_id, input_html: { value: @business_tax_category.id }, as: :hidden %>
+  <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
+
+  <%= f.submit "Create Gross Sales Tax Range" %>
+<% end %>

@@ -1,0 +1,5 @@
+<%= simple_form_for [@business, @closing], url: :gov_module_business_closings do |f| %>
+  <%= f.input :closed_at, label: 'Date Closed', as: :string, input_html: { class: 'datepicker' } %>
+  <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+  <%= f.submit 'Close Business' %>
+<% end %>

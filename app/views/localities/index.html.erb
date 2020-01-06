@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header bg-warning">
+      <h3 class="card-title"> Cities and Municipalities </h3>
+    </div>
+    <div class="card-body">
+      <% @localities.each do |locality| %>
+        <%= locality.name %>
+        <%= link_to 'New Business', new_start_a_business_path(locality_id: locality.id), class: "btn btn-warning" %>
+      <% end %>
+    </div>
+  </div>
+</div>

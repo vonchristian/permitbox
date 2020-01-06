@@ -1,0 +1,145 @@
+<div class="row">
+  <div class="col-md-7">
+    <div class="card">
+      <div class="card-header">
+        <%=link_to gov_module_permit_applications_tricycle_permit_application_path(@tricycle_permit_application) do %>
+          <div class="row">
+            <div class="col-md-2">
+              <%= image_tag("tricycle_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
+            </div>
+            <div class="col-md-10">
+              <h3 class="card-title"><%= @tricycle.plate_number %> - <%= @tricycle.taxpayers_full_name.try(:titleize)%></h3>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="card-body">
+
+
+
+        <h3 class="card-title"> Tricycle Details </h3>
+        <div class="min-margin"></div>
+        <div class="row min-margin">
+          <div class="col-md-6">
+            Application Date
+          </div>
+          <div class="col-md-6">
+            <%= @tricycle_permit_application.application_date.strftime("%B %e, %Y") %>
+          </div>
+        </div>
+        <div class="row min-margin">
+          <div class="col-md-6">
+            Application Number
+          </div>
+          <div class="col-md-6">
+            <%= @tricycle_permit_application.application_number %>
+          </div>
+        </div>
+
+        <div class="row min-margin">
+          <div class="col-md-6">
+            Make and Model
+          </div>
+          <div class="col-md-6">
+            <%= @tricycle.make_and_model %>
+          </div>
+        </div>
+
+        <div class="row min-margin">
+          <div class="col-md-6">
+            MTOP Number
+          </div>
+          <div class="col-md-6">
+            <%= @tricycle.mtop_number %>
+          </div>
+        </div>
+
+        <div class="row min-margin">
+          <div class="col-md-6">
+            Plate Number
+          </div>
+          <div class="col-md-6">
+            <%= @tricycle.plate_number %>
+          </div>
+        </div>
+        <div class="row min-margin">
+          <div class="col-md-6">
+            Organization
+          </div>
+          <div class="col-md-6">
+            <%= @tricycle.tricycle_organization_name %>
+          </div>
+        </div>
+
+        <div class="row min-margin">
+          <div class="col-md-6">
+            Tricycle Type
+          </div>
+          <div class="col-md-6">
+            <%= @tricycle.tricycle_type.try(:titleize) %>
+          </div>
+        </div>
+
+        <hr>
+        <%= link_to 'Delete', gov_module_permit_applications_tricycle_permit_application_path(@tricycle_permit_application), method: :delete, class: 'text-danger float-left', data: { disable_with: 'Deleting application...' } %>
+        <%= link_to edit_gov_module_permit_applications_tricycle_permit_application_path(@tricycle_permit_application) do %>
+          <span class="btn btn-outline-warning float-right" title='Update Application' data-toggle='tooltip'><i class="fa fa-edit"></i> Update Application </span>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-8">
+              <h3 class="card-title"> Taxes and Fees </h3>
+            </div>
+            <div class="col-md-4">
+              <%= link_to new_gov_module_permit_applications_tricycle_permit_application_voucher_amount_path(@tricycle_permit_application) do  %>
+                <span class="btn btn-outline-primary btn-sm float-right"><i class="fa fa-plus-circle"></i> Add</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <% current_cart.voucher_amounts.credit.without_voucher.each do |voucher_amount| %>
+            <div class="row min-margin">
+              <div class="col-md-6">
+                <%= voucher_amount.name %>
+              </div>
+              <div class="col-md-3">
+                <%=link_to gov_module_permit_applications_tricycle_permit_application_voucher_amount_path(tricycle_permit_application_id: @tricycle_permit_application.id, id: voucher_amount.id), method: :delete do %>
+                 <span class="text-danger" data-toggle="tooltip" title="Remove"><i class="fa fa-times mr-3"></i> </span>
+                <% end %>
+                <%=link_to edit_gov_module_permit_applications_tricycle_permit_application_voucher_amount_path(tricycle_permit_application_id: @tricycle_permit_application.id, id: voucher_amount.id) do %>
+                 <span class="text-warning" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> </span>
+                <% end %>
+              </div>
+              <div class="col-md-3">
+                <span class="float-right">
+                  <%= number_to_currency voucher_amount.amount %>
+                </span>
+              </div>
+            </div>
+          <% end %>
+          <hr>
+          <div class="row min-margin">
+            <div class="col-md-6">
+              <h3 class="card-title"> Total </h3>
+            </div>
+            <div class="col-md-6">
+              <h3 class="card-title float-right"><%= number_to_currency current_cart.voucher_amounts.credit.without_voucher.sum(&:amount) %></h3>
+            </div>
+          </div>
+          <hr>
+          <%= link_to 'Proceed to Assessment', new_gov_module_permit_applications_tricycle_permit_application_assessment_path(@tricycle_permit_application), class: "btn btn-primary btn-block" %>
+        </div>
+
+  </div>
+</div>
+
+</div>

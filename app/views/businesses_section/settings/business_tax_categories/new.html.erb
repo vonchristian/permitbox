@@ -1,0 +1,8 @@
+<%= simple_form_for @business_tax_category, url: :businesses_section_business_tax_categories do |f| %>
+  <%= f.input :title %>
+  <%= f.input :description %>
+  <%= f.input :revenue_account_id, collection: Accounting::Revenue.all.map{|a| [a.name, a.id] }, input_html: { id: "revenueAccountSelect" }  %>
+  <%= f.input :unearned_income_account_id, collection: Accounting::Asset.all.map{|a| [a.name, a.id] }, input_html: { id: "unearnedIncomeAccountSelect" } %>
+
+  <%= f.submit "Create Business Tax Category" %>
+<% end %>

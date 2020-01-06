@@ -1,0 +1,8 @@
+<%= simple_form_for @adjustment_factor, url: :configurations_adjustment_factors do |f| %>
+<%= f.input :title %>
+<%= f.input :description %>
+<%= f.input :adjustment_type %>
+<%= f.input :percent %>
+<%= f.input :amount %>
+<%= f.submit "Save Adjustment Factor", class: "btn btn-danger pull-right" %>
+<% end %>

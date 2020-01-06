@@ -1,0 +1,5 @@
+<% @cash_books.each do |cash_book| %>
+<%= cash_book.name %>
+<%= cash_book.balance %>
+<%= link_to 'Receive', new_gov_module_treasury_cash_book_receipt_line_item_path(cash_book) %>
+<% end %>

@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="post">
+            <div class="user-block">
+              <%=link_to gov_module_permit_applications_business_permit_application_path(@business_permit_application) do %>
+                <%= image_tag("business_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
+                <span class="username"><%= @business_permit_application.name.upcase %></span>
+                <p class="description"><i class="fa fa-map-marker"></i> <%= @business_permit_application.complete_address %></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <%= simple_form_for [@business_permit_application, @gross_sale], url: :gov_module_permit_applications_business_permit_application_gross_sales do |f| %>
+          <strong>Gross Sales Details</strong>
+            <%= f.input :amount, autofocus: true %>
+            <%= f.input :mode_of_payment, collection: BusinessPermitApplication.mode_of_payments.keys.to_a.map{|mode| [mode.titleize, mode] }, as: :radio_buttons, checked: @business_permit_application.mode_of_payment %>
+            <p class="text-muted"> Preceding year this gross sales </p>
+            <%= f.input :calendar_year, input_html: { value: Date.today.last_year.year } %>
+
+            <%= f.input :business_permit_application_id, input_html: { value: @business_permit_application.id }, as: :hidden %>
+            <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+
+            <%= f.submit "Save Gross Sale", class: "btn btn-primary float-right" %>
+          <% end %>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

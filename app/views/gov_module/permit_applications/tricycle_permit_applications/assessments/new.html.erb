@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div class="card card-outline card-primary">
+      <div class="card-header">
+        <%=link_to gov_module_permit_applications_tricycle_permit_application_path(@tricycle_permit_application) do %>
+          <div class="row">
+            <div class="col-md-2">
+              <%= image_tag("tricycle_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
+            </div>
+            <div class="col-md-10">
+              <h3 class="card-title"><%= @tricycle_permit_application.tricycle.plate_number %> - <%= @tricycle_permit_application.tricycle.taxpayers_full_name.try(:titleize)%></h3>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="card-body">
+        <% current_cart.voucher_amounts.credit.without_voucher.each do |voucher_amount| %>
+          <div class="row min-margin">
+            <div class="col-md-7">
+              <%= voucher_amount.name %>
+            </div>
+            <div class="col-md-4">
+              <span class="float-right">
+                <%= number_to_currency voucher_amount.amount %>
+              </span>
+            </div>
+          </div>
+        <% end %>
+        <hr>
+        <div class="row min-margin">
+          <div class="col-md-7">
+            <h3 class="card-title">TOTAL </h3>
+          </div>
+          <div class="col-md-4">
+            <h3 class="card-title float-right">
+              <%= number_to_currency current_cart.voucher_amounts.credit.without_voucher.sum(&:amount) %>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <%= simple_form_for [@tricycle_permit_application, @assessment], url: :gov_module_permit_applications_tricycle_permit_application_assessments do |f| %>
+          <%= f.input :reference_number, input_html: { value: @tricycle_permit_application.application_number } %>
+          <%= f.input :description, input_html: { value: 'Asssessment of fees and taxes' } %>
+          <%= f.input :date, as: :string, input_html: { class: "datepicker" } %>
+          <%= f.input :tricycle_permit_application_id, input_html: { value: @tricycle_permit_application.id }, as: :hidden %>
+          <%= f.input :account_number, input_html: { value: SecureRandom.uuid }, as: :hidden %>
+          <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+          <%= f.input :cart_id, input_html: { value: current_cart.id }, as: :hidden %>
+
+          <%= f.submit "Create Assessment", class: 'btn btn-primary float-right' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

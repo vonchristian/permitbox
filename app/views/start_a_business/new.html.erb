@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md">
+    </div>
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-warning">
+            <h3 class="card-title"> New Business Details </h3>
+        </div>
+        <div class="card-body">
+          <%= simple_form_for [@taxpayer, @business], url: :start_a_business_index do |f| %>
+            <h4 class="card-title"> Taxpayer Info </h4><br>
+            <%= f.input :account_number, input_html: { value: SecureRandom.uuid } , as: :hidden %>
+            <%= f.input :taxpayer_first_name, label: "First Name" %>
+            <%= f.input :taxpayer_middle_name, label: "Middle Name" %>
+            <%= f.input :taxpayer_last_name, label: "Last Name" %>
+            <hr>
+            <%= f.input :business_name, autofocus: true %>
+
+            <h6 class="card-subtitle mb-2 text-muted">Business Location </h6>
+            <%= f.input :street_id, collection: current_locality.streets.all.map{|a| [a.name, a.id] } %>
+
+            <%= f.input :barangay_id, collection: current_locality.barangays.all.map{|a| [a.name, a.id] } %>
+            <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
+            <%= f.input :province_id, input_html: { value: current_locality.province_id }, as: :hidden %>
+            <hr>
+            <%= f.input :business_area %>
+            <%= f.input :ownership_type_id, collection: OwnershipType.all.map{|a| [a.title, a.id] }, as: :radio_buttons %>
+            <%= f.input :business_tax_category_id, collection: BusinessTaxCategory.all.map{|a| [a.title, a.id] } %>
+
+            <%= f. input :capital %>
+            <%= f.input :business_asset_size %>
+             <%= f.input :line_of_business_ids, label: false, collection: LineOfBusiness.all.map{|a| [a.name, a.id] }, input_html: { class: "chosen-select form-control", multiple: true } %>
+            <%= f.input :date, as: :string, input_html: { class: "datepicker" } %>
+            <%= f.submit "Save Business", class: "btn btn-primary float-right" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md">
+    </div>
+  </div>
+</div>

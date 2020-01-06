@@ -1,0 +1,6 @@
+<%= simple_form_for @document, url: :businesses_section_documents do |f| %>
+  <%= f.input :title %>
+  <%= f.input :description %>
+  <%= f.input :office_id, collection: current_locality.offices.map{|a| [a.name, a.id] }, input_html: { id: "officeSelect"} %>
+  <%= f.submit "Create Requirement" %>
+<% end %>

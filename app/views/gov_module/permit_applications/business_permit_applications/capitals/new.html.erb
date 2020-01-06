@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="post">
+            <div class="user-block">
+              <%=link_to gov_module_permit_applications_business_permit_application_path(@business_permit_application) do %>
+                <%= image_tag("business_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
+                <span class="username"><%= @business_permit_application.name.upcase %></span>
+                <p class="description"><i class="fa fa-map-marker"></i> <%= @business_permit_application.complete_address %></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <%= simple_form_for @capital, url: :gov_module_permit_applications_business_permit_application_capitals do |f| %>
+            <%= f.input :amount %>
+            <%= f.input :business_permit_application_id, input_html: { value: @business_permit_application.id }, as: :hidden %>
+            <%= f.submit "Create Capital", class: "btn btn-primary float-right", data: { disable_with: "Processing..." } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

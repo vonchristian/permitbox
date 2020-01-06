@@ -1,0 +1,91 @@
+<div class="container">
+      <div class="card">
+        <div class="card-header">
+          <div class="post">
+            <div class="user-block">
+              <%=link_to gov_module_permit_applications_business_permit_application_path(@business_permit_application) do %>
+                <%= image_tag("business_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
+                <span class="username"><%= @business_permit_application.name.upcase %></span>
+                <p class="description"><i class="fa fa-map-marker"></i> <%= @business_permit_application.complete_address %></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 border-right">
+              <strong><i class="fa fa-list"></i> Business Activities </strong>
+              <br>
+              <br>
+               <% @business_permit_application.business_activities.each do |business_activity| %>
+            <div class="row">
+              <div class="col-md-1">
+                <%= business_activity.quantity %>
+              </div>
+              <div class="col-md-7">
+                <%= business_activity.name %><br>
+
+              </div>
+              <div class="col-md-3">
+                <span class="float-right">
+                  <%= number_to_currency business_activity.fee_amount %>
+                </span>
+              </div>
+            </div>
+            <br>
+          <% end %>
+            </div>
+            <div class="col-md-6">
+              <%=form_tag new_gov_module_permit_applications_business_permit_application_business_activity_path(@business_permit_application), method: :get, id: "search-form" do %>
+                <div class="input-group">
+                  <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search line of businesses...", type: "search" %>
+                  <span class="input-group-btn">
+                    <%= button_tag(type: 'submit', class: "btn") do %>
+                      <i class="fa fa-search"></i>
+                    <% end %>
+                  </span>
+                </div>
+              <% end %>
+              <% @line_of_businesses.each do |line_of_business| %>
+                <%= simple_form_for [@business_permit_application, @business_activity], url: :gov_module_permit_applications_business_permit_application_business_activities do |f| %>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <span class="text-muted">
+                        <br>
+                        <%= line_of_business.name %><br>
+                        <%= number_to_currency line_of_business.fee_amount %>
+                      </span>
+                    </div>
+                    <div class="col-md-3">
+                      <br>
+                      <% unless @business_permit_application.line_of_businesses.include?(line_of_business) %>
+
+                        <%= f.input :quantity, input_html: { value: 1 }, label: false %>
+                        <% if line_of_business.has_storage_permit_fee? %>
+                          <%= f.input :volume %>
+                        <% end %>
+                        <% end %>
+                    </div>
+                    <div class="col-md-3">
+                      <%= f.input :line_of_business_id, input_html: { value: line_of_business.id }, as: :hidden %>
+                      <%= f.input :business_permit_application_id, input_html: { value: @business_permit_application.id }, as: :hidden %>
+                      <% unless @business_permit_application.line_of_businesses.include?(line_of_business) %>
+                        <%= f.submit "Add", class: "btn btn-outline-success btn-sm float-right" %>
+                      <% else %>
+                        <br>
+                        <span class="badge bg-success"> Added </span>
+                      <% end %>
+                    </div>
+                  </div>
+                  <hr>
+                <% end %>
+              <% end %>
+              <center>
+                <%= will_paginate @line_of_businesses %>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

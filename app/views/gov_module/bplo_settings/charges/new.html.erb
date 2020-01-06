@@ -1,0 +1,6 @@
+<%= simple_form_for @charge, url: :gov_module_bplo_settings_charges do |f| %>
+  <%= f.input :name %>
+  <%= f.input :amount %>
+  <%= f.input :revenue_account_id, collection: current_locality.accounts.revenues.map{|a| [a.name, a.id] } %>
+  <%= f.submit 'Create Charge' %>
+<% end %>

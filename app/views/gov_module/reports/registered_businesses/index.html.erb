@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-title"> Registered Businesses Report </h3>
+<%= form_tag({:action => "index", controller: "gov_module/reports/registered_businesses"}, {:method => :get})  do %>
+        <div class="row">
+          <div class="col-md-3">
+          <div class="form-group">
+            <%= text_field_tag :from_date, @from_date, :class => 'datepicker form-control border-input', :placeholder => "From " %>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <%= text_field_tag :to_date, @to_date, :class => 'form-control border-input datepicker', :placeholder => "To " %>
+
+          </div>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-warning btn-sm"> Generate Report</button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

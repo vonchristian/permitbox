@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-2">
+  </div>
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <%=render 'gov_module/taxpayers/partials/header', taxpayer: @taxpayer %>
+      </div>
+      <div class="card-body">
+        <%= simple_form_for @permit_application, url: :gov_module_tricycle_permit_applications do |f| %>
+          <%= f.input :application_date, as: :string, input_html: { class: "datepicker" } %>
+          <%= f.input :application_number %>
+          <%= f.input :tricycle_type, collection: Tricycle.tricycle_types.keys.to_a.map{ |a| [a.titleize, a] }, as: :radio_buttons %>
+          <%= f.input :mtop_number, label: "MTOP Number", input_html: { value: @tricycle.mtop_number } %>
+          <%= f.input :plate_number, input_html: { value: @tricycle.plate_number } %>
+          <%= f.input :make, label: "Make/Brand", placeholder: 'ex. Honda', input_html: { value: @tricycle.make } %>
+          <%= f.input :model, input_html: { value: @tricycle.model } %>
+          <%= f.input :color, input_html: { value: @tricycle.color } %>
+          <%= f.input :tricycle_id, input_html: { value: @tricycle.id }, as: :hidden %>
+
+          <%= f.input :tricycle_organization_id, collection: current_locality.tricycle_organizations.all.map{ |a| [a.abbreviated_name, a.id] }, default: @tricycle.tricycle_organization %>
+          <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
+          <h3 class="card-title">Address Details </h3>
+          <%= f.input :complete_address, input_html: { value: @tricycle.current_location_complete_address } %>
+          <%= f.input :street_id, collection: current_locality.streets.map{|a| [a.name, a.id] } %>
+          <%= f.input :barangay_id, collection: current_locality.barangays.map{|a| [a.name, a.id] } %>
+          <%= f.input :account_number, input_html: { value: SecureRandom.uuid }, as: :hidden %>
+
+          <%= f.submit "Save Application", class: "btn btn-primary float-right" %>
+        <% end %>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#gov_module_tricycles_registration_tricycle_organization_id").select2({
+      theme: "bootstrap"
+    });
+  });
+</script>

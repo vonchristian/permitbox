@@ -1,0 +1,19 @@
+
+<div class="row">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+        <%= simple_form_for @business_permit, url: :gov_module_business_permit do |f| %>
+          <%= f.input :permit_type, collection: Permit.permit_types.keys.to_a.map{ |a| [a.titleize, a] }, as: :radio_buttons %>
+          <%= f.input :permit_number %>
+          <%= f.input :plate_number %>
+          <%= f.input :approval_date, as: :string, input_html: { class: "datepicker" } %>
+          <%= f.input :expiry_date, as: :string, input_html: { class: "datepicker" } %>
+          <%= f.submit "Update Business Permit", class: "btn btn-primary float-right", data: { disable_with: "Processing..." } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

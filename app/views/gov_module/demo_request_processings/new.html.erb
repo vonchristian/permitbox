@@ -1,0 +1,63 @@
+<br>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"> Request for Demo </h3>
+          <p class="text-muted">
+           Fill up the form below and we will get in touch with you to help you modernize your government services.
+         </p>
+       </div>
+        <div class="card-body">
+          <%= simple_form_for @demo_request, url: :gov_module_demo_request_processings do |f| %>
+            <%= f.input :locality, label: "City/Municipality" %>
+            <%= f.input :email %>
+            <%= f.input :message, as: :text, input_html: { rows: 6 } %>
+            <%= f.submit "Request for Demo", class: "btn btn-primary float-right" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-5">
+       <h3 class="card-title"> You will &nbsp; <i class="fa fa-heart text-danger"></i> &nbsp; Permit Hub </h3>
+       <p class="text-muted"> Simplify the way you process business permit.</p>
+      <div class="row">
+        <div class="col-md-2">
+          <i class="fa fa-users fa-2x"></i>
+        </div>
+        <div class="col-md-9">
+          Permit Hub connects your different offices enabling them to have a central information hub about businesses. This leads to faster processing of business permits.
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-2">
+          <i class="fa fa-wifi fa-2x"></i>
+        </div>
+        <div class="col-md-9">
+          Empower your citizens by providing them 24/7 self-service access to process their business permits anywhere they have an internet connection.
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-2">
+          <i class="fa fa-bolt fa-2x"></i>
+        </div>
+        <div class="col-md-9">
+          Automated solutions that reduce processing time and powerful monitoring tools helps increase your revenue.
+        </div>
+      </div>
+      <br>
+      <br>
+    <h3 class="card-title"> Customers </h3>
+    <p class="text-muted"> We partnered with these pioneering LGUs and helped them modernize their services. </p>
+    <span data-toggle="tooltip" title="Municipality of Lamut, Ifugao"><%= image_tag("lamut_logo.png", height: 90, width: 90) %></span> &nbsp; &nbsp;
+  <span data-toggle="tooltip" title="Municipality of Tinoc, Ifugao"><%= image_tag("tinoc_logo.png", height: 90, width: 90) %></span>
+  
+    </div>
+  </div>
+</div>

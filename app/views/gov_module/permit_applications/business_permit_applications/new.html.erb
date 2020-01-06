@@ -1,0 +1,143 @@
+
+<div class="row">
+  <div class="col-md-10 offset-md-1">
+    <div class="card">
+      <div class="card-body">
+          <%= simple_form_for @business_permit_application, url: :gov_module_permit_applications_business_permit_applications do |f| %>
+          <div class="row">
+            <div class="col-md-4">
+              <h3 class="card-title">Application Details </h3>
+              <p class="text-muted">Please select the most appropriate options
+                for correct taxes and fees calculations.
+              </p>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-6">
+              <%= f.input :account_number, input_html: { value: SecureRandom.uuid }, as: :hidden %>
+                <%= f.input :applicant_id, input_html: { value: @applicant.id } %>
+
+              <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+              <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+              <%= f.input :application_date, as: :string, input_html: { class: 'datepicker' } %>
+              <%= f.input :application_number %>
+              <%= f.input :taxpayer_first_name, input_html: { value: @business.taxpayer_owners.last.try(:first_name) }, as: :hidden %>
+              <%= f.input :taxpayer_middle_name, input_html: { value: @business.taxpayer_owners.last.try(:middle_name) }, as: :hidden %>
+              <%= f.input :taxpayer_last_name, input_html: { value: @business.taxpayer_owners.last.try(:last_name) }, as: :hidden %>
+              <%= f.input :business_name, input_html: { value: @business.name }, autofocus: true %>
+              <%= f.input :employee_count, label: "Number of employees", input_html: { value: @business.recent_employee_count_total_count } %>
+              <%= f.input :mode_of_payment, collection: Business.mode_of_payments.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons, checked: @business.mode_of_payment  %>
+              <h4 class="card-title"> Ownership Setup </h4>
+              <p class="text-muted"> Select the most approriate ownership type for this business </p>
+                    <%= f.input :ownership_type_id, label: false, collection: current_locality.ownership_types.all.map{|a| [a.title, a.id] }, default: @business.ownership_type_id%>
+              <hr>
+              <h4 class="card-title"> Business Category </h4>
+              <p class="text-muted"> Select the most approriate category for this business. </p>
+
+                  <%= f.input :business_tax_category_id, label: false, collection: BusinessTaxCategory.all.map{|a| [a.title, a.id] }, default: @business.business_tax_category_id %>
+
+              <hr>
+              <h4 class="card-title">Business Activities</h4>
+              <p class="tex-muted"> Select all business activities applicable to this business. </p>
+                  <%= f.input :line_of_business_ids, label: false, collection: LineOfBusiness.all.map{|a| [a.name, a.id] }, input_html: { class: "chosen-select", multiple: true}, selected: @business.line_of_businesses.try(:ids)  %>
+              <hr>
+            </div>
+            <div class="col-md-1">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="card-title">Establishment Location </h4>
+              <p class="text-muted">Please be specific with the location of the business. It will be
+                used for monitoring purposes and setting the correct taxes and fees. </p>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-6">
+              <%= f.input :complete_address, input_html: { value: @business.current_location_complete_address } %>
+              <%= f.input :street_id, collection: current_locality.streets.all.map{|a| [a.name, a.id] } %>
+              <%= f.input :barangay_id, collection: current_locality.barangays.order(:name).map{|a| [a.name, a.id] }, selected: @business.current_location.try(:barangay_id) %>
+              <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
+              <%= f.input :province_id, input_html: { value: current_locality.province_id }, as: :hidden %>
+              <%= f.input :business_area, label: "Business area(in sq.m.)", input_html: { value: @business.recent_establishment_area } %>
+              <%= f.input :rented, as: :boolean, input_html: {id: "rented"} %>
+              <span class="text-muted"> Check this box if this business is a leasing its establishment and enter monthly rental amount. </span>
+
+              <div id="rental-details" style="display:none;">
+                <%= f.input :monthly_rental %>
+              </div>
+              <span class="text-muted"> Check this box if this business is a market vendor and choose the Public Market this business belongs to. </span>
+              <div class="min-margin"></div>
+              <%= f.input :market_vendor, as: :boolean, input_html: {id: "market-vendor"} %>
+              <div id="market-details" style="display: none">
+                <%= f.input :public_market_id, collection: PublicMarket.all.map{|a| [a.name, a.id] } %>
+                <%= f.input :tenancy_type, collection: Tenancy.tenancy_types.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
+              </div>
+              <hr>
+              <h3 class="card-title">Applicable Discounts </h3>
+              <p class="text-muted"> Select applicable discounts for this business. </p>
+              <%= f.input :discount_ids, label: false, collection: current_locality.discounts.map{|a| [a.name, a.id] }, input_html: { class: 'chosen-select', multiple: true } %>
+
+            </div>
+
+            <div class="col-md-1">
+            </div>
+          </div>
+          <hr>
+
+          <span class="text-muted">Please check all data are correct before saving this application.<br>
+            Correct <b>computations of fees and taxes</b> are base on this data. </span>
+
+            <%= f.submit "Save Permit Application", class: 'btn btn-primary float-right' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#rented").click(function(){
+      if ($(this).is(":checked")) {
+        $("#rental-details").show();
+      } else {
+        $("#rental-details").hide();
+      }
+    });
+    $("#market-vendor").click(function(){
+      if ($(this).is(":checked")) {
+        $("#market-details").show();
+      } else {
+        $("#market-details").hide();
+      }
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#gov_module_permit_applications_business_permit_ownership_type_id").select2({
+      theme: "bootstrap"
+    });
+
+    $("#gov_module_permit_applications_business_permit_business_tax_category_id").select2({
+      theme: "bootstrap"
+    });
+
+
+    $("#gov_module_permit_applications_business_permit_barangay_id").select2({
+      theme: "bootstrap"
+    });
+    $("#gov_module_permit_applications_business_permit_street_id").select2({
+      theme: "bootstrap"
+    });
+    $("#gov_module_permit_applications_business_permit_public_market_id").select2({
+      theme: "bootstrap"
+    });
+    $("#gov_module_permit_applications_business_permit_applicant_id").select2({
+      theme: "bootstrap"
+    });
+  });
+
+</script>

@@ -1,0 +1,25 @@
+
+
+    <% business.all_vouchers.each do |voucher| %>
+      <%= link_to gov_module_voucher_path(voucher) do %>
+        <div class="row">
+          <div class="col-md-3">
+            <%= link_to voucher.date.strftime("%B %e, %Y"), gov_module_voucher_path(voucher) %>
+
+          </div>
+          <div class="col-md-3">
+            <%= voucher.preparer_full_name %>
+          </div>
+          <div class="col-md-3">
+            <%=number_to_currency voucher.voucher_amounts.sum(&:amount) %>
+          </div>
+          <div class="col-md-2">
+            <% if !voucher.paid? %>
+              <%= link_to gov_module_voucher_path(voucher), method: :delete do %>
+                <span class="text-danger" title="Delete" data-toggle="tooltip"> <i class="fa fa-trash"></i> </span>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>

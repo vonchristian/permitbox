@@ -1,0 +1,104 @@
+ππ<div class="row">
+  <div class="col-md-8">
+    <strong>
+      <i class="fa fa-users mr-1"></i> Owners
+    </strong>
+  </div>
+  <div class="col-md-4">
+    <%= link_to new_business_ownership_path(@business) do %>
+    <span class="btn btn-outline-warning btn-sm float-right"><i class="fa fa-user-plus"></i> Add</span>
+    <% end %>
+  </div>
+</div>
+<% @business.taxpayer_owners.each do |taxpayer| %>
+  <%= link_to taxpayer do %>
+    <div class="post">
+      <div class="user-block">
+        <% if taxpayer.avatar.attachment.present? %>
+          <%= image_tag(taxpayer.avatar, class: "img-circle img-bordered-sm mr-3", height: 50, width: 50) %>
+        <% else %>
+          <%= image_tag("default_avatar.png",class: "img-circle img-bordered-sm mr-3", height: 50, width: 50) %>
+        <% end %>
+        <span class="username"><%= taxpayer.full_name %></span>
+        <span class="description">
+          <i class="fa fa-map-marker mr-1"></i> <%= taxpayer.current_location_details %>
+        </span>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+<hr>
+<div class="row">
+  <div class="col-md-7">
+    <strong><i class="fa fa-credit-card mr-1"></i> Gross Sales </strong>
+  </div>
+  <div class="col-md-5">
+    <%= link_to new_business_gross_sale_path(@business) do %>
+    <span class="btn btn-outline-warning btn-sm float-right"><i class="fa fa-plus"></i> New</span>
+    <% end %>
+  </div>
+</div>
+<br>
+<% @business.gross_sales.each do |gross_sale| %>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="post">
+        <div class="user-block">
+        <span class="username">
+          <%= number_to_currency gross_sale.amount %>
+        </span>
+        <span class="description">
+          <i class="fa fa-calendar mr-1"></i><%= gross_sale.calendar_year.strftime("%Y") %>
+        </span>
+    </div>
+  </div>
+</div>
+  <div class="col-md-3">
+    <%= link_to business_gross_sale_path(id: gross_sale.id, business_id: @business.id), method: :delete  do %>
+      <i class="fa fa-trash text-danger"></i>
+    <% end %>
+  </div>
+</div>
+<br>
+<% end %>
+          <hr>
+          <div class="row">
+            <div class="col-md-8">
+              <strong><i class="fa fa-list mr-1"></i> Business Activities </strong>
+            </div>
+            <div class="col-md-4">
+              <%= link_to new_business_business_activity_path(@business) do %>
+              <span class="btn btn-outline-warning float-right btn-sm"><i class="fa fa-plus"></i> New</span>
+              <% end %>
+            </div>
+          </div>
+          <% @business.line_of_businesses.each do |line_of_business| %>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-8">
+                <%= line_of_business.name %>
+              </div>
+              <div class="col-md-3">
+                <%= number_to_currency line_of_business.fee_amount %>
+              </div>
+            </div>
+            <br>
+          <% end %>
+          <hr>
+          <strong><i class="fa fa-chart-area mr-1"></i> Business Location</strong>
+          <div class="row">
+            <div class="col-md-6">
+              Complete Address
+            </div>
+            <div class="col-md-6">
+              <%= @business.current_location_complete_address %>
+            </div>
+          </div>
+          <hr>
+          <strong><i class="fa fa-money-check mr-1"></i> Mode of Payment</strong>
+
+          <hr>
+          <strong><i class="fa fa-money-check mr-1"></i> Business Category</strong>
+          <hr>
+          <strong><i class="fa fa-sitemap mr-1"></i> Type of Organization</strong>

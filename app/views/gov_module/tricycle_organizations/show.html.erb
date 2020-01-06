@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+      <%= link_to 'Tricycle Without Permits', gov_module_tricycle_organization_without_permits_path(@tricycle_organization, format: 'xlsx') %><br>
+      <span class="text-muted">Generate report of tricycle without permits. </span>
+      <hr>
+      <%= link_to 'Tricycle With Permits', gov_module_tricycle_organization_with_permits_path(@tricycle_organization, format: 'xlsx') %><br>
+      <span class="text-muted">Generate report of tricycle with permits. </span>
+      <span class="text-muted"> Or choose dates </span><br>
+      <%= form_tag({:action => "index", format: 'xlsx', controller: "gov_module/tricycle_organizations/with_permits", tricycle_organization_id: @tricycle_organization.id }, {:method => :get})  do %>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <%= text_field_tag :from_date, @date, :class => 'datepicker form-control border-input', :placeholder => "From Date" %>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <%= text_field_tag :to_date, @date, :class => 'datepicker form-control border-input', :placeholder => "To Date" %>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <button type="submit" class="btn btn-default"> Go</button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

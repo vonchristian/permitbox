@@ -1,0 +1,23 @@
+<%=form_tag gov_module_permit_applications_tricycle_permit_applications_path, method: :get, id: "search-form" do %>
+  <div class="input-group">
+    <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search applications...", type: "search" %>
+     &nbsp;
+      <%= button_tag(type: 'submit', class: "btn btn-outline-primary") do %>
+        <i class="fa fa-search"></i>Search
+      <% end %>
+
+  </div>
+<% end %>
+<br>
+<% @tricycle_permit_applications.each do |tricycle_permit_application| %>
+  <%= link_to gov_module_permit_applications_tricycle_permit_application_path(tricycle_permit_application) do %>
+    <div class="card">
+      <div class="card-body">
+        <%= tricycle_permit_application.plate_number %> - <%= tricycle_permit_application.taxpayers_full_name %><br>
+        <small class="text-muted">
+          <i class="fa fa-map-marker"></i> <%= tricycle_permit_application.complete_address %>
+        </small>
+      </div>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,6 @@
+<%= simple_form_for [@business, @gross_sale], url: :business_gross_sales do |f| %>
+  <%= f.input :amount, input_html: { value: @old_gross_sale.amount } %>
+  <%= f.input :calendar_year, as: :string, input_html: { class: "datepicker", value: @old_gross_sale.calendar_year.strftime("%B %e, %Y") } %>
+  <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+  <%= f.submit "Update Gross Sale" %>
+<% end %>

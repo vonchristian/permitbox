@@ -1,0 +1,5 @@
+<%= simple_form_for @general_revision, url: :configurations_general_revisions do |f| %>
+  <%= f.input :title %>
+  <%= f.input :effectivity_year, as: :string, input_html: { class: "datepicker" } %>
+  <%= f.submit "Create General Revision" %>
+<% end %>

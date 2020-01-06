@@ -1,0 +1,144 @@
+<div class="container">
+  <div class="row">
+  <div class="col-md">
+  </div>
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><%= @assessment.name %> </h3>
+        <%= link_to gov_module_voucher_path(@assessment, format: 'pdf') do %>
+          <span class="btn btn-default float-right" data-toggle="tooltip" title="View PDF format"><i class="fa fa-file"></i> View (PDF) </span>
+        <% end %>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title"> Assessment Details </h3>
+        
+          <div class="row min-margin">
+            <div class="col-md-5 offset-md-1">
+              Date
+            </div>
+            <div class="col-md-5">
+              <%= @assessment.date.strftime("%B %e, %Y") %>
+            </div>
+          </div>
+          <div class="row min-margin">
+            <div class="col-md-5 offset-md-1">
+              Description
+            </div>
+            <div class="col-md-5">
+              <%= @assessment.description %>
+            </div>
+          </div>
+          <div class="row min-margin">
+            <div class="col-md-5 offset-md-1">
+              Payee
+            </div>
+            <div class="col-md-5">
+              <%= @assessment.payee.try(:name) %>
+            </div>
+          </div>
+          <div class="row min-margin">
+            <div class="col-md-5 offset-md-1">
+              OR #
+            </div>
+            <div class="col-md-5">
+              <% if @assessment.paid? %>
+              <%= @assessment.entry.reference_number %>
+              <% end %>
+            </div>
+          </div>
+
+          <hr>
+        <p class="help-block"> Please review the following charges.</p>
+        <h3 class="card-title"> Taxes and Fees </h3>
+        <% @assessment.voucher_amounts.non_discount_amounts.with_non_zero_amounts.order(:amount_cents).reverse.each do |voucher_amount| %>
+          <div class="row min-margin">
+            <div class="col-md-7 offset-md-1">
+              <%= voucher_amount.name %>
+            </div>
+            <div class="col-md-3">
+              <span class="float-right">
+                <%= number_to_currency voucher_amount.amount %>
+              </span>
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+        <% end %>
+        <hr class="min-margin">
+        <div class="row min-margin">
+          <div class="col-md-7 offset-md-1">
+            SUBTOTAL
+          </div>
+          <div class="col-md-3">
+            <span class="float-right">
+              <%= number_to_currency @assessment.voucher_amounts.non_discount_amounts.total %>
+            </span>
+          </div>
+          <div class="col-md-2">
+          </div>
+        </div>
+        <% @assessment.voucher_amounts.discount_amounts.with_non_zero_amounts.order(:amount_cents).reverse.each do |voucher_amount| %>
+          <div class="row min-margin">
+            <div class="col-md-7 offset-md-1">
+              <%= voucher_amount.name %>
+            </div>
+            <div class="col-md-3">
+              <span class="float-right">
+                <%= number_to_currency voucher_amount.amount %>
+              </span>
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+        <% end %>
+        <div class="row min-margin text-danger">
+          <div class="col-md-7 offset-md-1">
+            Discounts
+          </div>
+          <div class="col-md-3">
+            <span class="float-right">
+              - <%= number_to_currency @assessment.voucher_amounts.discount_amounts.total %>
+            </span>
+          </div>
+          <div class="col-md-2">
+          </div>
+        </div>
+        <hr>
+        <div class="row min-margin">
+          <div class="col-md-7 offset-md-1">
+            <h3 class="card-title"> Total </h3>
+          </div>
+          <div class="col-md-3">
+            <h3 class="card-title">
+              <span class="float-right">
+                <%= number_to_currency @assessment.voucher_amounts.total_less_discount %>
+              </span>
+            </h3>
+          </div>
+        </div>
+        <hr>
+          <h3 class="card-title"> Payment Channels </h3>
+          <br>
+          <strong><i class="fa fa-credit-card"></i> Credit Card </strong>
+          <p class="description"> Pay through credit card</p>
+          <hr>
+
+          <div class="row">
+            <div class="col-md-8">
+              <strong><i class="fa fa-building"></i> Local Treasury </strong>
+              <p class="description"> Pay through Local Treasury.</p>
+            </div>
+            <div class="col-md-4">
+              <% if @assessment.unpaid? %>
+                <%= link_to 'Accept Payment', new_assessment_payment_path(@assessment), class: "btn btn-primary" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md">
+    </div>
+  </div>
+</div>

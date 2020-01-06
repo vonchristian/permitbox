@@ -1,0 +1,12 @@
+<div class="card">
+  <div class="card-body">
+<%= simple_form_for @tricycle, url: :gov_module_tricycle do |f| %>
+  <%= f.input :plate_number %>
+  <%= f.input :mtop_number %>
+  <%= f.input :make %>
+  <%= f.input :tricycle_model %>
+  <%= f.input :color %>
+  <%= f.input :tricycle_organization_id, collection: current_locality.tricycle_organizations.map{|organization| [organization.name, organization.id] } %>
+
+  <%= f.submit "Update Tricycle", class: "btn btn-primary float-right" %>
+<% end %>

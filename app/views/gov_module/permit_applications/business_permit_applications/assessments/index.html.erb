@@ -1,0 +1,4 @@
+<% @vouchers.each do |voucher| %>
+  <%= render 'gov_module/vouchers/partials/header', voucher: voucher %>
+<% end %>
+<%= link_to 'Additional Fees/Taxes', new_gov_module_permit_applications_business_permit_application_additional_assessment_path(@business_permit_application) %>

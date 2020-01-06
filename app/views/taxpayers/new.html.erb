@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md">
+    </div>
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"> New Taxpayer Details </h3>
+        </div>
+        <div class="card-body">
+          <%= simple_form_for @taxpayer, url: :taxpayers do |f| %>
+            <%= f.error_notification %>
+
+            <%= f.input :first_name %>
+            <%= f.input :middle_name %>
+            <%= f.input :last_name %>
+            <%= f.input :avatar, as: :file %>
+            <h6 class="card-subtitle mb-2 text-muted">Address</h6>
+            <%= f.input :street_id, collection: current_locality.streets.all.map{|a| [a.name, a.id] } %>
+
+            <%= f.input :barangay_id, collection: current_locality.barangays.all.map{|a| [a.name, a.id] } %>
+            <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
+            <%= f.input :province_id, input_html: { value: current_locality.province_id }, as: :hidden %>
+            <hr>
+            <%= f.submit "Save Taxpayer", class: "btn btn-primary float-right" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md">
+    </div>
+  </div>
+</div>
+

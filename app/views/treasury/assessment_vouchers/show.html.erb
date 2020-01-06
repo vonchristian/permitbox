@@ -1,0 +1,10 @@
+<%= link_to "Add Amounts", new_treasury_assessment_voucher_voucher_amount_path(@voucher) %>
+<% if (PaymentPolicy.new(current_user, @voucher)).new? %>
+  <%= link_to new_assessment_payment_path(@voucher) do %>
+    <span class="btn btn-primary"><i class="fa fa-credit-card"></i> New Payment
+    </span>
+  <% end %>
+<% end %>
+<% if @voucher.paid? %>
+  <span class="badge bg-success"> Paid </span>
+<% end %>

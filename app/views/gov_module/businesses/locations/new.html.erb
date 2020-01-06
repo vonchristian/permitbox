@@ -1,0 +1,16 @@
+<div class="card">
+  <div class="card-header">
+  </div>
+  <div class="card-body">
+    <%= simple_form_for [@business, @location], url: :gov_module_business_locations do |f| %>
+      <%= f.input :complete_address, input_html: { value: @business.current_location_complete_address } %>
+      <%= f.input :street_id, collection: current_locality.streets.map{|a| [a.name, a.id] } %>
+      <%= f.input :barangay_id, collection: current_locality.barangays.map{|a| [a.name, a.id] }, input_html: { value: @business.current_location.barangay.try(:name) } %>
+      <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden  %>
+      <%= f.input :province_id, input_html: { value: @business.current_location.province_id }, as: :hidden %>
+
+      <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+      <%= f.submit "Save Location", class: "btn btn-primary float-right" %>
+    <% end %>
+  </div>
+</div>

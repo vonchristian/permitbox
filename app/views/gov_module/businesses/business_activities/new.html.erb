@@ -1,0 +1,79 @@
+<div class="container">
+      <div class="card">
+        <div class="card-header">
+          <%=render 'gov_module/businesses/partials/header', business: @business %>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 border-right">
+              <strong><i class="fa fa-list"></i> Business Activities </strong>
+              <br>
+              <br>
+               <% @business.business_activities.each do |business_activity| %>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-7">
+                <%= business_activity.name %><br>
+
+              </div>
+              <div class="col-md-3">
+                <span class="float-right">
+                  <%= number_to_currency business_activity.fee_amount %>
+                </span>
+              </div>
+            </div>
+            <br>
+          <% end %>
+            </div>
+            <div class="col-md-6">
+              <%=form_tag new_gov_module_business_business_activity_path(@business), method: :get, id: "search-form" do %>
+                <div class="input-group">
+                  <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search line of businesses...", type: "search" %>
+                  <span class="input-group-btn">
+                    <%= button_tag(type: 'submit', class: "btn") do %>
+                      <i class="fa fa-search"></i>
+                    <% end %>
+                  </span>
+                </div>
+              <% end %>
+              <% @line_of_businesses.each do |line_of_business| %>
+                <%= simple_form_for [@business, @business_activity], url: :gov_module_business_business_activities do |f| %>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <span class="text-muted">
+                        <br>
+                        <%= line_of_business.name %><br>
+                        <%= number_to_currency line_of_business.fee_amount %>
+                      </span>
+                    </div>
+                    <div class="col-md-3">
+                      <br>
+                      <% unless @business.line_of_businesses.include?(line_of_business) %>
+
+                        <%= f.input :quantity, input_html: { value: 1 }, label: false %>
+                        <% if line_of_business.has_storage_permit_fee? %>
+                          <%= f.input :volume %>
+                        <% end %>
+                        <% end %>
+                    </div>
+                    <div class="col-md-3">
+                      <%= f.input :line_of_business_id, input_html: { value: line_of_business.id }, as: :hidden %>
+                      <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+                      <% unless @business.line_of_businesses.include?(line_of_business) %>
+                        <%= f.submit "Add", class: "btn btn-outline-success btn-sm float-right" %>
+                      <% else %>
+                        <br>
+                        <span class="badge bg-success"> Added </span>
+                      <% end %>
+                    </div>
+                  </div>
+                  <hr>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

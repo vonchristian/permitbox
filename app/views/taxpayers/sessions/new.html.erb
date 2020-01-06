@@ -1,0 +1,32 @@
+
+<div class="container">
+  <br>
+  <div class="row">
+
+
+  <div class="col-md-4">
+  </div>
+  <div class="col-md-4">
+    <%=render 'layouts/shared/flash' %>
+    <div class="card">
+      <div class="card-body">
+      <br>
+      <%= simple_form_for(resource, as: resource_name, :url => session_path(resource_name),
+        wrapper_mappings: {boolean: :vertical_boolean }) do |f| %>
+        <center>
+        <%=image_tag("default_avatar.png", height: 140, width: 140, class: 'text-center') %>
+      </center>
+        <br>
+        <br>
+        <%= f.input :email, placeholder: "Email", input_html:{class: "form-control input-lg"}, label: false %>
+        <%= f.input :password, placeholder: "Password",  input_html:{class: "form-control input-lg"}, label: false  %>
+        <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+        <hr>
+        <%= f.submit "Sign in", class: "btn btn-primary btn-flat btn-lg", data: {disable_with: "Signing in..."} %>
+      <% end %>
+      <br>
+    </div>
+  </div>
+</div>
+</div>
+</div>

@@ -1,0 +1,19 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "#{@competetive_index_category.name}") do |sheet|
+sheet.add_row [
+ "Taxpayer",
+ "Business Name",
+ "Business Address",
+ "Barangay",
+ "Lines of Business"
+]
+  @businesses.uniq.each do |business|
+    sheet.add_row [
+    business.taxpayers_last_and_first_name,
+    business.name,
+    business.current_location_complete_address,
+    business.current_location.barangay_name,
+    business.line_of_businesses.pluck(:name).join(",")
+    ]
+  end
+end

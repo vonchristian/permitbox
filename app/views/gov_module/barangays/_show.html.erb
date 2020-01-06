@@ -1,0 +1,48 @@
+<div class="card">
+  <div class="card-body">
+    <%= render 'gov_module/barangays/partials/header', barangay: barangay %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <%= link_to 'Profile', gov_module_barangay_path(barangay), class: "nav-link #{'active' if current_page?(gov_module_barangay_path(barangay))}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Businesses', gov_module_barangay_businesses_path(barangay), class: "nav-link #{'active' if current_page?(gov_module_barangay_businesses_path(barangay))}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Taxpayers', gov_module_barangay_taxpayers_path(barangay), class: "nav-link #{'active' if current_page?(gov_module_barangay_taxpayers_path(barangay))}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Collections', gov_module_barangay_collections_path(barangay), class: "nav-link #{'active' if current_page?(gov_module_barangay_collections_path(barangay))}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Reports', gov_module_barangay_reports_path(barangay), class: "nav-link #{'active' if current_page?(gov_module_barangay_reports_path(barangay))}" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <% if current_page? gov_module_barangay_path(barangay) %>
+      <%= render 'gov_module/barangays/partials/profile', barangay: @barangay %>
+    <% end %>
+    <% if current_page? gov_module_barangay_businesses_path(barangay) %>
+      <%= render 'gov_module/barangays/partials/businesses', barangay: @barangay %>
+    <% end %>
+    <% if current_page? gov_module_barangay_taxpayers_path(barangay) %>
+      <%= render 'gov_module/barangays/partials/taxpayers', barangay: @barangay %>
+    <% end %>
+    <% if current_page? gov_module_barangay_collections_path(barangay) %>
+      <%= render 'gov_module/barangays/partials/collections', barangay: @barangay %>
+    <% end %>
+    <% if current_page? gov_module_barangay_reports_path(barangay) %>
+      <%= render 'gov_module/barangays/partials/reports', barangay: @barangay %>
+    <% end %>
+  </div>
+</div>
+

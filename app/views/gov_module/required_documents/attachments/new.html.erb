@@ -1,0 +1,4 @@
+<%= simple_form_for [@required_document, @attachment], multipart: true, url: :gov_module_required_document_attachments do |f| %>
+  <%= f.input :attachments, multiple: true %>
+  <%= f.submit %>
+<% end %>

@@ -1,0 +1,11 @@
+<%= link_to gov_module_barangay_path(barangay) do %>
+  <div class="row">
+    <div class="col-md-1">
+      <%= image_tag(barangay.logo, height: 45, width: 45, class: "img-circle") %>
+    </div>
+    <div class="col-md-10">
+      <h3 class="card-title"><%= barangay.name %></h3>
+      <small class="text-muted"><i class="fa fa-map-marker"><%= barangay.locality_name %></i></small>
+    </div>
+  </div>
+<% end %>

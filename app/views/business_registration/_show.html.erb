@@ -1,0 +1,16 @@
+<%=render 'business_registration/partials/header' %>
+<div class="row">
+  <div class="col-md-8">
+    <% if current_page? new_business_registration_business_activity_path(cart_id: @cart.id) %>
+      <%=render 'business_registration/partials/business_activities' %>
+    <% end %>
+    <% if current_page? new_business_registration_location_path(cart_id: @cart.id) %>
+      <%= render 'business_registration/partials/business_location' %>
+    <% end %>
+  </div>
+  <div class="col-md-4">
+    <%= render 'business_registration/partials/charges' %>
+    <%= render 'business_registration/partials/requirements' %>
+  </div>
+</div>
+

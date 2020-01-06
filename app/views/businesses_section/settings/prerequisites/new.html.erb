@@ -1,0 +1,7 @@
+<% @documents.each do |document| %>
+  <%= document.title %>
+  <%= simple_form_for [@document, @prerequisite], url: :businesses_section_document_prerequisites do |f| %>
+    <%= f.input :sub_document_id, input_html: { value: document.id } %>
+    <%= f.submit "Add" %>
+  <% end %>
+<% end %>

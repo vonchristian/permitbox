@@ -1,0 +1,23 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Business Without Permits") do |sheet|
+sheet.add_row [
+ "Taxpayer",
+ "Address",
+ "Plate Number",
+ "MTOP Number",
+ "Make and Model",
+ "Color",
+ "Organization"
+]
+  @tricycles.each do |tricycle|
+    sheet.add_row [
+    tricycle.taxpayers_full_name,
+    tricycle.current_location_complete_address,
+    tricycle.plate_number,
+    tricycle.mtop_number,
+    tricycle.make_and_model,
+    tricycle.color,
+    tricycle.tricycle_organization_name
+    ]
+  end
+end

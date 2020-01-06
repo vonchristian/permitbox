@@ -1,0 +1,33 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Business Permits") do |sheet|
+sheet.add_row [
+ "Taxpayer",
+ "Business Name",
+ "Business Address",
+ "Barangay",
+ "Date Approved",
+ "Lines of Business",
+ "Capital",
+ "Gross Sales",
+ "Mayors Permit Fees",
+ "Business Taxes",
+ "Permit Type",
+ "Employee Count"
+]
+  @business_permits.each do |permit|
+    sheet.add_row [
+    permit.business.taxpayers_last_and_first_name,
+    permit.business.name,
+    permit.business.current_location_complete_address,
+    permit.business.current_location.barangay_name,
+    permit.approval_date.strftime("%B %e, %Y"),
+    permit.business.line_of_businesses.pluck(:name).join(","),
+    permit.business.business_capital,
+    permit.business.gross_sales.for_calendar_year(permit.approval_date.year - 1).try(:amount),
+    Payments::Classifier.new(entry: permit.entry, business: permit.business).mayors_permit_fees,
+    Payments::Classifier.new(entry: permit.entry, business: permit.business).business_taxes,
+    permit.permit_type,
+    permit.business.recent_employee_count.try(:total_count)
+    ]
+  end
+end

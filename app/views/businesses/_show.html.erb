@@ -1,0 +1,128 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-7">
+      <div class="card">
+        <div class="card-header">
+          <div class="post">
+              <div class="user-block">
+              <%= image_tag("business_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
+
+              <span class="username"><%= @business.name.upcase %></span>
+               <p class="description"><i class="fa fa-map-marker"></i> <%= @business.current_location_details %></small>
+            </p>
+          </div>
+          </div>
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <%= link_to 'Profile', business_path(@business), class: "nav-link #{'active' if current_page?(business_path(@business))}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Assessments', business_assessments_path(@business), class: "nav-link #{'active' if current_page?(business_assessments_path(@business))}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Payments', business_payments_path(@business), class: "nav-link #{'active' if current_page?(business_payments_path(@business))}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Settings', business_settings_path(@business), class: "nav-link #{'active' if current_page?(business_settings_path(@business))}" %>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <% if current_page?(business_path(@business)) %>
+            <%= render 'businesses/partials/profile' %>
+          <% end %>
+          <% if current_page?(business_payments_path(@business)) %>
+            <%= render 'businesses/partials/payments' %>
+          <% end %>
+          <% if current_page?(business_settings_path(@business)) %>
+            <%= render 'businesses/partials/settings' %>
+          <% end %>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-8">
+              <h3 class="card-title"><i class="fa fa-coins"></i> Charges Details </h3>
+            </div>
+            <div class="col-md-4">
+              <%= link_to new_business_charge_path(@business) do %>
+              <span class="btn btn-outline-primary btn-sm float-right"><i class="fa fa-plus"></i> Add </span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+
+
+
+          <% @business.voucher_amounts.each do |voucher_amount| %>
+            <div class="row">
+              <div class="col-md-7">
+                <span class="card-text">
+                  <%= voucher_amount.name %>
+                </span>
+              </div>
+              <div class="col-md-5">
+                <span class="float-right">
+                  <%= number_to_currency voucher_amount.amount %>
+                </span>
+              </div>
+            </div>
+            <br>
+          <% end %>
+          <hr>
+          <div class="row">
+            <div class="col-md-7">
+              <h3 class="card-title"><b> TOTAL </b></h3>
+            </div>
+            <div class="col-md-5">
+              <h3 class="card-title"><b><span class="float-right"> <%= number_to_currency @business.voucher_amounts.total %> </span></b></h3>
+            </div>
+          </div>
+          <br>
+          <%= link_to 'Proceed to Assessment', new_business_assessment_path(@business), class: "btn btn-primary btn-block" %>
+
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fa fa-sticky-note-o"></i>  Permits and Clearances </h3>
+
+        </div>
+        <div class="card-body">
+          <% @business.required_documents.each do |required_document| %>
+            <div class="row">
+              <div class="col-md-8">
+                <strong><%= required_document.title %></strong><br>
+                <p class="text-muted"><%= required_document.office_name %></p>
+              </div>
+              <div class="col-md-4">
+                <% if required_document.approved? %>
+                  <span class="text-success"><i class="fa fa-check"></i> Approved </span> &nbsp;
+                  <%= link_to business_required_document_path(id: required_document.id, business_id: @business.id, required_document_id: required_document.id, format: 'pdf') do %>
+                    <span class="text-primary" data-toggle="tooltip" title="Print PDF"><i class="fa fa-print"></i> </span>
+                  <% end %>
+                <% else %>
+                  <%= link_to new_business_required_document_approval_path(business_id: @business.id, required_document_id: required_document.id) do %>
+                    <span class="btn btn-outline-success btn-sm"><i class="fa fa-plus-circle"></i> Approve </span>
+                  <% end %>
+                <% end %>
+                <%#= link_to new_business_required_document_verification_path(business_id: @business.id, required_document_id: required_document.id) do %>
+                    <!-- <span class="btn btn-outline-success btn-sm"><i class="fa fa-check"></i> Verify </span> -->
+                  <%# end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,21 @@
+module Businesses
+  class GrossSale < ApplicationRecord
+    belongs_to :business, optional: true
+    belongs_to :business_activity, optional: true
+    belongs_to :business_permit_application, optional: true
+    delegate :business_tax_category, :business_tax_payable_amount, to: :business_permit_application
+    # before_destroy :delete_business_tax
+
+    def self.current
+      order(calendar_year: :desc).first
+    end
+
+    def self.for_calendar_year(year)
+      where(calendar_year: year).first
+    end
+
+    def business_tax
+      business_tax_category.compute_tax(amount)
+    end
+  end
+end

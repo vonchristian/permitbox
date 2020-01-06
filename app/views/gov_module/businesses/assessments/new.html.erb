@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="row">
+  <div class="col-md">
+  </div>
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <%=render 'gov_module/businesses/partials/header', business: @business %>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title"> Assessment </h3>
+        <p class="help-block"> Please review the following charges.</p>
+        <small> TAXES AND FEES </small>
+
+        <% @business.voucher_amounts.non_discount_amounts.without_voucher.each do |voucher_amount| %>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-7">
+              <%= voucher_amount.name %>
+            </div>
+            <div class="col-md-3">
+              <span class="float-right">
+                <%= number_to_currency voucher_amount.amount %>
+              </span>
+            </div>
+            <div class="col-md-1">
+            </div>
+          </div>
+          <br>
+        <% end %>
+        <hr>
+        <small class="text-danger"> DISCOUNTS </small>
+        <% @business.voucher_amounts.discount_amounts.without_voucher.each do |voucher_amount| %>
+        <div class="row text-danger">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-7">
+            <%= voucher_amount.name %>
+          </div>
+          <div class="col-md-3">
+            <span class="float-right">
+              <%= number_to_currency voucher_amount.amount %>
+            </span>
+          </div>
+          <div class="col-md-1">
+          </div>
+        </div>
+        <br>
+        <% end %>
+        <hr>
+        <div class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-7">
+            <b>TOTAL</b>
+          </div>
+          <div class="col-md-3">
+            <span class="float-right">
+              <b><%= number_to_currency @business.voucher_amounts.without_voucher.total_less_discount %></b>
+            </span>
+          </div>
+          <div class="col-md-1">
+          </div>
+        </div>
+
+          <%=simple_form_for [@business, @assessment], url: :gov_module_business_assessments do |f| %>
+            <%= f.input :date, as: :string, input_html: { class: "datepicker" } %>
+            <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+            <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+            <%= f.input :account_number, input_html: { value: SecureRandom.uuid }, as: :hidden %>
+
+
+            <%= f.submit "Save Assessment", class: "btn btn-primary float-right" %>
+          <% end %>
+
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
+  <div class="col-md">
+  </div>
+</div>

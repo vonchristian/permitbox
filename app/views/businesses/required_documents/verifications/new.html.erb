@@ -1,0 +1,4 @@
+<%= simple_form_for [@required_document, @approval], url: :business_required_document_verifications do |f| %>
+  <%= f.input :date, as: :string, input_html: { class: "datepicker" } %>
+  <%= f.submit "Verify" %>
+<% end %>

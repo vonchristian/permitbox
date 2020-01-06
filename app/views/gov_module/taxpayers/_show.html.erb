@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <%= render 'gov_module/taxpayers/partials/header', taxpayer: @taxpayer %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <%= link_to 'Info', gov_module_taxpayer_path(@taxpayer), class: "nav-link #{'active' if current_page?(gov_module_taxpayer_path(@taxpayer))}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Businesses', gov_module_taxpayer_businesses_path(@taxpayer), id: "#{taxpayer.id}-businesses", class: "nav-link #{'active' if current_page?(gov_module_taxpayer_businesses_path(@taxpayer))}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Tricycles', gov_module_taxpayer_tricycles_path(@taxpayer), id: "#{taxpayer.id}-tricycles", class: "nav-link #{'active' if current_page?(gov_module_taxpayer_tricycles_path(@taxpayer))}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Taxpayer Settings', gov_module_taxpayer_settings_path(@taxpayer), class: "nav-link #{'active' if current_page?(gov_module_taxpayer_tricycles_path(@taxpayer))}" %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <% if current_page? gov_module_taxpayer_path(@taxpayer) %>
+        <%= render 'gov_module/taxpayers/partials/info' %>
+      <% end %>
+       <% if current_page? gov_module_taxpayer_businesses_path(@taxpayer) %>
+        <%= render 'gov_module/taxpayers/partials/businesses' %>
+      <% end %>
+      <% if current_page? gov_module_taxpayer_tricycles_path(@taxpayer) %>
+        <%= render 'gov_module/taxpayers/partials/tricycles' %>
+      <% end %>
+      <% if current_page? gov_module_taxpayer_settings_path(@taxpayer) %>
+        <%= render 'gov_module/taxpayers/partials/settings', taxpayer: @taxpayer %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<%= line_chart Business.group_by_day(:created_at).count %>
+<div class="col-md-3 col-sm-6 col-12">
+  <div class="info-box">
+    <span class="info-box-icon bg-success"><i class="fa fa-building"></i></span>
+
+    <div class="info-box-content">
+      <span class="info-box-text">Businesses</span>
+      <span class="info-box-number">410</span>
+    </div>
+    <!-- /.info-box-content -->
+  </div>
+  <!-- /.info-box -->
+</div>
+<div class="col-md-3 col-sm-6 col-12">
+  <div class="info-box">
+    <span class="info-box-icon bg-primary"><i class="fa fa-users"></i></span>
+
+    <div class="info-box-content">
+      <span class="info-box-text">Taxpayers</span>
+      <span class="info-box-number">410</span>
+    </div>
+    <!-- /.info-box-content -->
+  </div>
+  <!-- /.info-box -->
+</div>
+<% sample_data = [] %>
+<% sample_data << { "Registered" => 500 } %>
+<% sample_data << { "Unrenewed" => 230 } %>
+
+      <%= pie_chart (Hash[*sample_data.collect{|h| h.to_a}.flatten].delete_if{|k,v| v.blank?}),messages: {empty: "No data"}, download: true, legend: true, label: "Value" %>
+

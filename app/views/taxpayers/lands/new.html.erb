@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="card-body">
+<%= simple_form_for [@taxpayer, @land], multipart: true, url: :taxpayer_lands do |f| %>
+  <%= f.error_notification %>
+<h4>Administrator Details </h4>
+  <%= f.input :administrator %>
+  <%= f.input :administrator_address %>
+<hr>
+<h4>Location </h4>
+  <%= f.input :street %>
+  <%= f.input :barangay %>
+  <%= f.input :locality %>
+  <%= f.input :province %>
+<hr />
+<h4>Property Information </h4>
+  <%= f.input :lot_number %>
+  <%= f.input :survey_number %>
+  <%= f.input :block_number %>
+  <%= f.input :oct_number %>
+
+
+<hr>
+<h4>Boundaries</h4>
+  <%= f.input :east_boundary %>
+  <%= f.input :west_boundary %>
+  <%= f.input :north_boundary %>
+  <%= f.input :south_boundary %>
+<%= f.input :taxable, as: :radio_buttons %>
+<h4> Images </h4>
+<%= f.input :uploads, as: :file %>
+<%= f.input :taxpayer_id, input_html: { value: @taxpayer.id } %>
+<%= f.submit "Save Property", class: "btn btn-primary" %>
+
+<% end %>

@@ -1,0 +1,99 @@
+v  <li class="nav-item">
+    <a href="/businesses_section/dashboards" class="nav-link">
+      <i class="nav-icon fa fa-tachometer-alt"></i>
+      <p>
+        Dashboard
+      </p>
+    </a>
+  </li>
+  <li class="nav-item has-treeview">
+
+  <a href="#" class="nav-link">
+         <i class="nav-icon fa fa-file"></i>
+         <p>
+           Permit Applications
+           <i class="right fa fa-angle-left"></i>
+         </p>
+       </a>
+  <ul class="nav nav-treeview">
+         <li class="nav-item">
+           <a href="/gov_module/permit_applications/business_permit_applications" class="nav-link">
+             <i class="far fa-circle nav-icon"></i>
+             <p>Businesses</p>
+           </a>
+         </li>
+         <li class="nav-item">
+           <a href="/gov_module/permit_applications/tricycle_permit_applications" class="nav-link">
+             <i class="far fa-circle nav-icon"></i>
+             <p>Tricycles</p>
+           </a>
+         </li>
+
+       </ul>
+       </li>
+  <li class="nav-item">
+    <a href="/gov_module/taxpayers" class="nav-link">
+      <i class="nav-icon fa fa-users"></i>
+      <p>
+        Taxpayers
+      </p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="/gov_module/businesses" class="nav-link">
+      <i class="nav-icon fa fa-building"></i>
+      <p>
+        Businesses
+      </p>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="/gov_module/tricycles" class="nav-link">
+      <i class="nav-icon fa fa-motorcycle"></i>
+      <p>
+        Tricycles
+      </p>
+    </a>
+  </li>
+  <% if current_user.bplo_officer? %>
+    <li class="nav-item">
+          <a href="/gov_module/monitoring" class="nav-link">
+            <i class="nav-icon fa fa-circle-o"></i>
+            <p>
+              Monitoring
+            </p>
+          </a>
+        </li>
+     <li class="nav-item">
+          <a href="/gov_module/reports" class="nav-link">
+            <i class="nav-icon fa fa-folder"></i>
+            <p>
+              Reports
+            </p>
+          </a>
+        </li>
+
+    <li class="nav-item">
+      <a href="/gov_module/barangays" class="nav-link">
+
+        <i class="nav-icon fa fa-list"></i>
+        <p>
+          Barangays
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+    <a href="/gov_module/bplo_settings" class="nav-link">
+      <i class="nav-icon fa fa-sliders-h"></i>
+      <p>
+        Settings
+      </p>
+    </a>
+  </li>
+  <% end %>
+
+</ul>
+</nav>
+<!-- /.sidebar-menu -->
+</div>
+<!-- /.sidebar -->

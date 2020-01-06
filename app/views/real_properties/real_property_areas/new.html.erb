@@ -1,0 +1,5 @@
+<%= simple_form_for [@real_property, @real_property_area], url: :real_property_real_property_areas do |f| %>
+  <%= f.input :area %>
+  <%= f.input :effectivity_date, as: :string, input_html: { class: "datepicker" } %>
+  <%= f.submit "Save Real Property Area" %>
+<% end %>

@@ -1,0 +1,32 @@
+
+<strong><i class="fa fa-coins"></i> Charges </strong><br><br>
+<% @business.charges.each do |charge| %>
+  <div class="row">
+    <div class="col-md-7">
+      <span class="card-text">
+        <%= charge.name %>
+      </span>
+    </div>
+    <div class="col-md-5">
+      <span class="float-right">
+        <%= number_to_currency charge.amount %>
+      </span>
+    </div>
+  </div>
+  <br>
+<% end %>
+<hr>
+<div class="row">
+  <div class="col-md-8">
+    <strong><i class="fa fa-file"></i> Requirements </strong>
+  </div>
+  <div class="col-md-4">
+    <%= link_to new_business_required_document_path(@business) do %>
+      <span class="btn btn-outline-danger btn-sm float-right"><i class="fa fa-plus-circle"></i> New </span>
+    <% end %>
+  </div>
+</div>
+<% @business.documents.each do |document| %>
+  <strong><%= document.title %></strong><br>
+  <p class="text-muted"><%= document.office_name %></p>
+<% end %>

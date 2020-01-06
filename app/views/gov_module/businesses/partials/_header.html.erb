@@ -1,0 +1,12 @@
+<%= link_to gov_module_business_path(business) do %>
+  <div class="row">
+    <div class="col-md-2">
+      <%#= image_tag(business.logo, height: 45, width: 45, class: "img-circle") %>
+    </div>
+    <div class="col-md-10">
+      <b><%= business.name.upcase %></b><br>
+      <small class="text-muted"><i class="fa fa-map-marker"></i> <%= business.current_location_complete_address %></small>
+      <span class="badge bg-<%= business.badge_color(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year) %>"><%= business.business_permit_status(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year).try(:titleize) %></span>
+    </div>
+  </div>
+<% end %>

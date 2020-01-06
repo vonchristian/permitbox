@@ -1,0 +1,11 @@
+<div class="card">
+<div class="card-body">
+  <% current_locality.barangays.each do |barangay| %>
+    <div class="row min-margin">
+      <div class="col-md-9">
+        <%= link_to barangay.name, gov_module_barangay_path(barangay) %>
+      </div>
+    </div>
+    <hr>
+  <% end %>
+</div>

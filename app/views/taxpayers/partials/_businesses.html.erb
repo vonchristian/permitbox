@@ -1,0 +1,15 @@
+<%= link_to 'New Business', new_taxpayer_business_path(@taxpayer), class: "btn btn-primary" %>
+<hr>
+<% @businesses.each do |business| %>
+  <div class="post">
+    <div class="user-block">
+      <%= image_tag("business_logo_placeholder.png", class: "img-circle img-bordered-sm mr-3", height: 45, width: 45) %>
+      <span class="username">
+        <%= link_to business.name, business_path(business) %>
+      </span>
+      <span class="description">
+        <i class="fa fa-map-marker"></i> <%= business.current_location_details %>
+      </span>
+    </div>
+  </div>
+<% end %>

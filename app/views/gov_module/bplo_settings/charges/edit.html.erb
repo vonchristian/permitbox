@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div class="card card-danger">
+      <div class="card-header">
+      </div>
+      <div class="card-body">
+        <%= simple_form_for @charge, url: :gov_module_bplo_settings_charge do |f| %>
+          <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
+          <%= f.input :name %>
+          <%= f.input :amount %>
+          <%= f.input :revenue_account_id, collection: Accounting::Revenue.all.map{|a| [a.name, a.id] } %>
+          <%= f.input :charge_scope, collection: Charge.charge_scopes.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
+          <%= f.input :default_charge, as: :boolean %>
+          <%= f.submit "Update Charge", class: "btn btn-danger" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

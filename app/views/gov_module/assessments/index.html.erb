@@ -1,0 +1,38 @@
+<%=form_tag gov_module_assessments_path, method: :get, id: "search-form" do %>
+  <div class="input-group">
+    <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search assessments...", type: "search" %>
+     &nbsp;
+      <%= button_tag(type: 'submit', class: "btn btn-outline-primary") do %>
+        <i class="fa fa-search"></i>Search
+      <% end %>
+
+  </div>
+<% end %>
+<br>
+
+      <% @assessments.each do |assessment| %>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-5">
+                <span class="username"><%= link_to assessment.name, assessment_path(assessment) %>
+                </span>
+              </div>
+              <div class="col-md-5">
+                <span class="description">
+                  <%= number_to_currency assessment.total %>
+                </span>
+              </div>
+              <div class="col-md-2">
+                <% if assessment.paid? %>
+                <span class="badge bg-success">Paid </span><br>
+                 OR #: <%=assessment.entry.try(:reference_number) %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

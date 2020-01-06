@@ -1,0 +1,6 @@
+<%= simple_form_for [@business, @establishment], url: :gov_module_business_establishments do |f| %>
+  <%= f.input :public_market_id, collection: current_locality.public_markets.map{|a| [a.name.titleize, a.id] } %>
+  <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+  <%= f.input :tenancy_type, collection: Tenancy.tenancy_types.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
+  <%=  f.submit "Add to Market" %>
+<% end %>

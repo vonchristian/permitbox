@@ -1,0 +1,15 @@
+<strong><i class="fa fa-credit-card mr-1"></i>  Payments History </strong>
+<br><br>
+<% @payments.uniq.each do |payment| %>
+  <div class="post">
+    <div class="user-block">
+      <%= image_tag("business_logo_placeholder.png", class: "img-bordered-sm mr-3", height: 45, width: 45) %>
+      <span class="username">
+        <%=payment.description %>
+      </span>
+      <span class="description">
+        <i class="fa fa-calendar"></i> <%= payment.date.strftime("%B %e, %Y") %>
+      </span>
+    </div>
+  </div>
+<% end %>

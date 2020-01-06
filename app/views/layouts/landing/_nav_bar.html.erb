@@ -1,0 +1,14 @@
+<nav class="navbar navbar-light static-top">
+      <div class="container">
+        <a class="navbar-brand" href="/">PERMIT BOX</a>
+        <a class="btn" href="/for_governments">For Governments</a>
+        <a class="btn" href="/for_taxpayers">For Taxpayers</a>
+       <% if current_page? for_taxpayers_path %>
+         <a class="btn btn-primary" href="/taxpayer_accounts/sign_in">Sign In</a>
+        <% else %>
+         <a class="btn btn-primary" href="/users/sign_in">Sign In</a>
+        <% end %>
+
+
+      </div>
+    </nav>

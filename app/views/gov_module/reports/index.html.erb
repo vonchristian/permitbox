@@ -1,0 +1,133 @@
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"> CMCI Report </h3>
+      </div>
+      <div class="card-body">
+        <% CompetetiveIndexCategory.all.each do |category| %>
+          <div class="row">
+            <div class="col-md-9">
+              <%= category.name %>
+            </div>
+            <div class="col-md-3">
+              <%= link_to 'Excel', gov_module_reports_competetive_index_category_path(category, format: 'xlsx') %>
+            </div>
+          </div>
+          <hr>
+        <% end %>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"> Businesses Per Barangay </h3>
+      </div>
+      <div class="card-body">
+        <% current_locality.barangays.each do |barangay| %>
+          <div class="row min-margin">
+            <div class="col-md-9">
+              <%= link_to barangay.name, gov_module_barangay_path(barangay) %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"> Business Permits</h3>
+      </div>
+      <div class="card-body">
+        <%= link_to "Business with Permits", gov_module_reports_business_permits_path %>
+        <hr>
+        <%= link_to "Business Without Permits", gov_module_reports_businesses_without_permits_path(format: 'xlsx') %>
+        <hr>
+        <%= link_to "Closed Businesses", gov_module_reports_closed_businesses_path(format: 'xlsx') %>
+
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"> Tricycle Permits</h3>
+      </div>
+      <div class="card-body">
+        <%= link_to "Tricycle with Permits", gov_module_reports_tricycle_with_permits_path %>
+        <hr>
+        <%= link_to "Tricycle Without Permits", gov_module_reports_tricycle_without_permits_path(format: 'xlsx') %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"> Public Markets </h3>
+      </div>
+      <div class="card-body">
+        <% @public_markets.each do |public_market| %>
+        <%= public_market.name %>
+        <p> Regular </p>
+        <%= link_to 'Regular (With Permits)', gov_module_reports_public_market_regular_with_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year, format: 'xlsx') %>
+        <%= link_to 'Regular (Without Permits)',  gov_module_reports_public_market_regular_without_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year,  format: 'xlsx') %>
+<hr>
+        <p> Transient </p>
+        <%= link_to 'Transient (With Permits)', gov_module_reports_public_market_transient_with_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year, format: 'xlsx') %>
+        <%= link_to 'Transient (Without Permits)',  gov_module_reports_public_market_transient_without_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year,  format: 'xlsx') %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-solid">
+      <div class="card-header">
+        <h3 class="card-title"> Tricycle Organizations </h3>
+      </div>
+      <div class="card-body">
+        <% TricycleOrganization.all.each do |organization| %>
+          <div class="row min-margin">
+            <div class="col-md-9">
+              <%= link_to organization.name, gov_module_tricycle_organization_path(organization) %>
+            </div>
+            <div class="col-md-3">
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+    <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"> Businesses per Line of Business </h3>
+      </div>
+      <div class="card-body">
+        <%=form_tag gov_module_reports_path, method: :get, id: "search-form" do %>
+          <div class="input-group">
+            <%= text_field_tag :line_of_business_search, params[:line_of_business_search], class: "search-query form-control border-input", placeholder: "Search line of business...", type: "search" %>
+            <span class="input-group-btn">
+              <%= button_tag(type: 'submit', class: "btn") do %>
+                <i class="fa fa-search"></i>
+              <% end %>
+            </span>
+          </div>
+        <% end %>
+        <br>
+        <% @line_of_businesses.each do |line_of_business| %>
+          <div class="row">
+            <div class="col-md-9">
+              <%= line_of_business.name %>
+            </div>
+            <div class="col-md-3">
+              <%= link_to 'Excel', gov_module_reports_line_of_business_path(line_of_business, format: 'xlsx') %>
+            </div>
+          </div>
+          <hr>
+        <% end %>
+        <%= will_paginate @line_of_businesses %>
+      </div>
+    </div>
+  </div>
+</div>
+<% Agency.all.each do |agency| %>
+  <%= link_to agency.name, gov_module_agency_path(agency) %>
+<% end %>

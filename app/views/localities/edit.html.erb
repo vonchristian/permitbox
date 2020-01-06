@@ -1,0 +1,14 @@
+<%= @locality.name %>
+<%= simple_form_for @locality, multiple: true, url: :locality do |f| %>
+  <%= f.input :logo, as: :file %>
+  <%= f.input :surcharge_revenue_account_id, collection: current_locality.accounts.revenues.map{|a| [a.name, a.id] } %>
+  <%= f.input :penalty_revenue_account_id, collection: current_locality.accounts.revenues.map{|a| [a.name, a.id] } %>
+  <%= f.input :capital_tax_revenue_account_id, collection: current_locality.accounts.revenues.map{|a| [a.name, a.id] } %>
+  <%= f.input :sanitary_inspection_revenue_account_id, collection: current_locality.accounts.revenues.map{|a| [a.name, a.id] } %>
+  <%= f.input :police_clearance_revenue_account_id, collection: current_locality.accounts.revenues.map{|a| [a.name, a.id] } %>
+
+  <%= f.input :business_tax_computation_config_id, collection: Configurations::BusinessTaxComputationConfig.all.map{|a| [a.computation_type.titleize, a.id] } %>
+  <%= f.input :mayors_permit_fee_calculation_config_id, collection: Configurations::MayorsPermitFeeCalculationConfig.all.map{|a| [a.config_type.titleize, a.id] } %>
+
+  <%= f.submit %>
+<% end %>

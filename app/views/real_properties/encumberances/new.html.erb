@@ -1,0 +1,7 @@
+<%= simple_form_for [@real_property, @encumberance], multipart: true, url: :real_property_encumberances do |f| %>
+  <%= f.input :title %>
+  <%= f.input :description %>
+  <%= f.input :effectivity_date, as: :string, input_html: { class: "datepicker" } %>
+  <%= f.input :uploads, input_html: { multiple: true, direct_upload: true }, label: "Attach images, PDFs, or documents" %>
+  <%= f.submit %>
+<% end %>

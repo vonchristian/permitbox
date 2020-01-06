@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"> Barangay Businesses </h3>
+        </div>
+        <div class="card-body">
+          <% current_locality.barangays.each do |barangay| %>
+            <div class="row">
+              <div class="col-md-8">
+                <%= link_to barangay.name, gov_module_barangay_path(barangay) %>
+              </div>
+              <div class="col-md-4">
+                <%= barangay.businesses.count %>
+              </div>
+            </div>
+            <br>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title"> Approved Permits/Clearances </h4>
+        </div>
+        <div class="card-body">
+          <% @documents.each do |document| %>
+            <div class="row">
+              <div class="col-md-6">
+                <%= document.title %>
+              </div>
+              <div class="col-md-6">
+                <center>
+                <h3><%= document.approvals.count %></h3>
+              </center>
+              </div>
+            </div>
+            <hr>
+          <% end %>
+      </div>
+    </div>
+  </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"> Collections </h3>
+        </div>
+        <div class="card-body">
+          <% Accounting::Revenue.all.to_a.sort_by(&:balance).first(20).each do |account| %>
+            <div class="row">
+              <div class="col-md-7">
+                <%= account.name %>
+              </div>
+              <div class="col-md-5">
+                <span class="float-right">
+                  <%= number_to_currency account.balance.abs %>
+                </span>
+              </div>
+            </div>
+            <br>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</div>

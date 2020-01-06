@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <%=render 'gov_module/businesses/partials/header' %>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <%= simple_form_for [@business, @charge], url: :gov_module_business_charges do |f| %>
+            <%= f.input :name %>
+            <%= f.input :revenue_account_id, collection: Accounting::Revenue.all.map{|a| [a.name, a.id]} %>
+            <%= f.input :amount %>
+            <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
+            <div class="row">
+              <div class="col-md-6">
+                <%= link_to 'Back to Business', gov_module_business_path(@business), class: "btn btn-default" %>
+              </div>
+              <div class="col-md-6">
+                <%= f.submit "Add Charge", class: "btn btn-primary float-right" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-5">
+          <h3 class="card-title">Taxes and Fees </h3>
+          <p class="text-muted">List of taxes and fees applicable to this business </p>
+          <% @business.voucher_amounts.without_voucher.each do |voucher_amount| %>
+              <div class="row">
+                <div class="col-md-7">
+                  <span class="card-text">
+                    <%= voucher_amount.name %>
+                  </span>
+                </div>
+                <div class="col-md-4">
+                  <span class="float-right">
+                    <%= number_to_currency voucher_amount.amount %>
+                  </span>
+                </div>
+                <div class="col-md-1">
+                  <%=link_to gov_module_business_voucher_amount_path(business_id: @business.id, id: voucher_amount.id), method: :delete do %>
+                   <span class="text-danger" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i> </span>
+                  <% end %>
+                </div>
+              </div>
+              <br>
+            <% end %>
+          <hr>
+          <div class="row">
+            <div class="col-md-7">
+              <h3 class="card-title"><b> TOTAL </b></h3>
+            </div>
+            <div class="col-md-5">
+              <h3 class="card-title"><b><span class="float-right"> <%= number_to_currency @business.voucher_amounts.total %> </span></b></h3>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#charge_revenue_account_id").select2({
+      theme: "bootstrap",
+      tags: true
+    });
+  });
+</script>

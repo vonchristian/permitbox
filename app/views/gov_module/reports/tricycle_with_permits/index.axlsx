@@ -1,0 +1,29 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Business Without Permits") do |sheet|
+sheet.add_row [
+ "Taxpayer",
+ "Address",
+ "Plate Number",
+ "MTOP Number",
+ "Make and Model",
+ "Color",
+ "Organization",
+ "Date Approved",
+ "Application Number",
+ "Permit Number"
+]
+  @tricycle_permits.each do |permit|
+    sheet.add_row [
+    permit.permitable.tricycle.taxpayers_full_name,
+    permit.permitable.tricycle.current_location_complete_address,
+    permit.permitable.tricycle.plate_number,
+    permit.permitable.tricycle.mtop_number,
+    permit.permitable.tricycle.make_and_model,
+    permit.permitable.tricycle.color,
+    permit.permitable.tricycle.tricycle_organization_name,
+    permit.approval_date.strftime("%B %e, %Y"),
+    permit.permitable.try(:application_number),
+    permit.permit_number
+    ]
+  end
+end

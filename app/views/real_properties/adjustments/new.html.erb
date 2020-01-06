@@ -1,0 +1,9 @@
+<% @adjustment_factors.each do |adjustment_factor| %>
+  <%= adjustment_factor.title %>
+  <%= simple_form_for [@real_property, @adjustment], url: :real_property_adjustments do |f| %>
+    <%= f.input :adjustment_factor_id, input_html: { value: adjustment_factor.id } %>
+    <% if !@real_property.adjustments.pluck(:adjustment_factor_id).include?(adjustment_factor.id) %>
+      <%= f.submit "Add", class: "btn btn-warning" %>
+    <% end %>
+  <% end %>
+<% end %>

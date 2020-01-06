@@ -1,0 +1,21 @@
+<small><%= @cash_on_hand_account.name %></small>
+<h2><%= number_to_currency @cash_on_hand_account.balance %></h2>
+<hr>
+<% @entries.each do |entry| %>
+  <%=link_to accounting_entry_path(entry) do %>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-7">
+            <%= entry.description %>
+          </div>
+          <div class="col-md-2">
+            <%= number_to_currency entry.amounts.cash_amount_total %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

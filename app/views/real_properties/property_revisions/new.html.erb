@@ -1,0 +1,7 @@
+<% @general_revisions.each do |general_revision| %>
+  <%= general_revision.title %>
+  <%= simple_form_for [@real_property, @property_revision], url: :real_property_property_revisions do |f| %>
+    <%= f.input :general_revision_id, input_html: { value: general_revision.id } %>
+    <%= f.submit "Select" %>
+  <% end %>
+<% end %>

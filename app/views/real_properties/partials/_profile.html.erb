@@ -1,0 +1,19 @@
+    <div class="tab-pane <%= 'active' if current_page?(real_property_path(@real_property)) %>" id="real-property-profile-tab" role="tabpanel" aria-labelledby="home-tab">
+      Home
+      <h3  class="card-title">ARP</h3>
+      <%= link_to 'New ARP', new_real_property_arp_request_path(@real_property), class: "btn btn-primary" %>
+      <% @real_property.arps.each do |arp| %>
+        <%= arp.number %>
+        <% if @real_property.current_arp == arp %>
+          <span class="badge badge-pill bg-success"> CURRENT </span>
+        <% end %>
+      <% end %>
+      <hr>
+      <h3 class="card-title"> Real Property Area </h3>
+      <%= link_to 'New Real Property Area', new_real_property_real_property_area_path(@real_property), class: "btn btn-primary" %>
+    </div>
+    <hr>
+    <h3 class="card-title">Property Index Number </h3>
+<hr>
+<h3 class="card-title"> Property General Revisions </h3>
+<%= link_to 'New General Revision', new_real_property_property_revision_path(@real_property), class: "btn btn-primary" %>

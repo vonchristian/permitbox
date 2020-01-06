@@ -1,0 +1,51 @@
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+<div class="card">
+  <div class="card-header">
+    <%= link_to @business.name, gov_module_business_path(@business) %>
+  </div>
+  <div class="card-body">
+    <%=form_tag new_gov_module_business_ownership_path(@business), method: :get, id: "search-form" do %>
+      <div class="input-group">
+        <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search taxpayer...", type: "search" %>
+        <span class="input-group-btn">
+          <%= button_tag(type: 'submit', class: "btn") do %>
+            <i class="fa fa-search"></i>
+          <% end %>
+        </span>
+      </div>
+    <% end %>
+    <br>
+<% @taxpayers.each do |taxpayer| %>
+
+    <div class="row">
+      <div class="col-md-2">
+        <%= image_tag(taxpayer.avatar, class: "rounded", height: 40, width: 40) %>
+      </div>
+      <div class="col-md-7">
+        <b><%= taxpayer.full_name %></b>
+      </div>
+
+
+        <div class="col-md-2">
+          <%= simple_form_for [@business, @ownership], url: :gov_module_business_ownerships do |f| %>
+
+            <%= f.input :owner_id, input_html: { value: taxpayer.id }, as: :hidden %>
+            <%= f.input :owner_type, input_html: { value: taxpayer.class.to_s }, as: :hidden %>
+            <% if @business.taxpayer_owners.exclude?(taxpayer) %>
+              <%= f.submit "Add", class: 'btn btn-primary' %>
+            <% else %>
+              <span class="badge bg-success float-right"><i class="fa fa-plus-circle"></i> Added </span>
+            <% end %>
+          <% end %>
+
+        </div>
+      </div>
+      <hr>
+
+
+<% end %>
+</div>
+</div>
+<%= will_paginate @taxpayers %>

@@ -1,0 +1,24 @@
+<!-- Sidebar -->
+<div class="sidebar">
+  <!-- Sidebar user panel (optional) -->
+  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="image">
+      <%= image_tag("default_avatar.png", class: "img-circle") %>
+    </div>
+    <div class="info">
+      <a href="#" class="d-block"><%= current_user.first_and_last_name %></a>
+      <small class="text-white"><%= current_user.designation %></small>
+    </div>
+  </div>
+
+  <!-- Sidebar Menu -->
+  <nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <!-- Add icons to the links using the .nav-icon class
+           with font-awesome or any other icon font library -->
+      <% if current_user.collection_officer? %>
+        <%= render 'layouts/sidebar_links/collection_officer' %>
+      <% end %>
+      <% if current_user.bplo_officer? %>
+        <%= render 'layouts/sidebar_links/bplo_officer' %>
+      <% end %>

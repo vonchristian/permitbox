@@ -1,0 +1,327 @@
+
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-2">
+            <center>
+              <%=image_tag(@locality.logo, height: 90, width: 90) %>
+            </center>
+          </div>
+          <div class="col-md-10">
+            <h3 class="card-title"> Start a Business in <%= @locality.name %></h3>
+            This portal will help you understand the costs and requirements of starting a business in <%= @locality.name %>.
+            <hr>
+            <i class="fa fa-info-circle fa-2x"></i> Please answer the questions below carefully. Cost and requirements will be based on your answers.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+  <div class="col-md-8">
+      <div class="card">
+        <div id="businessNameAccordion">
+          <div class="card-header">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#businessName">
+              <h3 class="card-title">What is your business name?</h3>
+            </button>
+            <% if @cart.name.present? %>
+              <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10">
+                  <p class="text-muted">Answer: <%= @cart.name %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div id="businessName" class="collapse <%= 'show' if @cart.name.blank? %>" data-parent="#businessNameAccordion">
+            <br>
+            <%= simple_form_for @business_name, url: :business_registration_business_names do |f| %>
+              <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-6">
+                  <%= f.input :name, label: false, input_html: { value: @cart.name } %>
+                  <%= f.input :cart_id, input_html: { value: @cart.id }, as: :hidden %>
+                  <%= f.input :taxpayer_id, input_html: { value: @taxpayer.id }, as: :hidden %>
+                  <%= f.input :locality_id, input_html: { value: @locality.id }, as: :hidden %>
+                </div>
+                <div class="col-md-4">
+                  <% if @cart.name.nil? %>
+                    <%= f.submit "Save and Continue", class: "btn btn-primary" %>
+                  <% else %>
+                    <%= f.submit "Update and Continue", class: "btn btn-primary" %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <% if @cart.name.present? %>
+          <div id="businessTypeAccordion">
+            <div class="card-header">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#businessType">
+                  <h3 class="card-title">What type of business is this?</h3>
+              </button>
+              <% if @cart.application_type.present? %>
+                <div class="row">
+                  <div class="col-md-1">
+                  </div>
+                  <div class="col-md-10">
+                    <p class="text-muted">Answer: <%= @cart.application_type.try(:titleize) %></p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div id="businessType" class="collapse <%= 'show' if @cart.application_type.blank? %>" data-parent="#businessTypeAccordion">
+            <br>
+            <% Cart.application_types.keys.to_a.each do |application_type| %>
+              <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                  <%= simple_form_for [@cart, @application_type], url: :business_registration_application_types do |f| %>
+                    <%= f.input :application_type, input_html: { value: application_type }, as: :hidden %>
+                    <%= f.input :cart_id, input_html: { value: @cart.id }, as: :hidden %>
+                    <%= f.input :taxpayer_id, input_html: { value: @taxpayer.id }, as: :hidden %>
+                    <% if @cart.application_type == application_type %>
+                      <i class="far fa-check-circle fa-2x text-success"></i>
+                    <% else %>
+                      <%= button_tag( :class => "btn btn-outline-success btn-sm") do %>
+                        <i class="fa fa-plus-circle"></i> Select
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+                <div class="col-md-8">
+                  <b><%= application_type.titleize %></b><br>
+                  <% if application_type == "new_business" %>
+                    <span class="text-muted"> I am starting a new business. </span>
+                  <% else %>
+                    <span class="text-muted"> This is a current operating business.</span>
+                  <% end %>
+                </div>
+              </div>
+              <br>
+            <% end %>
+          </div>
+        <% end %>
+        <% if @cart.application_type.present? %>
+          <div id="businessOwnershipAccordion">
+            <div class="card-header">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#businessOwnership">
+                  <h3 class="card-title">What is your business set-up?</h3>
+              </button>
+              <% if @cart.ownership_type.present? %>
+              <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10">
+                  <p class="text-muted">Answer: <%= @cart.ownership_type_title %></p>
+                </div>
+              </div>
+            <% end %>
+            </div>
+          </div>
+          <div id="businessOwnership" class="collapse <%= 'show' if @cart.ownership_type.blank? %>" data-parent="#businessOwnershipAccordion">
+            <div class="card-body">
+              <% @ownership_types.each do |ownership_type| %>
+                <div class="row">
+                  <div class="col-md-1">
+                  </div>
+                  <div class="col-md-2">
+                    <%= simple_form_for @ownership_type, url: :business_registration_ownership_types do |f| %>
+                      <%= f.input :ownership_type_id, input_html: { value: ownership_type.id }, as: :hidden %>
+                      <%= f.input :cart_id, input_html: { value: @cart.id }, as: :hidden %>
+                      <%= f.input :taxpayer_id, input_html: { value: @taxpayer.id }, as: :hidden %>
+                      <%= f.input :locality_id, input_html: { value: @locality.id }, as: :hidden %>
+                      <% if @cart.ownership_type_id == ownership_type.id %>
+                        <i class="far fa-check-circle fa-2x text-success"></i>
+                      <% else %>
+                        <%= button_tag( :class => "btn btn-outline-success btn-sm") do %>
+                          <i class="fa fa-plus-circle"></i> Select
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div class="col-md-8">
+                    <b><%= ownership_type.title %></b><br>
+                    <span class="text-muted"><%= ownership_type.description %></span>
+                  </div>
+                </div>
+                <br>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        <% if @cart.ownership_type.present? %>
+          <div id="businessCategoryAccordion">
+            <div class="card-header">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#businessCategory">
+                <h3 class="card-title">What category does your business fits in?</h3>
+              </button>
+              <% if @cart.business_tax_category.present? %>
+                <div class="row">
+                  <div class="col-md-1">
+                  </div>
+                  <div class="col-md-10">
+                    <p class="text-muted">Answer: <%= @cart.business_tax_category_title %></p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div id="businessCategory" class="collapse <%= 'show' if @cart.business_tax_category.blank? %>" data-parent="#businessCategoryAccordion">
+            <div class="card-body">
+              <% @business_tax_categories.each do |business_tax_category| %>
+                <div class="row">
+                  <div class="col-md-1">
+                  </div>
+                  <div class="col-md-2">
+                    <%= simple_form_for @business_category, url: :business_registration_business_categories do |ff| %>
+                      <%= ff.input :business_tax_category_id, input_html: { value: business_tax_category.id }, as: :hidden %>
+                      <%= ff.input :cart_id, input_html: { value: @cart.id }, as: :hidden %>
+                      <%= ff.input :taxpayer_id, input_html: { value: @taxpayer.id }, as: :hidden %>
+                      <%= ff.input :locality_id, input_html: { value: @locality.id }, as: :hidden %>
+                      <% if @cart.business_tax_category == business_tax_category %>
+                        <i class="far fa-check-circle fa-2x text-success"></i>
+                      <% else %>
+                        <%= button_tag( :class => "btn btn-outline-success btn-sm") do %>
+                          <i class="fa fa-plus-circle"></i> Select
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div class="col-md-8">
+
+                    <b><%= business_tax_category.title %></b><br>
+                    <span class="text-muted"><%= business_tax_category.description %></span>
+                  </div>
+                </div>
+                <br>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        <% if @cart.business_tax_category.present? %>
+          <section id="businessFinanceAccordion">
+            <div class="card-header">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#businessFinance">
+                  <h3 class="card-title">Business Finance Details</h3>
+              </button>
+              <% if @cart.asset_size.present? || @cart.capital.present? %>
+                <div class="row">
+                  <div class="col-md-1">
+                  </div>
+                  <div class="col-md-10">
+                    <p class="text-muted">Answer:</p>
+                    <div class="row">
+                      <div class="col-md-6">
+                        Capital
+                      </div>
+                      <div class="col-md-6">
+                        <%= number_to_currency @cart.capital %>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-6">
+                        Asset Size
+                      </div>
+                      <div class="col-md-6">
+                        <%= number_to_currency @cart.asset_size %>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-6">
+                        Gross Sales
+                      </div>
+                      <div class="col-md-6">
+                        <%= number_to_currency @cart.current_gross_sale_amount %><br>
+                        <%= @cart.current_gross_sale_calendar_year %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <br>
+            <div id="businessFinance" class="collapse <%= 'show' if @cart.capital.blank? %>" data-parent="#businessFinanceAccordion">
+              <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10">
+                  <%= simple_form_for @business_finance, url: :business_registration_business_finances do |fin| %>
+                    <% if @cart.new_business? %>
+                      <%= fin.input :capital, label: "How much Capital did you use to start this business?" %>
+                    <% else %>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <%= fin.input :gross_sale, label: "How much Gross Sales did you earn?" %>
+                        </div>
+                        <div class="col-md-6">
+                          <%= fin.input :calendar_year %>
+                        </div>
+                      </div>
+                      <span class="text-muted"> This refers to the total Net Gross Sales/Receipts you earned. </span>
+                    <% end %>
+                    <% if @locality.business_tax_computation_config.based_on_asset_size? %>
+                      <br>
+                      <br>
+                      <%= fin.input :asset_size, label: "What is the total asset size of your business?" %>
+                       <span class="form-text text-muted">* Asset size refers to total investments including building, inventories.</span>
+                    <% end %>
+                    <%= fin.input :cart_id, input_html: { value: @cart.id }, as: :hidden %>
+                    <%= fin.input :locality_id, input_html: { value: @locality.id }, as: :hidden %>
+                    <%= fin.input :taxpayer_id, input_html: { value: @taxpayer.id }, as: :hidden %>
+                    <%= fin.submit "Save and Continue", class: "btn btn-primary float-right" %>
+                  <% end %>
+                  <br>
+                  <br>
+                  <br>
+                </div>
+              </div>
+            </div>
+          </section>
+        <% end %>
+        <% if @cart.asset_size.present? || @cart.capital.present? %>
+          <div class="card-body">
+            <p class="text-muted">Please check your answers before proceeding. </p>
+            <%= simple_form_for @business, url: :taxpayer_business_registrations do |f| %>
+              <%= f.input :cart_id, input_html: { value: @cart.id }, as: :hidden %>
+              <%= f.input :locality_id, input_html: { value: @locality.id }, as: :hidden %>
+            <%= f.submit 'Save and Proceed', class: "btn btn-primary float-right" %>
+            <% end %>
+          </div>
+        <% end %>
+
+        </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Estimated Costs</h3>
+        </div>
+        <div class="card-body">
+          <% if @cart.voucher_amounts.present? %>
+            <% @cart.voucher_amounts.each do |voucher_amount| %>
+              <div class="row">
+                <div class="col-md-8">
+                  <%= voucher_amount.name %>
+                </div>
+                <div class="col-md-4">
+                  <%= number_to_currency voucher_amount.amount %>
+                </div>
+              </div>
+              <br>
+            <% end %>
+          <% else %>
+            Start answering questions to see estimated costs of your permit application here.
+          <% end %>
+        </div>
+      </div>
+
+  </div>
+</div>

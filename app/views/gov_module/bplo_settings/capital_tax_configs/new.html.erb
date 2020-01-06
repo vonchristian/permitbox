@@ -1,0 +1,5 @@
+<%= simple_form_for @capital_tax_config, url: :gov_module_bplo_settings_capital_tax_configs do |f| %>
+  <%= f.input :rate %>
+  <%= f.input :revenue_account_id, collection: Accounting::Revenue.all.map{|a| [a.name, a.id] } %>
+  <%= f.submit "Save" %>
+<% end %> 

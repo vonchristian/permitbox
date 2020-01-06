@@ -1,0 +1,20 @@
+<%= @lands.size %>
+<div class="container">
+<div class="card-columns">
+<% @lands.each do |land| %>
+  <%= link_to real_property_path(real_property_id: land.id, id: land.id) do %>
+        <div class="card">
+          <div class="card-block">
+              <%#= image_tag(land.uploads.last.attachment, class: "img-fluid card-img-top") %>
+              <div class="card-body">
+              <h4 class="card-title"><%= land %></h4>
+
+              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          </div>
+        </div>
+      </div>
+<% end %>
+    <% end %>
+    </div>
+  </div>
+

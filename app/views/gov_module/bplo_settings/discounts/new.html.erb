@@ -1,0 +1,12 @@
+<%= simple_form_for @discount, url: :gov_module_bplo_settings_discounts do |f| %>
+  <%= f.input :discount_scope, collection: Discount.discount_scopes.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
+  <%= f.input :discount_type, collection: Discount.discount_types.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
+
+  <%= f.input :amount %>
+  <%= f.input :rate %>
+  <%= f.input :name %>
+  <%= f.input :discounted_account_ids, collection: Accounting::Account.all.map{|a| [a.name, a.id] }, input_html: { class: 'chosen-select', multiple: true }%>
+
+  <%= f.input :discount_account_id, collection: Accounting::Account.all.map{|a| [a.name, a.id] } %>
+  <%= f.submit %>
+<% end %>

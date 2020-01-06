@@ -1,0 +1,4 @@
+<%= simple_form_for [@business_permit, @permit_signatory], url: :gov_module_business_permit_permit_signatories do |f| %>
+  <%= f.input :signatory_id, collection: current_locality.signatories.map{|a| [a.full_name, a.id] } %>
+  <%= f.submit "Add" %>
+<% end %>
