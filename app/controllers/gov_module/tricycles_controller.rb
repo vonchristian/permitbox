@@ -2,9 +2,9 @@ module GovModule
   class TricyclesController < ApplicationController
     def index
       if params[:search].present?
-        @tricycles = current_locality.tricycles.text_search(params[:search]).paginate(page: params[:page], per_page: 25)
+        @pagy, @tricycles = pagy(current_locality.tricycles.text_search(params[:search]))
       else
-        @tricycles = current_locality.tricycles.paginate(page: params[:page], per_page: 25)
+        @pagy, @tricycles = pagy(current_locality.tricycles)
       end
     end
     def new
