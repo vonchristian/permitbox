@@ -6,7 +6,7 @@ require 'mina/puma'
 
 set :whenever_name, 'production'
 set :domain,        '192.168.0.111'
-set :deploy_to,     '/var/www/gov_catalyst'
+set :deploy_to,     '/var/www/kiphodan'
 set :repository,    'git@github.com:vonchristian/permitbox.git'
 set :branch,        'master'
 set :user,          'deploy'
