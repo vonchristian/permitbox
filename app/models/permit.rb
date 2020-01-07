@@ -10,12 +10,17 @@ class Permit < ApplicationRecord
   delegate :locality_name, to: :permitable
   delegate :voucher, to: :permitable, allow_nil: true
   delegate :entry, to: :voucher, allow_nil: true
-
+  delegate :name, to: :locality, prefix: true
   validates :expiry_date, :approval_date, :permit_number, presence: true
+  
+  def template_processor
+    "MayorsPermitTemplates::#{locality_name.titleize}".constantize
+  end 
 
   def self.recent
     order(approval_date: :desc).first
   end
+
   def self.approved(args={})
     if args[:from_date] && args[:to_date]
       range = DateRange.new(from_date: args[:from_date], to_date: args[:to_date])
@@ -34,6 +39,7 @@ class Permit < ApplicationRecord
   def self.cancelled
     where.not(cancelled_at: nil)
   end
+
   def self.not_cancelled
     where(cancelled_at: nil)
   end
@@ -42,10 +48,12 @@ class Permit < ApplicationRecord
   def self.expired
    where('expiry_date < ?', Date.today)
   end
+
   def cancelled?
     cancelled_at.present?
   end
+
   def cancel!
-    self.update_attributes!(cancelled_at: Date.current)
+    self.update!(cancelled_at: Date.current)
   end
 end

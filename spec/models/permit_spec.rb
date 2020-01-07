@@ -45,4 +45,11 @@ describe Permit do
 
     expect(permit.expired?).to be true
   end
+
+  it '#template_processor' do 
+    locality = create(:locality, name: 'Lamut')
+    permit = create(:permit, locality: locality)
+
+    expect(permit.template_processor).to eql MayorsPermitTemplates::Lamut
+  end 
 end

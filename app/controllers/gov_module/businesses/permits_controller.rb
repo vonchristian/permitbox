@@ -27,7 +27,7 @@ module GovModule
         respond_to do |format|
           format.html
           format.pdf do
-            pdf = Localities::BusinessPermitPdf.new(business: @business, permit: @permit, view_context: view_context)
+            pdf = @permit.template_processore.new(business: @business, permit: @permit, view_context: view_context)
             send_data pdf.render, type: "application/pdf", disposition: 'inline', file_name: "Business Permit.pdf"
           end
         end

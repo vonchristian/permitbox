@@ -22,7 +22,7 @@ end
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Warden::Test::Helpers
-
+  config.include ActiveSupport::Testing::TimeHelpers
   config.after(:each) do
     DatabaseRewinder.clean
   end
