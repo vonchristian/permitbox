@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: kiphodan_production
+  database: gov_catalyst_production
   username: deploy
   password: deploy@itworx
