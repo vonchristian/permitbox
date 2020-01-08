@@ -1,13 +1,16 @@
 source 'https://rubygems.org'
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
 ruby '2.7.0'
 gem 'prawn-icon'
-gem 'rails', '5.2.3'
+gem 'rails', '6.0.2.1'
 gem "audited", "~> 4.7"
 gem 'autonumeric-rails'
 gem 'spreadsheet'
 gem 'rqrcode'
-gem 'webpacker', '~> 3.5'
+gem 'webpacker', '~> 4.x'
 gem 'activerecord-postgis-adapter'
 gem 'pg_search'
 gem 'pg', '>= 0.18', '< 2.0'
@@ -30,8 +33,6 @@ gem 'jbuilder', '~> 2.5'
 gem 'public_activity'
 gem 'redis', '~> 4.0'
 gem 'bootstrap', '~> 4.3.1'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
 gem 'barby'
 gem 'font-awesome-sass', '~> 5.0.13'
 gem 'simple_form'

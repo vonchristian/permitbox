@@ -15,7 +15,7 @@
             </div>
             <div class="col-md-6">
               <%= f.input :account_number, input_html: { value: SecureRandom.uuid }, as: :hidden %>
-                <%= f.input :applicant_id, input_html: { value: @applicant.id } %>
+                <%= f.input :applicant_id, input_html: { value: @applicant.id }, as: :hidden %>
 
               <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
               <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
@@ -29,17 +29,17 @@
               <%= f.input :mode_of_payment, collection: Business.mode_of_payments.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons, checked: @business.mode_of_payment  %>
               <h4 class="card-title"> Ownership Setup </h4>
               <p class="text-muted"> Select the most approriate ownership type for this business </p>
-                    <%= f.input :ownership_type_id, label: false, collection: current_locality.ownership_types.all.map{|a| [a.title, a.id] }, default: @business.ownership_type_id%>
+                    <%= f.input :ownership_type_id, label: false, collection: current_locality.ownership_types.all.map{|a| [a.title, a.id] }, default: @business.ownership_type_id, input_html: { class: 'chosen-select' } %>
               <hr>
               <h4 class="card-title"> Business Category </h4>
               <p class="text-muted"> Select the most approriate category for this business. </p>
 
-                  <%= f.input :business_tax_category_id, label: false, collection: BusinessTaxCategory.all.map{|a| [a.title, a.id] }, default: @business.business_tax_category_id %>
+                  <%= f.input :business_tax_category_id, label: false, collection: BusinessTaxCategory.all.map{|a| [a.title, a.id] }, default: @business.business_tax_category_id, input_html: { class: 'chosen-select' } %>
 
               <hr>
               <h4 class="card-title">Business Activities</h4>
               <p class="tex-muted"> Select all business activities applicable to this business. </p>
-                  <%= f.input :line_of_business_ids, label: false, collection: LineOfBusiness.all.map{|a| [a.name, a.id] }, input_html: { class: "chosen-select", multiple: true}, selected: @business.line_of_businesses.try(:ids)  %>
+                  <%= f.input :line_of_business_ids, label: false, collection: LineOfBusiness.all.map{|a| [a.name, a.id] }, input_html: { class: "chosen-select", multiple: true }, selected: @business.line_of_businesses.try(:ids)  %>
               <hr>
             </div>
             <div class="col-md-1">
@@ -57,7 +57,7 @@
             <div class="col-md-6">
               <%= f.input :complete_address, input_html: { value: @business.current_location_complete_address } %>
               <%= f.input :street_id, collection: current_locality.streets.all.map{|a| [a.name, a.id] } %>
-              <%= f.input :barangay_id, collection: current_locality.barangays.order(:name).map{|a| [a.name, a.id] }, selected: @business.current_location.try(:barangay_id) %>
+              <%= f.input :barangay_id, collection: current_locality.barangays.order(:name).map{|a| [a.name, a.id] }, selected: @business.current_location.try(:barangay_id), input_html: { class: 'chosen-select' } %>
               <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
               <%= f.input :province_id, input_html: { value: current_locality.province_id }, as: :hidden %>
               <%= f.input :business_area, label: "Business area(in sq.m.)", input_html: { value: @business.recent_establishment_area } %>
@@ -113,31 +113,4 @@
       }
     });
   });
-</script>
-
-<script type="text/javascript">
-  $(document).ready(function() {
-    $("#gov_module_permit_applications_business_permit_ownership_type_id").select2({
-      theme: "bootstrap"
-    });
-
-    $("#gov_module_permit_applications_business_permit_business_tax_category_id").select2({
-      theme: "bootstrap"
-    });
-
-
-    $("#gov_module_permit_applications_business_permit_barangay_id").select2({
-      theme: "bootstrap"
-    });
-    $("#gov_module_permit_applications_business_permit_street_id").select2({
-      theme: "bootstrap"
-    });
-    $("#gov_module_permit_applications_business_permit_public_market_id").select2({
-      theme: "bootstrap"
-    });
-    $("#gov_module_permit_applications_business_permit_applicant_id").select2({
-      theme: "bootstrap"
-    });
-  });
-
 </script>

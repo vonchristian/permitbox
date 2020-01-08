@@ -7,9 +7,7 @@ Rails.application.routes.draw do
   # authenticated :user do
   #   root :to => 'gov_module/taxpayers#index'
   # end
-  authenticated :taxpayer_account do
-    root to: 'taxpayer_accounts#show'
-  end
+ 
   authenticated :user do
     root to: "gov_module/businesses#index"
   end
@@ -26,9 +24,7 @@ Rails.application.routes.draw do
   # unauthenticated :user do
   #   root :to => 'home#index', :constraints => lambda { |request| request.env['warden'].user.nil? }, as: :unauthenticated_root
   # end
-  authenticated :taxpayer do
-    root to: 'taxpayers/dashboards#index'
-  end
+ 
 
   devise_for :users, controllers: { sessions: 'users/sessions' }
 
@@ -266,7 +262,7 @@ Rails.application.routes.draw do
   end
   resources :localities, only: [:edit, :update]
   unauthenticated :user do
-    root to: "for_governments#index"
+    root to: "for_governments#index", as: :authenticated_user_root
   end
   resources :taxpayer_accounts, only: [:show]
   namespace :taxpayer_module do

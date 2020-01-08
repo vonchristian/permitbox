@@ -9,15 +9,14 @@ Bundler.require(*Rails.groups)
 module GovCatalyst
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults 6.0
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end
     config.time_zone = 'Asia/Manila'
     config.active_record.default_timezone = :utc
     config.beginning_of_week = :sunday
-    config.active_record.belongs_to_required_by_default = true
-
+   
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -25,3 +24,5 @@ module GovCatalyst
     # the framework and any gems in your application.
   end
 end
+
+Rails.autoloaders.main.ignore(Rails.root.join('app/node_modules'))

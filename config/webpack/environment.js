@@ -1,5 +1,12 @@
 const { environment } = require('@rails/webpacker')
-const vue =  require('./loaders/vue')
+const webpack = require("webpack")
 
-environment.loaders.append('vue', vue)
-module.exports = environment
+environment.plugins.append("Provide", new webpack.ProvidePlugin({
+  $: 'jquery',
+  jQuery: 'jquery',
+  Popper: ['popper.js', 'default']
+}));
+
+environment.config.set('resolve.alias', {jquery: 'jquery/src/jquery'});
+
+module.exports = environment;

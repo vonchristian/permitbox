@@ -1,8 +1,33 @@
-<%= link_to 'New Gross Sales Tax Range', new_businesses_section_business_tax_category_gross_sales_tax_range_path(@business_tax_category) %>
-<% @business_tax_category.gross_sales_tax_ranges.each do |tax_range| %>
-  <%= number_to_currency tax_range.minimum_gross_sale %>
-  <%= number_to_currency tax_range.maximum_gross_sale %>
-  <%= tax_range.tax_rate %>
-  <%= tax_range.tax_rate_for_excess %>
-
-<% end %>
+<div class='container'>
+  <div class='card'>
+    <div class='card-body'>
+      <h3 class='title-up'> Gross Sales Tax Range </h3>
+      <%= link_to 'New Gross Sales Tax Range', new_businesses_section_business_tax_category_gross_sales_tax_range_path(@business_tax_category) %>
+      <hr />
+      <div class='table table-responsive'>
+        <table class='table table-hover table-striped'>
+          <thead>
+            <tr>
+              <th> Minimum Gross Sale </th>
+              <th> Maximum Gross Sale </th>
+              <th> Rate </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @business_tax_category.gross_sales_tax_ranges.each do |tax_range| %>
+              <tr>  
+                <td><%= number_to_currency tax_range.minimum_gross_sale %></td>
+                <td><%= number_to_currency tax_range.maximum_gross_sale %></td>
+                <td>
+                  <%= tax_range.tax_rate %>
+                  <%= tax_range.tax_rate_for_excess %>
+                  <%= tax_range.amount %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
