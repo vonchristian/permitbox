@@ -16,13 +16,14 @@ class BusinessRegistryParser
   private
   def upload_business(row)
     business = Business.find_or_create_by(
-      name: row["Business Name"],
-      business_type: 'old_business',
-      mode_of_payment: 'annually',
-      locality: find_locality(row),
-      ownership_type: find_ownership_type(row),
-      employee_count: row["Employee Count"],
+      name:                  row["Business Name"],
+      business_type:         'old_business',
+      mode_of_payment:       'annually',
+      locality:              find_locality(row),
+      ownership_type:        find_ownership_type(row),
+      employee_count:        row["Employee Count"],
       business_tax_category: find_business_tax_category(row))
+     
       create_business_owners(business, row)
       create_line_of_businesses(business, row)
       create_location(business, row)
@@ -49,10 +50,10 @@ class BusinessRegistryParser
   end
   def create_business_owners(business, row)
     taxpayer = Taxpayer.find_or_create_by(
-      locality: find_locality(row),
-      last_name: row["Last Name"],
+      locality:    find_locality(row),
+      last_name:   row["Last Name"],
       middle_name: row["Middle Name"],
-      first_name: row["First Name"]
+      first_name:  row["First Name"]
     )
     business.ownerships.find_or_create_by(owner: taxpayer)
   end
