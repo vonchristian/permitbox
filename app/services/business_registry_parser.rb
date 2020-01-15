@@ -65,6 +65,7 @@ class BusinessRegistryParser
       barangay: find_barangay(row),
       province: find_province(row)
     )
+    
   end
   def create_line_of_businesses(business, row)
     row["Line of Businesses"].split(',').each do |name|
