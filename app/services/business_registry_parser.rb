@@ -1,5 +1,5 @@
 require 'roo'
-class BusinessRegistry
+class BusinessRegistryParser
   attr_reader :spreadsheet
   def initialize(spreadsheet)
     @spreadsheet = spreadsheet
