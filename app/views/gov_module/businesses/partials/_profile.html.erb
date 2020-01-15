@@ -4,8 +4,10 @@
     <p class="text-muted"> Taxpayers that owns this business.</p>
   </div>
   <div class="col-md-3">
-    <%= link_to new_gov_module_business_ownership_path(@business) do %>
-    <span class="btn btn-outline-warning btn-sm float-right"><i class="fa fa-user-plus"></i> Add</span>
+    <% if current_user.bplo_officer? %>
+      <%= link_to new_gov_module_business_ownership_path(@business) do %>
+      <span class="btn btn-outline-warning btn-sm float-right"><i class="fa fa-user-plus"></i> Add</span>
+      <% end %>
     <% end %>
   </div>
 </div>
@@ -19,8 +21,10 @@
           <%= image_tag("default_avatar.png",class: "img-circle img-bordered-sm mr-3", height: 50, width: 50) %>
         <% end %>
         <span class="username"><%= taxpayer.full_name %></span>
-        <%= link_to gov_module_business_ownership_path(business_id: @business.id, taxpayer_id: taxpayer.id), method: :delete, data: { confirm: "Are you sure you want to remove this owner?" } do   %>
-          <span class="text-danger" data-toggle="tooltip" title="Remove"><i class="fa fa-trash"></i> </span>
+        <% if current_user.bplo_officer? %>
+          <%= link_to gov_module_business_ownership_path(business_id: @business.id, taxpayer_id: taxpayer.id), method: :delete, data: { confirm: "Are you sure you want to remove this owner?" } do   %>
+            <span class="text-danger" data-toggle="tooltip" title="Remove"><i class="fa fa-trash"></i> </span>
+          <% end %>
         <% end %>
         <span class="description">
           <i class="fa fa-map-marker mr-1"></i> <%= taxpayer.current_location_details %>
@@ -37,8 +41,10 @@
     <p class="text-muted"> List of gross sales </p>
   </div>
   <div class="col-md-5">
-    <%= link_to new_gov_module_business_gross_sale_path(business) do %>
-    <span class="btn btn-outline-warning btn-sm float-right"><i class="fa fa-plus"></i> New</span>
+    <% if current_user.bplo_officer? %>
+      <%= link_to new_gov_module_business_gross_sale_path(business) do %>
+      <span class="btn btn-outline-warning btn-sm float-right"><i class="fa fa-plus"></i> New</span>
+      <% end %>
     <% end %>
   </div>
 </div>
@@ -60,11 +66,13 @@
       <i class="fa fa-calendar mr-2"></i><%= gross_sale.calendar_year %>
     </div>
   <div class="col-md-2">
+  <% if current_user.bplo_officer? %> 
     <%= link_to gov_module_business_gross_sale_path(id: gross_sale.id, business_id: business.id), method: :delete  do %>
       <span class="float-right" data-toggle="tooltip" title="Delete">
         <i class="fa fa-trash text-danger"></i>
       </span>
     <% end %>
+  <% end %>
   </div>
 </div>
 <br>
@@ -75,8 +83,10 @@
     <h3 class="card-title"> Business Activities </h3>
   </div>
   <div class="col-md-4">
-    <%= link_to new_gov_module_business_business_activity_path(business) do %>
-    <span class="btn btn-outline-warning float-right btn-sm"><i class="fa fa-plus"></i> Add</span>
+    <% if current_user.bplo_officer? %>
+      <%= link_to new_gov_module_business_business_activity_path(business) do %>
+      <span class="btn btn-outline-warning float-right btn-sm"><i class="fa fa-plus"></i> Add</span>
+      <% end %>
     <% end %>
   </div>
 </div>
@@ -88,7 +98,9 @@
     </div>
     <div class="col-md-6">
       <%= business_activity.name %>
-      <%= link_to 'Edit', edit_gov_module_business_business_activity_path(id: business_activity.id, business_id: @business.id) %>
+       <% if current_user.bplo_officer? %>
+        <%= link_to 'Edit', edit_gov_module_business_business_activity_path(id: business_activity.id, business_id: @business.id) %>
+       <% end %>
     </div>
     <div class="col-md-3">
       <span class="float-right">
@@ -96,9 +108,11 @@
       </span>
     </div>
     <div class="col-md-1">
+     <% if current_user.bplo_officer? %>
       <%= link_to gov_module_business_business_activity_path(business_id: business.id, id: business_activity.id), method: :delete, data: { confirm: "Are you sure you want to remove this business activity?" } do %>
         <span class="text-danger" data-toggle="tooltip" title="Remove Business Activity"><i class="fa fa-times"></i></span>
 
+      <% end %>
       <% end %>
     </div>
   </div>
@@ -111,16 +125,20 @@
   </div>
   <div class="col-md-3">
       <% if @business.current_location.present? %>
+       <% if current_user.bplo_officer? %>
         <%= link_to new_gov_module_business_location_path(business_id: @business.id) do %>
           <span class="btn btn-outline-warning btn-sm float-right" title="Edit Business Tax Category" data-toggle="tooltip">
             <i class="fa fa-pencil"></i> Edit
           </span>
         <% end %>
+        <% end %>
       <% else %>
+       <% if current_user.bplo_officer? %>
         <%= link_to new_gov_module_business_location_path(business_id: @business.id) do %>
           <span class="btn btn-outline-warning btn-sm float-right" title="Edit Business Tax Category" data-toggle="tooltip">
             <i class="fa fa-pencil"></i> Edit
           </span>
+        <% end %>
         <% end %>
       <% end %>
   </div>
@@ -187,7 +205,9 @@
     </div>
   </div>
   <% end %>
+   <% if current_user.bplo_officer? %>
   <%= link_to 'Add to Public Market', new_gov_module_business_establishment_path(@business) %>
+   <% end %>
   <% if @business.recent_establishment.tenancies.present? %>
     <div class="row">
       <div class="col-md-5 offset-md-1">
@@ -224,9 +244,11 @@
             <i class="fa fa-toggle-on fa-2x text-success"></i>
           </span>
         <% else %>
+         <% if current_user.bplo_officer? %>
           <%= button_tag(class: "btn float-right") do %>
             <i class="fa fa-toggle-off fa-2x"></i>
           <% end %>
+        <% end %>
         <% end %>
       <% end %>
     </div>
@@ -238,10 +260,12 @@
     <h3 class="card-title">Business Category</h3>
   </div>
   <div class="col-md-3">
+   <% if current_user.bplo_officer? %>
     <%= link_to edit_gov_module_business_business_tax_category_path(@business) do %>
       <span class="btn btn-outline-warning btn-sm float-right" title="Edit Business Tax Category" data-toggle="tooltip">
         <i class="fa fa-pencil"></i> Edit
       </span>
+    <% end %>
     <% end %>
   </div>
 </div>
@@ -263,11 +287,14 @@
     <br>
   </div>
   <div class="col-md-3">
+<% if current_user.bplo_officer? %>  
+
     <%=link_to edit_gov_module_business_ownership_type_path(@business) do %>
       <span class="btn btn-outline-warning btn-sm float-right" title="Edit Ownership Type" data-toggle="tooltip">
         <i class="fa fa-pencil"></i> Edit
       </span>
     <% end %>
+  <% end %>
   </div>
 </div>
 <div class="row">

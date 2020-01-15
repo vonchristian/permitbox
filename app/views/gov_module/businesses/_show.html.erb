@@ -61,8 +61,11 @@
             <h3 class="card-title"> Taxes and Fees </h3>
           </div>
           <div class="col-md-3">
+            <% if current_user.bplo_officer? %>  
+
             <%= link_to new_gov_module_voucher_amount_path(amountable_id: @business.id, amountable_type: @business.class.to_s) do %>
               <span class="btn btn-outline-primary btn-sm float-right"><i class="fa fa-plus"></i> Add </span>
+            <% end %>
             <% end %>
           </div>
         </div>

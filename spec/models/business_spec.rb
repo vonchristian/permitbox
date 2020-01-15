@@ -6,6 +6,7 @@ describe Business do
     it { is_expected.to belong_to :business_tax_category }
     it { is_expected.to belong_to :ownership_type }
     it { is_expected.to have_one  :business_capital }
+    it { is_expected.to have_one  :business_name }
     it { is_expected.to have_many :establishments }
     it { is_expected.to have_many :ownerships }
     it { is_expected.to have_many :taxpayer_owners }

@@ -12,7 +12,7 @@
 </div>
 <% if (Businesses::ClosingPolicy.new(business: @business, user: current_user)).new? %>
 <%= link_to 'Close Business', new_gov_module_business_closing_path(@business), class: 'btn btn-danger' %>
-<% else %>
+<% elsif @business.closed_at.present? %>
   <p> Closing Date <%= @business.closed_at.strftime('%B %e %Y') %></p>
 
 <% end %>

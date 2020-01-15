@@ -4,9 +4,11 @@
     <h3 class="card-title"> Permit Applications </h3>
   </div>
   <div class="col-md-4">
-    <%= link_to new_gov_module_permit_applications_business_permit_application_path(business_id: @business, applicant_id: @business.taxpayer_owners.first.try(:id)) do %>
-      <span class="float-right btn btn-outline-primary btn-sm" data-toggle="tooltip" title="New Business Permit Application"><i class="fa fa-plus-circle"></i> New Application
-      </span>
+    <% if current_user.bplo_officer? %>
+      <%= link_to new_gov_module_permit_applications_business_permit_application_path(business_id: @business, applicant_id: @business.taxpayer_owners.first.try(:id)) do %>
+        <span class="float-right btn btn-outline-primary btn-sm" data-toggle="tooltip" title="New Business Permit Application"><i class="fa fa-plus-circle"></i> New Application
+        </span>
+      <% end %>
     <% end %>
   </div>
 </div>
@@ -21,9 +23,13 @@
     </div>
     <div class="col-md-3">
       <% if business_permit_application.paid? %>
+        <% if @business.business_permits.approved_at(from_date: business_permit_application.application_date.beginning_of_year, to_date: business_permit_application.application_date.end_of_year).blank? %>
         <%= link_to new_gov_module_business_permit_application_permit_issuance_path(business_permit_application) do %>
           <span class="float-right btn btn-outline-primary btn-sm" data-toggle="tooltip" title="New Business Permit"><i class="fa fa-plus-circle"></i> Issue Permit
           </span>
+        <% end %>
+        <% else %>
+          <span class='badge bg-success'> Approved </span>
         <% end %>
       <% else %>
         <span class="badge bg-warning"> Not yet paid </span>
@@ -56,9 +62,11 @@
       <% if permit.cancelled? %>
         <span class="text-danger"> Cancelled </span>
       <% else %>
+      <% if current_user.bplo_officer? %>
         <%= link_to gov_module_permit_cancellations_path(permit), method: :create, data: { confirm: "Are you sure you want to cancel this permit? "} do %>
           <span class="text-danger" data-toggle="tooltip" title="Cancel Permit"><i class="fa fa-times"></i></span>
         <% end %>
+      <% end %>
       <% end %>
     </div>
   </div>

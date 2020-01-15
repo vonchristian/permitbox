@@ -16,6 +16,7 @@ require("@rails/actiontext")
 import "bootstrap"
 import 'chosen-js'
 import 'bootstrap-datepicker'
+
 import AutoNumeric from 'autonumeric';
 document.addEventListener("turbolinks:load", () => {
   $('[data-toggle="tooltip"]').tooltip();

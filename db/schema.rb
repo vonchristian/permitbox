@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `rails
+# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_08_153356) do
+ActiveRecord::Schema.define(version: 2020_01_08_085316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -285,6 +285,14 @@ ActiveRecord::Schema.define(version: 2019_05_08_153356) do
     t.datetime "updated_at", null: false
     t.index ["business_id"], name: "index_business_incentives_on_business_id"
     t.index ["incentive_id"], name: "index_business_incentives_on_incentive_id"
+  end
+
+  create_table "business_names", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "business_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["business_id"], name: "index_business_names_on_business_id"
   end
 
   create_table "business_penalty_configs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1501,6 +1509,7 @@ ActiveRecord::Schema.define(version: 2019_05_08_153356) do
   add_foreign_key "business_capitals", "businesses"
   add_foreign_key "business_incentives", "businesses"
   add_foreign_key "business_incentives", "incentives"
+  add_foreign_key "business_names", "businesses"
   add_foreign_key "business_penalty_configs", "accounts", column: "revenue_account_id"
   add_foreign_key "business_penalty_configs", "localities"
   add_foreign_key "business_permit_applications", "barangays"

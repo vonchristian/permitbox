@@ -22,3 +22,6 @@
       <% if current_user.bplo_officer? %>
         <%= render 'layouts/sidebar_links/bplo_officer' %>
       <% end %>
+       <% if current_user.mayors_officer? %>
+        <%= render 'layouts/sidebar_links/mayors_officer' %>
+      <% end %>

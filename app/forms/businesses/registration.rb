@@ -20,6 +20,7 @@ module Businesses
         ownership_type_id: ownership_type_id,
         business_tax_category_id: business_tax_category_id
         )
+      create_business_name(business)
       create_owner(business)
       create_area_measurement(business)
       create_capital(business)
@@ -31,7 +32,7 @@ module Businesses
 
     def find_taxpayer
       if taxpayer_id.present?
-        Taxpayer.find_by_id(taxpayer_id)
+        Taxpayer.find_by(id: taxpayer_id)
       else
         Taxpayer.find_or_create_by(
           first_name: taxpayer_first_name,
@@ -95,5 +96,9 @@ module Businesses
         Vouchers::VoucherAmount.create(name: line_of_business.charge.name, amountable: business, amount: line_of_business.charge.amount, account: line_of_business.charge.revenue_account)
       end
     end
+
+    def create_business_name(business)
+      business.create_business_name(name: business_name)
+    end 
   end
 end
