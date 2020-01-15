@@ -17,7 +17,7 @@
           <%= simple_form_for [@business_permit_application, @gross_sale], url: :gov_module_permit_applications_business_permit_application_gross_sales do |f| %>
           <strong>Gross Sales Details</strong>
             <%= f.input :amount, autofocus: true %>
-            <%= f.input :gross_sale_type, collection: Businesses::GrossSale.gross_sale_types.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
+            <%= f.input :gross_sale_type, collection: Businesses::GrossSale.gross_sale_types.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons, checked: Businesses::GrossSale.gross_sale_types.first %>
             <%= f.input :mode_of_payment, collection: BusinessPermitApplication.mode_of_payments.keys.to_a.map{|mode| [mode.titleize, mode] }, as: :radio_buttons, checked: @business_permit_application.mode_of_payment %>
             <p class="text-muted"> Preceding year this gross sales </p>
             <%= f.input :calendar_year, input_html: { value: Date.today.last_year.year } %>
