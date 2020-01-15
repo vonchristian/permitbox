@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: gov_catalyst_production
+  database: easyreg_production
   username: deploy
   password: deploy@itworx
