@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_08_085316) do
+ActiveRecord::Schema.define(version: 2020_01_15_025001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -675,6 +675,15 @@ ActiveRecord::Schema.define(version: 2020_01_08_085316) do
     t.index ["lessor_type", "lessor_id"], name: "index_establishments_on_lessor_type_and_lessor_id"
   end
 
+  create_table "fire_safety_inspection_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "fire_safety_inspection_config_id", null: false
+    t.uuid "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_fire_safety_inspection_accounts_on_account_id"
+    t.index ["fire_safety_inspection_config_id"], name: "index_fire_safety_config_on_fire_safety_config_accounts"
+  end
+
   create_table "fire_safety_inspection_configs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "accounts", default: [], array: true
     t.uuid "locality_id"
@@ -682,6 +691,7 @@ ActiveRecord::Schema.define(version: 2020_01_08_085316) do
     t.decimal "rate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "minimum_amount", default: "0.0"
     t.index ["liability_account_id"], name: "index_fire_safety_inspection_configs_on_liability_account_id"
     t.index ["locality_id"], name: "index_fire_safety_inspection_configs_on_locality_id"
   end
@@ -1563,6 +1573,8 @@ ActiveRecord::Schema.define(version: 2020_01_08_085316) do
   add_foreign_key "entries", "localities"
   add_foreign_key "entries", "users", column: "recorder_id"
   add_foreign_key "establishments", "businesses"
+  add_foreign_key "fire_safety_inspection_accounts", "accounts"
+  add_foreign_key "fire_safety_inspection_accounts", "fire_safety_inspection_configs"
   add_foreign_key "fire_safety_inspection_configs", "accounts", column: "liability_account_id"
   add_foreign_key "fire_safety_inspection_configs", "localities"
   add_foreign_key "gross_sales", "business_activities"

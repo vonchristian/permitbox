@@ -1,0 +1,34 @@
+<div class='container'>
+  <div class='card'>
+    <div class='card-body'>
+    <%= form_tag new_fire_safety_inspection_config_account_path(@fire_safety_inspection_config), method: :get, id: "search-form" do %>
+      <div class="input-group">
+        <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search account...", type: "search" %>
+        <span class="input-group-btn">
+          <%= button_tag(type: 'submit', class: "btn btn-outline-primary") do %>
+            <i class="fa fa-search"></i> Search
+          <% end %>
+        </span>
+      </div>
+    <% end %>
+      <% @accounts.each do |account| %>
+        <%= simple_form_for @account, url: :fire_safety_inspection_config_accounts do |f| %>
+          <div class='row'>
+            <div class='col-md-8'>
+              <%= account.name %>
+            </div>
+            <div class='col-md-4'>
+              <%= f.input :account_id, label: false, input_html: { value: account.id }, as: :hidden %>
+                <% if !@fire_safety_inspection_config.accounts.include?(account) %>
+                  <%= f.submit "Add Account", class: 'btn btn-outline-primary' %>
+                <% else %>
+                  <%= link_to 'Remove', fire_safety_inspection_config_account_path(@fire_safety_inspection_config, id: account.id), method: :delete, class: 'btn btn-outline-danger' %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        <hr>
+      <% end %>
+    </div>
+  </div>
+</div>

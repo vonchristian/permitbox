@@ -14,7 +14,7 @@ class Business < ApplicationRecord
   belongs_to :locality,                   class_name: "Locations::Locality"
   belongs_to :ownership_type
   belongs_to :business_tax_category
-  has_one :business_name,                 class_name: 'Businesses::BusinessName', optional: true
+  has_one :business_name,                 class_name: 'Businesses::BusinessName'
   has_one :business_capital,              class_name: "Businesses::BusinessCapital"
   has_many :establishments,               class_name: "Businesses::Establishment", dependent: :destroy
   has_many :tenancies,                    as: :tenant, dependent: :destroy

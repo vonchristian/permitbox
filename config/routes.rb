@@ -287,5 +287,9 @@ Rails.application.routes.draw do
   namespace :accounting do
     resources :entries, only: [:show]
   end
+
+  resources :fire_safety_inspection_configs, only: [:index, :show] do 
+    resources :accounts, only: [:new, :create, :destroy], module: :fire_safety_inspection_configs
+  end 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

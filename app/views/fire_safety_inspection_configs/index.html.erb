@@ -1,0 +1,5 @@
+<% @fire_safety_inspection_configs.each do |config| %>
+  <%= config.locality_name %>
+  <%= link_to 'Set Accounts', new_fire_safety_inspection_config_account_path(config) %>
+<% end %>
+da

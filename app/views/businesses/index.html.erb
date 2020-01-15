@@ -1,5 +1,5 @@
 
-<%=form_tag businesses_path, method: :get, id: "search-form" do %>
+<%= form_tag businesses_path, method: :get, id: "search-form" do %>
   <div class="input-group">
     <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search business...", type: "search" %>
     <span class="input-group-btn">

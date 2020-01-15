@@ -5,7 +5,7 @@ module GovModule
       respond_to do |format|
         format.html
         format.pdf do
-          pdf = VoucherPdf.new(voucher: @voucher, view_context: view_context)
+          pdf = ::VoucherPdf.new(voucher: @voucher, view_context: view_context)
           send_data pdf.render, type: "application/pdf", disposition: 'inline', file_name: "Business Permit.pdf"
         end
       end
