@@ -1,5 +1,6 @@
 module Businesses
   class GrossSale < ApplicationRecord
+    enum gross_sale_type: [:non_essential, :essential]
     belongs_to :business, optional: true
     belongs_to :business_activity, optional: true
     belongs_to :business_permit_application, optional: true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_15_025001) do
+ActiveRecord::Schema.define(version: 2020_01_15_050912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -714,10 +714,12 @@ ActiveRecord::Schema.define(version: 2020_01_15_025001) do
     t.integer "calendar_year"
     t.string "account_number"
     t.uuid "business_permit_application_id"
+    t.integer "gross_sale_type", default: 0
     t.index ["account_number"], name: "index_gross_sales_on_account_number", unique: true
     t.index ["business_activity_id"], name: "index_gross_sales_on_business_activity_id"
     t.index ["business_id"], name: "index_gross_sales_on_business_id"
     t.index ["business_permit_application_id"], name: "index_gross_sales_on_business_permit_application_id"
+    t.index ["gross_sale_type"], name: "index_gross_sales_on_gross_sale_type"
     t.index ["grossable_type", "grossable_id"], name: "index_gross_sales_on_grossable_type_and_grossable_id"
   end
 

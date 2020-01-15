@@ -11,7 +11,7 @@ module ChargeCalculators
     def calculate_charge
       chargeable.voucher_amounts.create!(
       name:    charge_name,
-      amount:  payable_amount,
+      amount:  business_tax_amount,
       account: revenue_account)
     end
     def payable_amount

@@ -31,7 +31,7 @@ module GovModule
         private
         def gross_sale_params
           params.require(:gov_module_gross_sale_processing).
-          permit(:calendar_year, :amount, :business_permit_application_id, :employee_id, :mode_of_payment)
+          permit(:calendar_year, :amount, :business_permit_application_id, :employee_id, :mode_of_payment, :gross_sale_type)
         end
         
         def remove_tax_receivables

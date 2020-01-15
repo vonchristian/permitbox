@@ -26,7 +26,7 @@ module GovModule
       private
       def gross_sale_params
         params.require(:gov_module_businesses_gross_sale_processing).
-        permit(:business_id, :calendar_year, :amount, :essential)
+        permit(:business_id, :calendar_year, :amount, :gross_sale_type)
       end
     end
   end

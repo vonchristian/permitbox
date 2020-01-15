@@ -1,7 +1,7 @@
 module GovModule
   class GrossSaleProcessing
     include ActiveModel::Model
-    attr_accessor :amount, :calendar_year, :business_id, :business_permit_application_id, :mode_of_payment, :employee_id
+    attr_accessor :amount, :calendar_year, :business_id, :business_permit_application_id, :mode_of_payment, :employee_id, :gross_sale_type
     validates :amount, :calendar_year, presence: true
     validates :amount, numericality: true
 
@@ -18,6 +18,7 @@ module GovModule
     def create_gross_sale
       gross_sale = find_grossable.gross_sales.create!(
       calendar_year: calendar_year,
+      gross_sale_type: gross_sale_type,
       amount:        amount)
 
       set_discounts(gross_sale)
@@ -45,8 +46,8 @@ module GovModule
 
     def create_charge(gross_sale)
       ChargeCalculators::BusinessTax.new(
-        charge_name: "Business Tax",
-        business_tax_amount: find_grossable.business_tax_category.compute_tax(gross_sale.amount),
+        charge_name: "Business Tax (#{gross_sale_type.titleize})",
+        business_tax_amount: ::Businesses::GrossSalesTaxComputation.new(gross_sale: gross_sale).compute_tax!,
         chargeable: find_grossable,
         revenue_account: find_grossable.business_tax_category.revenue_account,
       ).calculate_charge
