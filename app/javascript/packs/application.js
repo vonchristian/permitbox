@@ -8,8 +8,6 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require('adminlte')
-
-
 require("chartkick")
 require("chart.js")
 require("trix")
