@@ -5,7 +5,7 @@ require 'mina/rbenv'
 require 'mina/puma'
 
 set :whenever_name, 'production'
-set :domain,        '165.22.98.157'
+set :domain,        '192.168.43.45'
 set :deploy_to,     '/var/www/gov_catalyst'
 set :repository,    'git@github.com:vonchristian/permitbox.git'
 set :branch,        'master'
