@@ -5,7 +5,7 @@ module Vouchers
     belongs_to :cart, optional: true
     belongs_to :voucher,    optional: true
     belongs_to :account,    class_name: "Accounting::Account"
-
+    belongs_to :amountable, polymorphic: true
     validates :quantity, presence: true, numericality: true
 
     def self.without_voucher
