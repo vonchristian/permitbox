@@ -7,7 +7,7 @@ module GovModule
         @to_date    = params[:to_date] ? Date.parse(params[:to_date]) : Date.current.end_of_year
         @businesses = @barangay.businesses.without_permits(from_date: @from_date, to_date: @to_date)
         respond_to do |format|
-          format.csv
+          format.csv { render_csv }
         end
       end
 

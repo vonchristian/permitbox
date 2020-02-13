@@ -70,7 +70,7 @@ class Business < ApplicationRecord
     from_date = args[:from_date]
     to_date   = args[:to_date]
     date_range = DateRange.new(from_date: from_date, to_date: to_date)
-    joins(:business_permits).where('permits.approval_date' => date_range.range)
+    joins(:business_permits).where('permits.cancelled_at' => nil).where('permits.approval_date' => date_range.range)
   end
 
   def self.without_permits(args={})
@@ -139,7 +139,8 @@ class Business < ApplicationRecord
     end
   end
   def business_permit_status(args={})
-    business_permit = business_permits.approved_at(from_date: args[:from_date], to_date: args[:to_date]).last
+    return 'Closed' if closed_at.present?
+    business_permit = business_permits.approved_at(from_date: args[:from_date], to_date: args[:to_date]).not_cancelled.last
     if business_permit.present?
       business_permit.permit_type
     else
@@ -147,7 +148,7 @@ class Business < ApplicationRecord
     end
   end
   def badge_color(args={})
-    business_permit = business_permits.approved_at(from_date: args[:from_date], to_date: args[:to_date]).last
+    business_permit = business_permits.approved_at(from_date: args[:from_date], to_date: args[:to_date]).not_cancelled.last
     if business_permit.present?
       'success'
     else

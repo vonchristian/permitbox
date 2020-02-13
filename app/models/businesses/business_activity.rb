@@ -6,6 +6,10 @@ module Businesses
     belongs_to :business_permit_application, optional: true
     delegate   :name, :has_storage_permit_fee?, to: :line_of_business
     validates  :quantity, presence: true, numericality: { greater_than_or_equal_to: 1 }
+    def self.revenue_accounts 
+      ids = pluck(:revenue_account_id)
+      Accounting::Revenue.where(id: ids.flatten.compact.uniq)
+    end 
 
     def fee_amount
       line_of_business.fee_amount * quantity

@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-body">
-<%= link_to 'All Business Permits (Excel)', gov_module_reports_business_permits_path(format: 'csv') %><br>
+<%= link_to "All Business Permits (#{Date.current.year})", gov_module_reports_business_permits_path(format: 'csv', from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year) %><br>
 <span class="text-muted"> Generate report for all business permits issued. </span>
 <hr>
 <span class="text-muted"> Or choose dates </span><br>

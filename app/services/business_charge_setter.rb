@@ -51,7 +51,7 @@ class BusinessChargeSetter
       chargeable.voucher_amounts.credit.create!(
       name: "Mayors Permit Fee (#{line_of_business.name})",
       amount: line_of_business.fee_amount,
-      account: line_of_business.revenue_account)
+      account: chargeable.business_activities.find_by(line_of_business: line_of_business).revenue_account)
     end
   end
   def set_barangay_clearance_fee

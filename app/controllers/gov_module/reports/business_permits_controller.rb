@@ -78,8 +78,8 @@ module GovModule
             permit.business.line_of_businesses.pluck(:name).join(","),
             permit.business.business_capital.try(:capital_amount) || 0,
             permit.business.gross_sales.for_calendar_year(permit.approval_date.year - 1).try(:amount),
-            Payments::Classifier.new(entry: permit.entry, business: permit.business).mayors_permit_fees,
-            Payments::Classifier.new(entry: permit.entry, business: permit.business).business_taxes,
+            Payments::Classifier.new(voucher: permit.voucher, business: permit.business).mayors_permit_fees,
+            Payments::Classifier.new(voucher: permit.voucher, business: permit.business).business_taxes,
             permit.permit_type,
             permit.business.recent_employee_count.try(:total_count),
             permit.business.try(:ownership_type_title)

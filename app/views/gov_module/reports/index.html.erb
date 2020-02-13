@@ -12,7 +12,7 @@
               <%= category.name %>
             </div>
             <div class="col-md-3">
-              <%= link_to 'Excel', gov_module_reports_competetive_index_category_path(category, format: 'xlsx') %>
+              <%= link_to 'Excel', gov_module_reports_competetive_index_category_path(category, format: 'csv') %>
             </div>
           </div>
           <hr>
@@ -39,11 +39,16 @@
         <h3 class="card-title"> Business Permits</h3>
       </div>
       <div class="card-body">
-        <%= link_to "Business with Permits", gov_module_reports_business_permits_path %>
+        <%= link_to "Business with Permits", gov_module_reports_business_permits_path %><br>
+        <span class='text-muted'> Generate report of businesses with permits. </span>
+
         <hr>
-        <%= link_to "Business Without Permits", gov_module_reports_businesses_without_permits_path(format: 'xlsx') %>
+        <%= link_to "Business Without Permits (#{Date.current.year})", gov_module_reports_businesses_without_permits_path(format: 'csv') %><br>
+        <span class='text-muted'> Generate report of businesses without permits. </span>
         <hr>
-        <%= link_to "Closed Businesses", gov_module_reports_closed_businesses_path(format: 'xlsx') %>
+        <%= link_to "Closed Businesses (#{Date.current.year})", gov_module_reports_closed_businesses_path(format: 'csv', from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year) %><br>
+        <span class='text-muted'> Generate report of closed businesses. </span>
+
 
       </div>
     </div>
@@ -67,12 +72,21 @@
         <% @public_markets.each do |public_market| %>
         <%= public_market.name %>
         <p> Regular </p>
-        <%= link_to 'Regular (With Permits)', gov_module_reports_public_market_regular_with_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year, format: 'xlsx') %>
-        <%= link_to 'Regular (Without Permits)',  gov_module_reports_public_market_regular_without_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year,  format: 'xlsx') %>
-<hr>
+        <% if public_market.regular_tenants.present? %>
+          <%= link_to 'Regular (With Permits)', gov_module_reports_public_market_regular_with_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year, format: 'csv') %>
+          <%= link_to 'Regular (Without Permits)',  gov_module_reports_public_market_regular_without_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year,  format: 'csv') %>
+        <% else %>
+          <span class='text-danger'> No Regular Tenants </span>
+        <% end %>
+<hr> 
         <p> Transient </p>
-        <%= link_to 'Transient (With Permits)', gov_module_reports_public_market_transient_with_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year, format: 'xlsx') %>
-        <%= link_to 'Transient (Without Permits)',  gov_module_reports_public_market_transient_without_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year,  format: 'xlsx') %>
+        <% if public_market.transient_tenants.present? %>
+
+        <%= link_to 'Transient (With Permits)', gov_module_reports_public_market_transient_with_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year, format: 'csv') %>
+        <%= link_to 'Transient (Without Permits)',  gov_module_reports_public_market_transient_without_permits_path(public_market, from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year,  format: 'csv') %>
+      <% else %>
+          <span class='text-danger'> No Transient Tenants </span>
+        <% end %>
         <% end %>
       </div>
     </div>
