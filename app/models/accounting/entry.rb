@@ -14,7 +14,7 @@ module Accounting
     has_many :debit_accounts, :through => :debit_amounts, :source => :account, :class_name => 'Accounting::Account'
     has_many :amounts, class_name: "Accounting::Amount"
     has_many :accounts, class_name: "Accounting::Account", through: :amounts
-
+    has_one :voucher, dependent: :nullify
     validates :description, presence: true
 
     validate :has_credit_amounts?

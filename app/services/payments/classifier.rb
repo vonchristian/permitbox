@@ -16,7 +16,7 @@ module Payments
     end
     def business_taxes
       if entry.present?
-        entry.amounts.where(account: business.business_tax_category.revenue_account).total
+        entry.amounts.where(account: BusinessTaxCategory.revenue_accounts).total
       else
         0
       end

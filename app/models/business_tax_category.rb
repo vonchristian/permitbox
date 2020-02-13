@@ -10,4 +10,9 @@ class BusinessTaxCategory < ApplicationRecord
     tax_range = gross_sales_tax_ranges.select { |a| a.range.include?(gross_sale_amount) }.first
     tax_range.tax_calculator.new(gross_sales_tax_range: tax_range, gross_sale_amount: gross_sale_amount).compute_tax
   end
+  
+  def self.revenue_accounts 
+    ids = pluck(:revenue_account_id)
+    Accounting::Revenue.where(id: ids.uniq.compact.flatten)
+  end 
 end
