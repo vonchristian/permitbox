@@ -1,6 +1,6 @@
 module Locations
   class Barangay < ApplicationRecord
-    include PgSearch
+    include PgSearch::Model
     pg_search_scope :text_search, against: [:name]
     belongs_to :locality
     belongs_to :liability_account, class_name: "Accounting::Account", optional: true

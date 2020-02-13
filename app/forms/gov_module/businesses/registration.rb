@@ -16,13 +16,13 @@ module GovModule
       private
       def create_business
         business = Business.create!(
-          business_number: Business.count.succ,
-          locality_id: business_permit_application.locality_id,
-          account_number: SecureRandom.uuid,
-          name: business_permit_application.business_name,
-          ownership_type_id: business_permit_application.ownership_type_id,
-          business_tax_category_id: business_permit_application.business_tax_category_id
-          )
+          business_number:              Business.count.succ,
+          locality_id:                  business_permit_application.locality_id,
+          account_number:               SecureRandom.uuid,
+          name:                         business_permit_application.business_name,
+          ownership_type_id:            business_permit_application.ownership_type_id,
+          business_tax_category_id:     business_permit_application.business_tax_category_id,
+          business_tax_revenue_account: business_permit_application.business_tax_revenue_account)
         create_owner(business)
         create_area_measurement(business)
         create_location(business)

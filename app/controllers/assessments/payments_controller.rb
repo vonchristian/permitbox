@@ -18,7 +18,7 @@ module Assessments
     private
     def payment_params
       params.require(:payment_processing).
-      permit(:date, :reference_number, :assessment_id, :cash_account_id, :employee_id)
+      permit(:date, :reference_number, :voucher_id, :cash_account_id, :employee_id)
     end
   end
 end

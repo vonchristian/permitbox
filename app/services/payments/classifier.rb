@@ -3,7 +3,7 @@ module Payments
     attr_reader :entry,  :business
 
     def initialize(args={})
-      @entry = args[:entry]
+      @entry    = args[:entry]
       @business = args.fetch(:business)
     end
 

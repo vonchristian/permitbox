@@ -9,7 +9,7 @@ module ChargeCalculators
     end
 
     def calculate_charge
-      chargeable.voucher_amounts.create(
+      chargeable.voucher_amounts.credit.create(
       name: "Storage Permit Fee",
       amount: storage_permit_fee.fee_amount,
       account: storage_permit_fee.revenue_account)

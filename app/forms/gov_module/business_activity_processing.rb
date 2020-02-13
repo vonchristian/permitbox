@@ -6,7 +6,6 @@ module GovModule
     def process!
       ActiveRecord::Base.transaction do
         create_business_activity
-        create_charges
       end
     end
     def find_business_activity
@@ -15,16 +14,26 @@ module GovModule
 
     private
     def create_business_activity
-      find_applicant.business_activities.find_or_create_by!(
+      if !find_applicant.line_of_businesses.include?(find_line_of_business)
+       business_activity = find_applicant.business_activities.build(
         line_of_business: find_line_of_business,
-        volume: volume.to_f,
-        quantity: quantity)
+        volume:           volume.to_f,
+        quantity:         quantity)
+        create_accounts(business_activity)
+        business_activity.save! 
+        create_charges(business_activity)
+      end 
     end
-    def create_charges
+
+    def create_accounts(business_activity)
+      AccountCreators::BusinessActivityRevenueAccount.new(business_activity: business_activity).create_accounts!
+    end 
+
+    def create_charges(business_activity)
       ChargeCalculators::MayorsPermitFee.new(
-        chargeable: find_applicant,
-        quantity: quantity.to_f,
-        line_of_business: find_line_of_business
+        chargeable:        find_applicant,
+        quantity:          quantity.to_f,
+        business_activity: business_activity
       ).calculate_charge
       if find_line_of_business.has_storage_permit_fee?
         set_storage_permit_fee

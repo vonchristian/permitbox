@@ -9,17 +9,6 @@
 
 <div class="row">
   <div class="col-md-6">
-    <div class="card card-outline card-purple">
-      <div class="card-body">
-        <%= simple_form_for [@business_permit_application, GovModule::PermitApplications::AdditionalAssessment.new], url: :gov_module_permit_applications_business_permit_application_additional_assessments do |f| %>
-          <%= f.input :name %>
-          <%= f.input :amount %>
-          <%= f.input :account_id, label: "Revenue Account", collection: current_locality.accounts.revenues.map{|a| [a.name, a.id] } %>
-          <%= f.input :business_permit_application_id, input_html: { value: @business_permit_application.id }, as: :hidden %>
-          <%= f.submit 'Add Fee/Tax', class: "btn btn-primary float-right" %>
-        <% end %>
-      </div>
-    </div>
     <div class="card">
 
       <div class="card-body">
@@ -32,7 +21,7 @@
               <%= number_to_currency charge.amount %>
             </div>
             <div class="col-md-2">
-              <% if !@business_permit_application.voucher_amounts.pluck(:name).include?(charge.name) %>
+              <% if !@business_permit_application.charges.include?(charge) %>
                 <%=simple_form_for [@business_permit_application, GovModule::BusinessPermitApplications::ChargeProcessing.new], url: :gov_module_permit_applications_business_permit_application_voucher_amounts do |f| %>
                   <%= f.input :charge_id, input_html: { value: charge.id  }, as: :hidden %>
                   <%= f.input :business_permit_application_id, input_html: { value: @business_permit_application.id }, as: :hidden %>

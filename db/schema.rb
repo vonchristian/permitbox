@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_15_050912) do
+ActiveRecord::Schema.define(version: 2020_02_13_061137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -27,17 +27,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.index ["locality_id"], name: "index_account_budgets_on_locality_id"
   end
 
-  create_table "account_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "code"
-    t.uuid "locality_id"
-    t.integer "category_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["category_type"], name: "index_account_categories_on_category_type"
-    t.index ["locality_id"], name: "index_account_categories_on_locality_id"
-  end
-
   create_table "accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "code"
@@ -48,10 +37,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.boolean "active", default: true
     t.uuid "main_account_id"
     t.datetime "last_transaction_date"
-    t.uuid "account_category_id"
-    t.uuid "locality_id"
-    t.index ["account_category_id"], name: "index_accounts_on_account_category_id"
-    t.index ["locality_id"], name: "index_accounts_on_locality_id"
     t.index ["main_account_id"], name: "index_accounts_on_main_account_id"
     t.index ["type"], name: "index_accounts_on_type"
   end
@@ -130,12 +115,15 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "PHP", null: false
     t.uuid "entry_id"
+    t.string "amountable_type"
+    t.uuid "amountable_id"
     t.datetime "date"
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id", "entry_id"], name: "index_amounts_on_account_id_and_entry_id"
     t.index ["account_id"], name: "index_amounts_on_account_id"
+    t.index ["amountable_type", "amountable_id"], name: "index_amounts_on_amountable_type_and_amountable_id"
     t.index ["date"], name: "index_amounts_on_date"
     t.index ["entry_id", "account_id"], name: "index_amounts_on_entry_id_and_account_id"
     t.index ["entry_id"], name: "index_amounts_on_entry_id"
@@ -276,9 +264,11 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.datetime "updated_at", null: false
     t.uuid "business_permit_application_id"
     t.decimal "volume", default: "0.0", null: false
+    t.uuid "revenue_account_id"
     t.index ["business_id"], name: "index_business_activities_on_business_id"
     t.index ["business_permit_application_id"], name: "index_business_activities_on_business_permit_application_id"
     t.index ["line_of_business_id"], name: "index_business_activities_on_line_of_business_id"
+    t.index ["revenue_account_id"], name: "index_business_activities_on_revenue_account_id"
   end
 
   create_table "business_capitals", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -290,13 +280,17 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.index ["business_id"], name: "index_business_capitals_on_business_id"
   end
 
-  create_table "business_incentives", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "business_charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "business_id"
-    t.uuid "incentive_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["business_id"], name: "index_business_incentives_on_business_id"
-    t.index ["incentive_id"], name: "index_business_incentives_on_incentive_id"
+    t.uuid "business_permit_application_id"
+    t.uuid "revenue_account_id", null: false
+    t.uuid "charge_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["business_id"], name: "index_business_charges_on_business_id"
+    t.index ["business_permit_application_id"], name: "index_business_charges_on_business_permit_application_id"
+    t.index ["charge_id"], name: "index_business_charges_on_charge_id"
+    t.index ["revenue_account_id"], name: "index_business_charges_on_revenue_account_id"
   end
 
   create_table "business_names", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -347,11 +341,13 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.string "taxpayer_last_name"
     t.string "account_number"
     t.decimal "gross_sale_amount", default: "0.0"
+    t.uuid "business_tax_revenue_account_id"
     t.index ["account_number"], name: "index_business_permit_applications_on_account_number", unique: true
     t.index ["applicant_type", "applicant_id"], name: "index_applicant_on_business_permit_applications"
     t.index ["barangay_id"], name: "index_business_permit_applications_on_barangay_id"
     t.index ["business_id"], name: "index_business_permit_applications_on_business_id"
     t.index ["business_tax_category_id"], name: "index_business_permit_applications_on_business_tax_category_id"
+    t.index ["business_tax_revenue_account_id"], name: "index_business_tax_rev_account_on_business_permit_applications"
     t.index ["locality_id"], name: "index_business_permit_applications_on_locality_id"
     t.index ["mode_of_payment"], name: "index_business_permit_applications_on_mode_of_payment"
     t.index ["ownership_type_id"], name: "index_business_permit_applications_on_ownership_type_id"
@@ -419,8 +415,10 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.integer "mode_of_payment"
     t.integer "permit_status"
     t.datetime "closed_at"
+    t.uuid "business_tax_revenue_account_id"
     t.index ["business_tax_category_id"], name: "index_businesses_on_business_tax_category_id"
     t.index ["business_tax_computation_config_id"], name: "index_businesses_on_business_tax_computation_config_id"
+    t.index ["business_tax_revenue_account_id"], name: "index_businesses_on_business_tax_revenue_account_id"
     t.index ["business_type"], name: "index_businesses_on_business_type"
     t.index ["locality_id"], name: "index_businesses_on_locality_id"
     t.index ["mode_of_payment"], name: "index_businesses_on_mode_of_payment"
@@ -460,33 +458,13 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.string "lessor_address"
     t.string "lessor_email"
     t.string "lessor_contact_number"
-    t.uuid "employee_id"
     t.index ["application_type"], name: "index_carts_on_application_type"
     t.index ["business_tax_category_id"], name: "index_carts_on_business_tax_category_id"
-    t.index ["employee_id"], name: "index_carts_on_employee_id"
     t.index ["locality_id"], name: "index_carts_on_locality_id"
     t.index ["ownership_type_id"], name: "index_carts_on_ownership_type_id"
     t.index ["public_market_id"], name: "index_carts_on_public_market_id"
     t.index ["taxpayer_id"], name: "index_carts_on_taxpayer_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
-  end
-
-  create_table "charge_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "title"
-    t.uuid "locality_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["locality_id"], name: "index_charge_categories_on_locality_id"
-  end
-
-  create_table "chargeables", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "charge_id"
-    t.string "chargeable_type"
-    t.uuid "chargeable_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["charge_id"], name: "index_chargeables_on_charge_id"
-    t.index ["chargeable_type", "chargeable_id"], name: "index_chargeables_on_chargeable_type_and_chargeable_id"
   end
 
   create_table "charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -498,8 +476,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.uuid "locality_id"
     t.integer "charge_scope"
     t.boolean "default_charge", default: false
-    t.uuid "charge_category_id"
-    t.index ["charge_category_id"], name: "index_charges_on_charge_category_id"
     t.index ["charge_scope"], name: "index_charges_on_charge_scope"
     t.index ["locality_id"], name: "index_charges_on_locality_id"
     t.index ["revenue_account_id"], name: "index_charges_on_revenue_account_id"
@@ -775,26 +751,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.index ["revenue_account_id"], name: "index_health_certificate_configs_on_revenue_account_id"
   end
 
-  create_table "incentives", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "title"
-    t.decimal "amount"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "business_tax_exemption", default: false
-    t.uuid "locality_id"
-    t.index ["locality_id"], name: "index_incentives_on_locality_id"
-  end
-
-  create_table "incentivizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "incentive_id"
-    t.string "incentiveable_type"
-    t.uuid "incentiveable_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["incentive_id"], name: "index_incentivizations_on_incentive_id"
-    t.index ["incentiveable_type", "incentiveable_id"], name: "index_incentiveable_on_incentivizations"
-  end
-
   create_table "interest_rates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "locality_id"
     t.decimal "rate"
@@ -855,7 +811,7 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.decimal "fee_amount"
     t.uuid "competetive_index_category_id"
     t.boolean "has_storage_permit_fee", default: false
-    t.boolean "essential", default: true
+    t.boolean "essential", default: false
     t.index ["cart_id"], name: "index_line_of_businesses_on_cart_id"
     t.index ["competetive_index_category_id"], name: "index_line_of_businesses_on_competetive_index_category_id"
     t.index ["line_of_business_category_id"], name: "index_line_of_businesses_on_line_of_business_category_id"
@@ -877,12 +833,10 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.uuid "surcharge_revenue_account_id"
     t.uuid "penalty_revenue_account_id"
     t.uuid "zoning_revenue_account_id"
-    t.uuid "mayors_permit_fee_category_id"
     t.index ["business_tax_computation_config_id"], name: "index_localities_on_business_tax_computation_config_id"
     t.index ["capital_tax_revenue_account_id"], name: "index_localities_on_capital_tax_revenue_account_id"
     t.index ["locality_type"], name: "index_localities_on_locality_type"
     t.index ["mayors_permit_fee_calculation_config_id"], name: "index_localities_on_mayors_permit_fee_calculation_config_id"
-    t.index ["mayors_permit_fee_category_id"], name: "index_localities_on_mayors_permit_fee_category_id"
     t.index ["penalty_revenue_account_id"], name: "index_localities_on_penalty_revenue_account_id"
     t.index ["pin"], name: "index_localities_on_pin", unique: true
     t.index ["police_clearance_revenue_account_id"], name: "index_localities_on_police_clearance_revenue_account_id"
@@ -890,15 +844,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.index ["sanitary_inspection_revenue_account_id"], name: "index_localities_on_sanitary_inspection_revenue_account_id"
     t.index ["surcharge_revenue_account_id"], name: "index_localities_on_surcharge_revenue_account_id"
     t.index ["zoning_revenue_account_id"], name: "index_localities_on_zoning_revenue_account_id"
-  end
-
-  create_table "locality_accounting_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "locality_id"
-    t.uuid "account_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_locality_accounting_accounts_on_account_id"
-    t.index ["locality_id"], name: "index_locality_accounting_accounts_on_locality_id"
   end
 
   create_table "locality_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1203,16 +1148,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "registration_periods", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "year"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.uuid "locality_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["locality_id"], name: "index_registration_periods_on_locality_id"
-  end
-
   create_table "registries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "type"
     t.string "employee"
@@ -1294,25 +1229,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.index ["classification_id"], name: "index_sub_classifications_on_classification_id"
   end
 
-  create_table "surcharge_configs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.decimal "rate"
-    t.datetime "effectivity_date"
-    t.uuid "locality_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.uuid "general_revision_id"
-    t.index ["general_revision_id"], name: "index_surcharge_configs_on_general_revision_id"
-    t.index ["locality_id"], name: "index_surcharge_configs_on_locality_id"
-  end
-
-  create_table "surcharge_rates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "locality_id"
-    t.decimal "rate"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["locality_id"], name: "index_surcharge_rates_on_locality_id"
-  end
-
   create_table "taxpayer_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -1370,14 +1286,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.index ["termable_type", "termable_id"], name: "index_terms_on_termable_type_and_termable_id"
   end
 
-  create_table "tin_plates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "number"
-    t.uuid "business_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["business_id"], name: "index_tin_plates_on_business_id"
-  end
-
   create_table "tricycle_organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "abbreviated_name"
     t.string "name"
@@ -1432,10 +1340,8 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.string "tricycle_model"
     t.string "account_number"
     t.uuid "temporary_assessment_account_id"
-    t.uuid "penalty_revenue_account_id"
     t.index ["account_number"], name: "index_tricycles_on_account_number", unique: true
     t.index ["locality_id"], name: "index_tricycles_on_locality_id"
-    t.index ["penalty_revenue_account_id"], name: "index_tricycles_on_penalty_revenue_account_id"
     t.index ["temporary_assessment_account_id"], name: "index_tricycles_on_temporary_assessment_account_id"
     t.index ["tricycle_organization_id"], name: "index_tricycles_on_tricycle_organization_id"
     t.index ["tricycle_type"], name: "index_tricycles_on_tricycle_type"
@@ -1485,6 +1391,8 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "PHP", null: false
     t.uuid "account_id"
+    t.string "amountable_type"
+    t.uuid "amountable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
@@ -1494,6 +1402,7 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
     t.uuid "cart_id"
     t.index ["account_id"], name: "index_voucher_amounts_on_account_id"
     t.index ["amount_type"], name: "index_voucher_amounts_on_amount_type"
+    t.index ["amountable_type", "amountable_id"], name: "index_voucher_amounts_on_amountable_type_and_amountable_id"
     t.index ["cart_id"], name: "index_voucher_amounts_on_cart_id"
     t.index ["voucher_id"], name: "index_voucher_amounts_on_voucher_id"
   end
@@ -1531,10 +1440,7 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
 
   add_foreign_key "account_budgets", "accounts"
   add_foreign_key "account_budgets", "localities"
-  add_foreign_key "account_categories", "localities"
-  add_foreign_key "accounts", "account_categories"
   add_foreign_key "accounts", "accounts", column: "main_account_id"
-  add_foreign_key "accounts", "localities"
   add_foreign_key "adjustments", "adjustment_factors"
   add_foreign_key "amounts", "accounts"
   add_foreign_key "amounts", "entries"
@@ -1553,15 +1459,18 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
   add_foreign_key "building_permit_fee_configs", "accounts", column: "revenue_account_id"
   add_foreign_key "building_permit_fee_configs", "localities"
   add_foreign_key "buildings", "localities"
+  add_foreign_key "business_activities", "accounts", column: "revenue_account_id"
   add_foreign_key "business_activities", "business_permit_applications"
   add_foreign_key "business_activities", "businesses"
   add_foreign_key "business_activities", "line_of_businesses"
   add_foreign_key "business_capitals", "businesses"
-  add_foreign_key "business_incentives", "businesses"
-  add_foreign_key "business_incentives", "incentives"
+  add_foreign_key "business_charges", "accounts", column: "revenue_account_id"
+  add_foreign_key "business_charges", "business_permit_applications"
+  add_foreign_key "business_charges", "businesses"
   add_foreign_key "business_names", "businesses"
   add_foreign_key "business_penalty_configs", "accounts", column: "revenue_account_id"
   add_foreign_key "business_penalty_configs", "localities"
+  add_foreign_key "business_permit_applications", "accounts", column: "business_tax_revenue_account_id"
   add_foreign_key "business_permit_applications", "barangays"
   add_foreign_key "business_permit_applications", "business_tax_categories"
   add_foreign_key "business_permit_applications", "businesses"
@@ -1577,6 +1486,7 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
   add_foreign_key "business_tax_receivables", "business_permit_applications"
   add_foreign_key "business_tax_receivables", "businesses"
   add_foreign_key "business_tax_receivables", "users", column: "employee_id"
+  add_foreign_key "businesses", "accounts", column: "business_tax_revenue_account_id"
   add_foreign_key "businesses", "business_tax_categories"
   add_foreign_key "businesses", "business_tax_computation_configs"
   add_foreign_key "businesses", "localities"
@@ -1589,11 +1499,7 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
   add_foreign_key "carts", "public_markets"
   add_foreign_key "carts", "taxpayers"
   add_foreign_key "carts", "users"
-  add_foreign_key "carts", "users", column: "employee_id"
-  add_foreign_key "charge_categories", "localities"
-  add_foreign_key "chargeables", "charges"
   add_foreign_key "charges", "accounts", column: "revenue_account_id"
-  add_foreign_key "charges", "charge_categories"
   add_foreign_key "charges", "localities"
   add_foreign_key "companies", "localities"
   add_foreign_key "conditions", "documents"
@@ -1627,8 +1533,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
   add_foreign_key "gross_sales_tax_ranges", "localities"
   add_foreign_key "health_certificate_configs", "accounts", column: "revenue_account_id"
   add_foreign_key "health_certificate_configs", "localities"
-  add_foreign_key "incentives", "localities"
-  add_foreign_key "incentivizations", "incentives"
   add_foreign_key "interest_rates", "localities"
   add_foreign_key "lands", "localities"
   add_foreign_key "ledger_accounts", "accounts"
@@ -1640,7 +1544,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
   add_foreign_key "line_of_businesses", "competetive_index_categories"
   add_foreign_key "line_of_businesses", "line_of_business_categories"
   add_foreign_key "line_of_businesses", "localities"
-  add_foreign_key "localities", "account_categories", column: "mayors_permit_fee_category_id"
   add_foreign_key "localities", "accounts", column: "capital_tax_revenue_account_id"
   add_foreign_key "localities", "accounts", column: "penalty_revenue_account_id"
   add_foreign_key "localities", "accounts", column: "police_clearance_revenue_account_id"
@@ -1650,8 +1553,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
   add_foreign_key "localities", "business_tax_computation_configs"
   add_foreign_key "localities", "mayors_permit_fee_calculation_configs"
   add_foreign_key "localities", "provinces"
-  add_foreign_key "locality_accounting_accounts", "accounts"
-  add_foreign_key "locality_accounting_accounts", "localities"
   add_foreign_key "locality_taxpayers", "accounts", column: "receivable_account_id"
   add_foreign_key "locality_taxpayers", "localities"
   add_foreign_key "locality_taxpayers", "taxpayers"
@@ -1685,7 +1586,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
   add_foreign_key "real_property_sub_classifications", "sub_classifications"
   add_foreign_key "real_property_surcharge_configs", "general_revisions"
   add_foreign_key "real_property_surcharge_configs", "localities"
-  add_foreign_key "registration_periods", "localities"
   add_foreign_key "registries", "localities"
   add_foreign_key "registries", "users", column: "employee_id"
   add_foreign_key "required_documents", "businesses"
@@ -1699,12 +1599,8 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
   add_foreign_key "storage_permit_fee_configs", "localities"
   add_foreign_key "streets", "barangays"
   add_foreign_key "sub_classifications", "classifications"
-  add_foreign_key "surcharge_configs", "general_revisions"
-  add_foreign_key "surcharge_configs", "localities"
-  add_foreign_key "surcharge_rates", "localities"
   add_foreign_key "taxpayer_accounts", "taxpayers"
   add_foreign_key "tenancies", "public_markets"
-  add_foreign_key "tin_plates", "businesses"
   add_foreign_key "tricycle_organizations", "localities"
   add_foreign_key "tricycle_permit_applications", "barangays"
   add_foreign_key "tricycle_permit_applications", "localities"
@@ -1712,7 +1608,6 @@ ActiveRecord::Schema.define(version: 2020_01_15_050912) do
   add_foreign_key "tricycle_permit_applications", "taxpayers"
   add_foreign_key "tricycle_permit_applications", "tricycle_organizations"
   add_foreign_key "tricycle_permit_applications", "tricycles"
-  add_foreign_key "tricycles", "accounts", column: "penalty_revenue_account_id"
   add_foreign_key "tricycles", "accounts", column: "temporary_assessment_account_id"
   add_foreign_key "tricycles", "localities"
   add_foreign_key "tricycles", "tricycle_organizations"

@@ -7,10 +7,9 @@ module GovModule
 
     def process!
       ActiveRecord::Base.transaction do
-        update_application
         create_gross_sale
         create_business_tax_payment_schedule
-
+        update_application
       end
     end
 
@@ -49,7 +48,7 @@ module GovModule
         charge_name: "Business Tax (#{gross_sale_type.titleize})",
         business_tax_amount: ::Businesses::GrossSalesTaxComputation.new(gross_sale: gross_sale).compute_tax!,
         chargeable: find_grossable,
-        revenue_account: find_grossable.business_tax_category.revenue_account,
+        revenue_account: find_grossable.business_tax_revenue_account,
       ).calculate_charge
     end
 

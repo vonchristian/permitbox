@@ -7,6 +7,7 @@ module Vouchers
     belongs_to :account,    class_name: "Accounting::Account"
     belongs_to :amountable, polymorphic: true
     validates :quantity, presence: true, numericality: true
+    validates :amount_type, presence: true
 
     def self.without_voucher
       where(voucher_id: nil)

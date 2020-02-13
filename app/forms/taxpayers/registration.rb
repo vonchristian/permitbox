@@ -17,7 +17,7 @@ module Taxpayers
     private
     def create_taxpayer
       taxpayer = Taxpayer.create!(
-      avatar:         avatar,
+      avatar:         avatar_asset,
       sex:            sex,
       account_number: account_number,
       first_name:     ProperCaser.new(text: first_name).propercase,
@@ -28,6 +28,14 @@ module Taxpayers
       contactable: taxpayer,
       contact_number: contact_number)
       add_to_localities(taxpayer)
+    end
+
+    def avatar_asset
+      if avatar.present?
+        avatar
+      else
+        Rails.root.join('app', 'assets', 'images', 'default.png')
+      end
     end
 
     def find_locality

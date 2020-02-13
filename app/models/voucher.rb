@@ -1,5 +1,5 @@
 class Voucher < ApplicationRecord
-  include PgSearch
+  include PgSearch::Model
   pg_search_scope :text_search, against: [:description, :reference_number, :token]
   has_secure_token
   belongs_to :payee,         polymorphic: true

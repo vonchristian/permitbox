@@ -1,6 +1,6 @@
 module GovModule
   module PermitApplications
-    class BusinessPermit
+    class RenewBusinessPermit
       include ActiveModel::Model
       attr_accessor  :account_number, :employee_id, :applicant_id, :applicant_type, :business_id, :locality_id, :business_name, :application_date, :application_number, :ownership_type_id, :mode_of_payment, :business_permit_application_account_number,
       :complete_address, :barangay_id, :street_id, :rented, :monthly_rental, :market_vendor, :public_market_id, :tenancy_type, :business_area,
@@ -23,7 +23,7 @@ module GovModule
       end
       private
       def create_business_permit_application
-        business_permit_application = find_locality.business_permit_applications.build(
+        BusinessPermitApplication.create!(
           account_number:           account_number,
           taxpayer_first_name:      taxpayer_first_name,
           taxpayer_middle_name:     taxpayer_middle_name,
@@ -47,35 +47,16 @@ module GovModule
           business_area:            business_area,
           business_tax_category_id: business_tax_category_id,
           employee_count:           employee_count,
-          business_tax_revenue_account: business_tax_revenue_account
         )
-        if !business_tax_revenue_account.present?
-          create_business_tax_revenue_accounts(business_permit_application)
-        end 
-        business_permit_application.save!
       end
-      def business_tax_revenue_account
-        if business_id.present?
-          find_business.business_tax_revenue_account
-        end 
-      end 
-          
 
       def create_line_of_businesses
-        LineOfBusiness.where(id: line_of_business_ids.compact.uniq.flatten).each do |line_of_business|
+        LineOfBusiness.where(id: line_of_business_ids).each do |line_of_business|
           create_business_activity(line_of_business)
         end 
       end 
 
       def create_business_activity(line_of_business)
-        if business_id.present?
-          create_business_activity_for_business(line_of_business)
-        else 
-          create_business_activity_for_business_permit_application(line_of_business)
-        end 
-      end 
-
-      def create_business_activity_for_business_permit_application(line_of_business)
         if !find_business_permit_application.line_of_businesses.include?(line_of_business)
           business_activity = find_business_permit_application.business_activities.build(
             line_of_business: line_of_business,
@@ -85,28 +66,8 @@ module GovModule
         end
       end
 
-      def create_business_activity_for_business(line_of_business)
-        if !find_business.line_of_businesses.include?(line_of_business)
-          business_activity = find_business.business_activities.build(
-            line_of_business:            line_of_business,
-            business_permit_application: find_business_permit_application,
-            quantity:                    1)
-          create_accounts(business_activity)
-          business_activity.save!
-        end 
-        find_business_permit_application.business_activities << find_business.business_activities
-      end 
-
-      def find_business
-        find_locality.businesses.find_by(id: business_id)
-      end 
-
       def create_accounts(business_activity)
         AccountCreators::BusinessActivityRevenueAccount.new(business_activity: business_activity).create_accounts!
-      end 
-
-      def create_business_tax_revenue_accounts(business_permit_application)
-        AccountCreators::BusinessTaxRevenueAccount.new(business_taxable: business_permit_application).create_accounts!
       end 
   
       def set_charges

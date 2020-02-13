@@ -30,7 +30,7 @@ module GovModule
           charge_name: "Business Tax",
           business_tax_amount: find_business.business_tax_category.compute_tax(gross_sale.amount),
           chargeable: find_business,
-          revenue_account: find_business.business_tax_category.revenue_account,
+          revenue_account: find_business.business_tax_revenue_account,
         ).calculate_charge
       end
       def create_discount(gross_sale)

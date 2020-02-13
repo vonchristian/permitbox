@@ -1,6 +1,6 @@
 module Accounting
   class Account < ApplicationRecord
-    include PgSearch
+    include PgSearch::Model
     pg_search_scope :text_search, :against => [:name, :code]
     multisearchable against: [:name, :code]
 

@@ -1,5 +1,5 @@
 class BusinessPermitApplication < ApplicationRecord
-  include PgSearch
+  include PgSearch::Model
   include Discountable
   extend RecentApplicationFinder
   pg_search_scope :text_search, against: [:business_name, :application_number]
@@ -14,6 +14,7 @@ class BusinessPermitApplication < ApplicationRecord
   belongs_to :locality, class_name: "Locations::Locality"
   belongs_to :barangay, class_name: "Locations::Barangay"
   belongs_to :street, class_name: "Locations::Street", optional: true
+  belongs_to :business_tax_revenue_account, class_name: 'Accounting::Account'
   has_one    :voucher,   as: :payee
   has_many   :business_permits, class_name: "Permits::BusinessPermit", as: :permitable
   has_many   :voucher_amounts, class_name: "Vouchers::VoucherAmount", as: :amountable, dependent: :destroy
@@ -21,7 +22,8 @@ class BusinessPermitApplication < ApplicationRecord
   has_many   :line_of_businesses, through: :business_activities
   has_many   :business_tax_receivables, dependent: :destroy
   has_many   :gross_sales, class_name: "Businesses::GrossSale", dependent: :destroy
-
+  has_many   :business_charges, class_name: 'Businesses::BusinessCharge', dependent: :destroy
+  has_many   :charges, through: :business_charges
   delegate :title, to: :ownership_type, prefix: true
   delegate :title, to: :business_tax_category, prefix: true
   delegate :name, to: :barangay, prefix: true

@@ -1,6 +1,6 @@
 class PaymentProcessing
   include ActiveModel::Model
-  attr_accessor :reference_number, :employee_id, :date, :assessment_id, :cash_account_id
+  attr_accessor :reference_number, :employee_id, :date, :voucher_id, :cash_account_id
   validates :reference_number, :date, presence: true
   def process!
     ActiveRecord::Base.transaction do
@@ -17,19 +17,18 @@ class PaymentProcessing
       commercial_document: find_voucher,
       reference_number: reference_number,
       description: "Payment of taxes and fees")
-    debit_amounts = []
-    credit_amounts = []
-    find_voucher.voucher_amounts.credit.each do |voucher_amount|
-      credit_amounts << Accounting::CreditAmount.new(
-        amount: voucher_amount.amount.amount,
+    
+      find_voucher.voucher_amounts.credit.each do |voucher_amount|
+        entry.credit_amounts.build(
+        amount:  voucher_amount.amount.amount,
         account: voucher_amount.account)
-    end
-      debit_amounts << Accounting::DebitAmount.new(
-        amount: find_voucher.total,
-        account: cash_on_hand_account)
-    entry.debit_amounts << debit_amounts
-    entry.credit_amounts << credit_amounts
+      end
+      entry.debit_amounts.build(
+      amount:  find_voucher.voucher_amounts.credit.total,
+      account: cash_on_hand_account)
+  
     entry.save!
+    
     set_voucher_entry(entry)
   end
 
@@ -37,7 +36,7 @@ class PaymentProcessing
     find_voucher.update_attributes!(entry_id: entry.id)
   end
   def find_voucher
-    Voucher.find(assessment_id)
+    Voucher.find(voucher_id)
   end
   def cash_on_hand_account
     Accounting::Asset.find(cash_account_id)

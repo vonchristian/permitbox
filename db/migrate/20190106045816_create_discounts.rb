@@ -6,7 +6,6 @@ class CreateDiscounts < ActiveRecord::Migration[5.2]
       t.integer :discount_type
       t.decimal :rate
       t.decimal :amount
-      t.string :name
       t.string :discounted_account_ids, array: true, default: '{}'
       t.belongs_to :locality, foreign_key: true, type: :uuid
       t.belongs_to :discount_account, foreign_key: { to_table: :accounts }, type: :uuid

@@ -12,7 +12,7 @@ module ChargeCalculators
       amount * capital_tax_config.rate
     end
     def calculate_charge
-      chargeable.voucher_amounts.create(
+      chargeable.voucher_amounts.credit.create(
         name: "Capital Tax",
         amount: amount * capital_tax_config.rate,
         account: capital_tax_config.revenue_account

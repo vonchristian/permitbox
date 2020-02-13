@@ -1,6 +1,6 @@
 module Locations
   class Locality < ApplicationRecord
-    include PgSearch
+    include PgSearch::Model
     pg_search_scope :text_search, against: [:name]
     has_one_attached :logo
     enum locality_type: [:city, :municipality]

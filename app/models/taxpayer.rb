@@ -1,5 +1,5 @@
 class Taxpayer < ApplicationRecord
-  include PgSearch
+  include PgSearch::Model
   include Locationable
   extend LocalityScoping
   enum sex: [:male, :female]

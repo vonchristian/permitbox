@@ -1,5 +1,5 @@
 class Tricycle < ApplicationRecord
-  include PgSearch
+  include PgSearch::Model
   enum tricycle_type: [:new_tricycle, :old_tricycle]
 
   extend LocalityScoping #for_locality

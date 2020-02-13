@@ -12,6 +12,8 @@ describe BusinessPermitApplication do
     it { is_expected.to have_many :business_activities }
     it { is_expected.to have_many :line_of_businesses }
     it { is_expected.to have_many :business_tax_receivables }
+    it { is_expected.to have_many :business_charges }
+    it { is_expected.to have_many :charges }
   end
   describe 'delegations' do
     it { is_expected.to delegate_method(:title).to(:ownership_type).with_prefix }

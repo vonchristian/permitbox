@@ -79,7 +79,7 @@
           <%= simple_form_for [@assessment, @payment], url: :assessment_payments do |f| %>
             <%= f.input :reference_number, label: "Official Receipt #" %>
             <%= f.input :date, as: :string, input_html: { class: "datepicker" } %>
-            <%= f.input :assessment_id, input_html: { value: @assessment.id }, as: :hidden %>
+            <%= f.input :voucher_id, input_html: { value: @assessment.id }, as: :hidden %>
             <%= f.input :cash_account_id, input_html: { value: current_user.default_cash_account.id }, as: :hidden %>
             <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
 

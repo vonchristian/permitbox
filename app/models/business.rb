@@ -1,5 +1,5 @@
 class Business < ApplicationRecord
-  include PgSearch
+  include PgSearch::Model
   include Locationable
   include Discountable
   extend LocalityScoping #finding businesses that belong to a locality
@@ -14,6 +14,7 @@ class Business < ApplicationRecord
   belongs_to :locality,                   class_name: "Locations::Locality"
   belongs_to :ownership_type
   belongs_to :business_tax_category
+  belongs_to :business_tax_revenue_account, class_name: 'Accounting::Account'
   has_one :business_name,                 class_name: 'Businesses::BusinessName'
   has_one :business_capital,              class_name: "Businesses::BusinessCapital"
   has_many :establishments,               class_name: "Businesses::Establishment", dependent: :destroy
@@ -37,6 +38,8 @@ class Business < ApplicationRecord
   has_many :business_permit_applications, dependent: :destroy
   has_many :business_permits,             through: :business_permit_applications
   has_many :business_tax_receivables,     dependent: :destroy
+  has_many :business_charges,             class_name: 'Businesses::BusinessCharge'
+  has_many :charges,                      through: :business_charges
 
   validates :name, presence: true, uniqueness: true
 

@@ -1,5 +1,5 @@
 class TricyclePermitApplication < ApplicationRecord
-  include PgSearch
+  include PgSearch::Model
   extend RecentApplicationFinder
   pg_search_scope :text_search, against: [:application_number, :make, :tricycle_model, :color, :plate_number],
   :associated_against => { :taxpayer => [:first_name, :middle_name, :last_name]}
