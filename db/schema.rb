@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_03_041122) do
+ActiveRecord::Schema.define(version: 2020_01_15_050912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -1492,11 +1492,8 @@ ActiveRecord::Schema.define(version: 2020_02_03_041122) do
     t.decimal "quantity", default: "1.0"
     t.integer "amount_type"
     t.uuid "cart_id"
-    t.string "amountable_type"
-    t.uuid "amountable_id"
     t.index ["account_id"], name: "index_voucher_amounts_on_account_id"
     t.index ["amount_type"], name: "index_voucher_amounts_on_amount_type"
-    t.index ["amountable_type", "amountable_id"], name: "index_voucher_amounts_on_amountable_type_and_amountable_id"
     t.index ["cart_id"], name: "index_voucher_amounts_on_cart_id"
     t.index ["voucher_id"], name: "index_voucher_amounts_on_voucher_id"
   end
