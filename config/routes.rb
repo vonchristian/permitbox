@@ -274,6 +274,7 @@ Rails.application.routes.draw do
   resources :tricycles, only: [:index, :show] do
   end
   namespace :treasury do
+    resources :cash_receipts, only: [:index, :show]
     resources :collections, only: [:index]
     resources :assessment_vouchers, only: [:index, :show] do
       resources :voucher_amounts, only: [:new, :create], module: :assessment_vouchers

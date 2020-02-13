@@ -1,0 +1,4 @@
+<% @entry.amounts.each do |amount| %>
+  <%= amount.account_name %>
+  <%= number_to_currency amount.amount %><hr>
+<% end %>

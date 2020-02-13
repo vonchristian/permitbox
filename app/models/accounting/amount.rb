@@ -5,7 +5,8 @@ module Accounting
     belongs_to :account, class_name: "Accounting::Account"
     belongs_to :entry,   class_name: "Accounting::Entry"
     belongs_to :amountable, polymorphic: true, optional: true
-
+    
+    delegate :name, to: :account, prefix: true
     def self.for_account(args={})
       where(account_id: args[:account_id])
     end
