@@ -10,5 +10,25 @@ module GovModule
         end
       end
     end
+    def edit
+      @tricycle_permit = current_locality.tricycle_permits.find(params[:id])
+    end
+    
+    def update 
+      @tricycle_permit = current_locality.tricycle_permits.find(params[:id])
+      @tricycle_permit.update(permit_params)
+      if @tricycle_permit.valid?
+        @tricycle_permit.save!
+        redirect_to gov_module_tricycle_permit_url(@tricycle_permit), notice: 'Permit updated successfully'
+      else 
+        render :edit 
+      end 
+    end
+
+    private 
+    def permit_params
+      params.require(:permits_tricycle_permit).
+      permit(:permit_type, :name, :permit_number, :plate_number, :approval_date, :expiry_date)
+    end 
   end
 end

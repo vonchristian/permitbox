@@ -80,8 +80,8 @@ module GovModule
       bounding_box([30, 540], :width => 300) do
         text "IS HEREBY GRANTED TO", size: 10, style: :italic, align: :center
         move_down 15
-        text "#{tricycle.taxpayers_full_name.upcase}", style: :bold, size: 14, align: :center
-        text "Operator/Proprietor/Manager/Representative", size: 8, style: :italic, align: :center
+        text "#{permit.name.try(:upcase)}", style: :bold, size: 14, align: :center
+        text "Operator/Proprietor/Manager/Represengtative", size: 8, style: :italic, align: :center
         move_down 15
         text "to engage, operate and/or continue their business:", size: 10, style: :italic, align: :center
         move_down 15

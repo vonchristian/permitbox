@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-6">
+      <div class="card card-outline card-success">
+        <div class="card-header">
+
+            <div class="row">
+              <div class="col-md-2">
+                <%= image_tag("tricycle_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
+              </div>
+              <div class="col-md-10">
+                <h3 class="title-up"><%= @tricycle_permit.permitable.plate_number %> - <%= @tricycle_permit.permitable.taxpayers_full_name.try(:titleize)%></h3>
+                <p class="description"><i class="fa fa-map-marker"></i> <%=@tricycle_permit.permitable.tricycle_organization_name %></p>
+              </div>
+            </div>
+
+        </div>
+        <div class="card-body">
+          <%= simple_form_for @tricycle_permit, url: :gov_module_tricycle_permit do |f| %>
+            <%= f.input :name, input_html: { value: @tricycle_permit.permitable.taxpayers_full_name} %>
+            <%= f.input :permit_type, collection: Permit.permit_types.keys.to_a.map{ |a| [a.titleize, a] }, as: :radio_buttons %>
+            <%= f.input :permit_number %>
+            <%= f.input :plate_number %>
+            <%= f.input :account_number, input_html: { value: SecureRandom.uuid }, as: :hidden %>
+            <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
+            <%= f.input :approval_date, as: :string, input_html: { class: "datepicker" } %>
+            <%= f.input :expiry_date, as: :string, input_html: { class: "datepicker", value: Date.today.end_of_year.strftime("%B %e, %Y") } %>
+           
+            <%= f.submit "Save Permit", class: "btn btn-primary float-right", data: { disable_with: "Processing..." } %>
+          <% end %>
+        </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#gov_module_permit_applications_tricycle_permit_issuance_signatory_id").select2({
+      theme: "bootstrap"
+    });
+  });
+
+</script>

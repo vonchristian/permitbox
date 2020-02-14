@@ -6,7 +6,7 @@ class Permit < ApplicationRecord
   belongs_to :locality, class_name: "Locations::Locality"
   has_many :permit_signatories
   has_many :signatories, through: :permit_signatories
-  delegate :name, :taxpayers_last_and_first_name, to: :permitable
+  delegate :taxpayers_last_and_first_name, to: :permitable
   delegate :locality_name, to: :permitable
   delegate :voucher, to: :permitable, allow_nil: true
   delegate :entry, to: :voucher, allow_nil: true

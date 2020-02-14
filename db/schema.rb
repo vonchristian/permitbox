@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_14_051159) do
+ActiveRecord::Schema.define(version: 2020_02_14_134835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -1009,6 +1009,7 @@ ActiveRecord::Schema.define(version: 2020_02_14_051159) do
     t.integer "permit_type"
     t.string "token"
     t.datetime "cancelled_at"
+    t.string "name"
     t.index ["account_number"], name: "index_permits_on_account_number", unique: true
     t.index ["locality_id"], name: "index_permits_on_locality_id"
     t.index ["permit_type"], name: "index_permits_on_permit_type"
