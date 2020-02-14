@@ -1,14 +1,14 @@
     <div class="tab-pane <%= 'active' if current_page?(real_property_settings_path(@real_property)) %>" id="real-property-settings-tab" role="tabpanel" aria-labelledby="home-tab">
       Settings
 
-      <h3 class="card-title">Adjustment Factors <span class="badge bg-primary"><%= @real_property.adjustments.count %></span> </h3>
+      <h3 class="title-up">Adjustment Factors <span class="badge bg-primary"><%= @real_property.adjustments.count %></span> </h3>
       <% @real_property.adjustments.each do |adjustment| %>
         <%= adjustment.title %>
       <% end %>
       <%= link_to "Add Adjustment Factor", new_real_property_adjustment_path(@real_property), class: "btn btn-warning" %>
     </div>
 <hr>
-<h3 class="card-title"> Classification </h3>
+<h3 class="title-up"> Classification </h3>
 <%= link_to 'Update Classification', new_real_property_classification_path(@real_property), class: "btn btn-warning" %>
-<h3 class="card-title"> Sub Classification </h3>
+<h3 class="title-up"> Sub Classification </h3>
 <%= link_to 'Update Sub Classification', new_real_property_sub_classification_path(@real_property), class: "btn btn-warning" %>

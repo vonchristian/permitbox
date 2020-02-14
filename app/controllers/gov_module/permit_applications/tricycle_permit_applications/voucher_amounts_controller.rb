@@ -4,11 +4,11 @@ module GovModule
       class VoucherAmountsController < ApplicationController
         def new
           @tricycle_permit_application = current_locality.tricycle_permit_applications.find(params[:tricycle_permit_application_id])
-          @charge = GovModule::ChargeProcessing.new
+          @charge = GovModule::TricyclePermitApplications::ChargeProcessing.new
         end
         def create
           @tricycle_permit_application = current_locality.tricycle_permit_applications.find(params[:tricycle_permit_application_id])
-          @charge = GovModule::ChargeProcessing.new(charge_params)
+          @charge = GovModule::TricyclePermitApplications::ChargeProcessing.new(charge_params)
           @charge.process!
           redirect_to new_gov_module_permit_applications_tricycle_permit_application_voucher_amount_url(@tricycle_permit_application), notice: 'saved successfully'
         end
@@ -39,8 +39,8 @@ module GovModule
 
         private
         def charge_params
-          params.require(:gov_module_charge_processing).
-          permit(:charge_id, :cart_id, :locality_id)
+          params.require(:gov_module_tricycle_permit_applications_charge_processing).
+          permit(:charge_id, :cart_id, :tricycle_permit_application_id)
         end
 
         def update_voucher_amount_params

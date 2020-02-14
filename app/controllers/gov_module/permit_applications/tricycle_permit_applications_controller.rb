@@ -14,21 +14,23 @@ module GovModule
       def new
         @taxpayer = current_locality.taxpayers.find(params[:taxpayer_id])
         @tricycle_permit_application = ::Tricycles::PermitApplication.new
+        if params[:tricycle_id].present?
+          @tricycle = current_locality.tricycles.find_by(id: params[:tricycle_id])
+        end
       end
       def create
         @taxpayer = current_locality.taxpayers.find(params[:tricycles_permit_application][:taxpayer_id])
         @tricycle_permit_application = ::Tricycles::PermitApplication.new(application_params)
         if @tricycle_permit_application.valid?
           @tricycle_permit_application.process!
-          redirect_to gov_module_permit_applications_tricycle_permit_application_url(@tricycle_permit_application.find_permit_application), notice: 'Application created successfully'
+          redirect_to gov_module_permit_applications_tricycle_permit_application_url(@tricycle_permit_application.find_tricycle_permit_application), notice: 'Application created successfully'
         else
           render :new
         end
       end
 
       def show
-        @tricycle_permit_application= ::PermitApplications::TricyclePermitApplication.find(params[:id])
-        @tricycle = @tricycle_permit_application.tricycle
+        @tricycle_permit_application= ::Tricycles::TricyclePermitApplication.find(params[:id])
       end
 
       def edit
@@ -41,7 +43,7 @@ module GovModule
         @taxpayer = @tricycle_permit_application.taxpayer
         @tricycle_permit_application.update(update_tricycle_permit_application_params)
         if @tricycle_permit_application.valid?
-          @tricycle_permit_application.save
+          @tricycle_permit_application.save!
           redirect_to gov_module_permit_applications_tricycle_permit_application_url(@tricycle_permit_application), notice: 'Tricycle Permit Application updated successfully.'
         else
           render :edit
@@ -49,6 +51,7 @@ module GovModule
       end
       def destroy
         @tricycle_permit_application = current_locality.tricycle_permit_applications.find(params[:id])
+        current_cart.voucher_amounts.destroy_all
         @tricycle_permit_application.destroy
         redirect_to gov_module_taxpayers_url, notice: "Application deleted successfully."
       end
@@ -66,6 +69,7 @@ module GovModule
                :tricycle_organization_id,
                :locality_id,
                :taxpayer_id,
+               :tricycle_id,
                :application_type,
                :account_number,
                :employee_id,
@@ -73,7 +77,7 @@ module GovModule
       end
 
       def update_tricycle_permit_application_params
-        params.require(:tricycle_permit_application).
+        params.require(:tricycles_tricycle_permit_application).
         permit(:mtop_number, :application_date, :application_number, :plate_number,
         :tricycle_organization_id, :barangay_id, :make, :tricycle_model, :tricycle_type, :color, :cart_id)
       end

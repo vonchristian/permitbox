@@ -1,8 +1,6 @@
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title"> Taxpayer Info </h3>
-  </div>
-  <div class="card-body">
+
+    <h3 class="title-up"> Taxpayer Info </h3>
+
     <div class="row">
       <div class="col-md-4">
         <span data-toggle="tooltip" title="Change Photo">
@@ -20,5 +18,16 @@
         <% end %>
       </div>
     </div>
+    <hr>
+    <h3 class='title-up'> Address Details </h3>
+      <div class='row'>
+        <div class='col-md-6'> 
+          <b>Complete Address </b> 
+        </div>
+        <div class='col-md-6'>
+          <%= @taxpayer.current_location_complete_address %>
+        </div>
+      </div>
+
   </div>
 </div>

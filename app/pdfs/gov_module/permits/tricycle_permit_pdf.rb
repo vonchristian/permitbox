@@ -11,7 +11,7 @@ module GovModule
         @permit       = args[:permit]
         @permitable   = @permit.permitable
         @locality     = @permit.locality
-        @tricycle     = @permitable.permitable
+        @tricycle     = @permitable.tricycle
         @view_context = args[:view_context]
         @voucher      = @permitable.voucher
         @entry        = @voucher.entry
@@ -73,7 +73,7 @@ module GovModule
 
       def tricycle_info_table_data
         [["MTOP NO", "LTO PLATE NO.", "TRANSACTION TYPE", "PERMIT NO.", "YEAR"]] +
-        [["#{tricycle.mtop_number}", "#{tricycle.plate_number}", "#{permit.permit_type.try(:titleize).try(:upcase)}", "#{permit.permit_number}", "#{permit.approval_date.year}"]]
+        [["#{tricycle.mtop_number}", "#{tricycle.plate_number}", "#{permit.permit_type.try(:titleize).try(:upcase).gsub("PERMIT", "")}", "#{permit.permit_number}", "#{permit.approval_date.year}"]]
       end
 
       def taxpayer
@@ -164,7 +164,7 @@ module GovModule
       end
 
       def payment_table_data
-        [["#{@entry.id}"]] + 
+        [["OR NUMBER", "#{@entry.reference_number}"]] + 
         [[ "AMOUNT PAID", "#{price(entry.amounts.cash_amount_total)}"]] +
         [[ "OFFICIAL RECEIPT", "#{entry.reference_number}"]] +
         [[ "DATE PAID", "#{entry.date.strftime("%D")}"]]

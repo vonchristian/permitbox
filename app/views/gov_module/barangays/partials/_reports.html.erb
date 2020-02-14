@@ -1,13 +1,13 @@
 <div class="card">
   <div class="card-header">
-    <h3 class="card-title"> Reports </h3>
+    <h3 class="title-up"> Reports </h3>
 
   </div>
   <div class="card-body">
     <%= link_to "Without Permits", gov_module_barangay_businesses_without_permits_path(@barangay, format: 'csv') %><br>
     <span class="text-muted"> Generate report for businesses without permits </span>
 <hr>
-    <h3 class="card-title"> With Permits </h3>
+    <h3 class="title-up"> With Permits </h3>
     <%= form_tag({:action => "index", format: 'csv', controller: "gov_module/barangays/business_permits" }, {:method => :get})  do %>
               <div class="row">
                 <div class="col-md-3">

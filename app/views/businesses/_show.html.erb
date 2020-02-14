@@ -3,16 +3,15 @@
     <div class="col-md-7">
       <div class="card">
         <div class="card-header">
-          <div class="post">
-              <div class="user-block">
+
               <%= image_tag("business_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
 
               <span class="username"><%= @business.name.upcase %></span>
                <p class="description"><i class="fa fa-map-marker"></i> <%= @business.current_location_details %></small>
             </p>
-          </div>
-          </div>
-          <ul class="nav nav-tabs card-header-tabs">
+        
+          <nav class="nav nav-pills nav-pills-underline">
+
             <li class="nav-item">
               <%= link_to 'Profile', business_path(@business), class: "nav-link #{'active' if current_page?(business_path(@business))}" %>
             </li>
@@ -47,7 +46,7 @@
         <div class="card-header">
           <div class="row">
             <div class="col-md-8">
-              <h3 class="card-title"><i class="fa fa-coins"></i> Charges Details </h3>
+              <h3 class="title-up"><i class="fa fa-coins"></i> Charges Details </h3>
             </div>
             <div class="col-md-4">
               <%= link_to new_business_charge_path(@business) do %>
@@ -78,10 +77,10 @@
           <hr>
           <div class="row">
             <div class="col-md-7">
-              <h3 class="card-title"><b> TOTAL </b></h3>
+              <h3 class="title-up"><b> TOTAL </b></h3>
             </div>
             <div class="col-md-5">
-              <h3 class="card-title"><b><span class="float-right"> <%= number_to_currency @business.voucher_amounts.total %> </span></b></h3>
+              <h3 class="title-up"><b><span class="float-right"> <%= number_to_currency @business.voucher_amounts.total %> </span></b></h3>
             </div>
           </div>
           <br>
@@ -91,7 +90,7 @@
       </div>
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title"><i class="fa fa-sticky-note-o"></i>  Permits and Clearances </h3>
+          <h3 class="title-up"><i class="fa fa-sticky-note-o"></i>  Permits and Clearances </h3>
 
         </div>
         <div class="card-body">

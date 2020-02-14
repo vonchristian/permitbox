@@ -1,43 +1,59 @@
-<div class="card">
-  <div class="card-header">
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-3">
-    <div class="card">
-      <div class="card-body">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <%= link_to 'Info', gov_module_tricycle_path(tricycle), class: "nav-link #{'active' if current_page?(gov_module_tricycle_path(tricycle))}" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'Assessments', gov_module_tricycle_assessments_path(tricycle), class: "nav-link #{'active' if current_page?(gov_module_tricycle_assessments_path(tricycle))}" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'Permits', gov_module_tricycle_permits_path(tricycle), class: "nav-link #{'active' if current_page?(gov_module_tricycle_permits_path(tricycle))}" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'Settings', gov_module_tricycle_settings_path(tricycle), class: "nav-link #{'active' if current_page?(gov_module_tricycle_settings_path(tricycle))}" %>
-          </li>
-        </ul>
-      </div>
+
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <%= link_to gov_module_taxpayer_path(tricycle.taxpayer) do %>
+        <div class='row'>
+          <div class='col-md-1'>
+            <% if tricycle.taxpayer.avatar.attachment.present? %>
+              <%= image_tag(tricycle.taxpayer.avatar, class: "img-circle", height: 50, width: 50) %>
+            <% else %>
+              <%= image_tag("default_avatar.png",class: "img-circle", height: 50, width: 50) %>
+            <% end %>
+          </div>
+          <div class='col-md-10'>
+            <h3 class='title-up'><%= tricycle.taxpayer.full_name.try(:upcase) %> - <%= @tricycle.plate_number %></h3>
+            <span class='text-muted'><%= tricycle.name %></span> &nbsp; &nbsp; 
+          </div>
+        </div>
+     <% end %>
+      <br>
+      <nav class="nav nav-pills nav-pills-underline">
+        <li class="nav-item">
+          <%= link_to gov_module_tricycle_path(@tricycle), class: "nav-link #{'active' if current_page?(gov_module_tricycle_path(@tricycle))}" do %>
+            <i class="fa fa-user-circle"></i> Info
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to gov_module_tricycle_assessments_path(tricycle), class: "nav-link #{'active' if current_page?(gov_module_tricycle_assessments_path(tricycle))}" do %>
+            <i class="fa fa-file"></i> Assessments
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to gov_module_tricycle_permits_path(tricycle), class: "nav-link #{'active' if current_page?(gov_module_tricycle_permits_path(tricycle))}" do %>
+            <i class="fa fa-certificate"></i> Permits
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to gov_module_tricycle_settings_path(tricycle), class: "nav-link #{'active' if current_page?(gov_module_tricycle_settings_path(tricycle))}" do %>
+            <i class="fa fa-sliders-h"></i> Settings
+            
+          <% end %>
+        </li>
+      </nav>
+      <br>
+      <% if current_page? gov_module_tricycle_path(tricycle) %>
+        <%= render 'gov_module/tricycles/partials/info', tricycle: tricycle %>
+      <% end %>
+      <% if current_page? gov_module_tricycle_assessments_path(tricycle) %>
+        <%= render 'gov_module/tricycles/partials/assessments', tricycle: tricycle %>
+      <% end %>
+      <% if current_page? gov_module_tricycle_permits_path(tricycle) %>
+        <%= render 'gov_module/tricycles/partials/permits', tricycle: tricycle %>
+      <% end %>
+      <% if current_page? gov_module_tricycle_settings_path(tricycle) %>
+        <%= render 'gov_module/tricycles/partials/settings', tricycle: tricycle %>
+      <% end %>
     </div>
-  </div>
-  <div class="col-md-5">
-    <% if current_page? gov_module_tricycle_path(tricycle) %>
-      <%= render 'gov_module/tricycles/partials/info', tricycle: @tricycle %>
-    <% end %>
-    <% if current_page? gov_module_tricycle_assessments_path(tricycle) %>
-      <%= render 'gov_module/tricycles/partials/assessments', tricycle: @tricycle %>
-    <% end %>
-    <% if current_page? gov_module_tricycle_permits_path(tricycle) %>
-      <%= render 'gov_module/tricycles/partials/permits', tricycle: @tricycle %>
-    <% end %>
-    <% if current_page? gov_module_tricycle_settings_path(tricycle) %>
-      <%= render 'gov_module/tricycles/partials/settings', tricycle: @tricycle %>
-    <% end %>
-  </div>
-  <div class="col-md-4">
-    <%= render  'gov_module/tricycles/partials/charges', tricycle: @tricycle %>
   </div>
 </div>

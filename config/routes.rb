@@ -124,6 +124,7 @@ Rails.application.routes.draw do
     end
     resources :bplo_settings, only: [:index]
     namespace :bplo_settings do
+      resources :tricycle_fees, only: [:index, :new, :create, :show]
       resources :competetive_index_categories, only: [:new, :create, :show, :edit, :update]
       resources :line_of_businesses, only: [:index, :show] do
         resources :charges, only: [:new, :create], module: :line_of_businesses
@@ -148,7 +149,9 @@ Rails.application.routes.draw do
       end
       resources :tricycle_permit_applications do
         resources :vouchers, only: [:show], module: :tricycle_permit_applications
-        resources :voucher_amounts, only: [:new, :create, :edit, :update, :destroy], module: :tricycle_permit_applications
+        resources :voucher_amounts, only: [:new, :create, :edit, :update], module: :tricycle_permit_applications
+        resources :charge_cancellations, only: [:destroy], module: :tricycle_permit_applications
+
         resources :assessments, only: [:new, :create], module: :tricycle_permit_applications
         resources :permit_issuances, only: [:new, :create], module: :tricycle_permit_applications
       end
@@ -220,7 +223,7 @@ Rails.application.routes.draw do
       resources :voucher_amounts, only: [:edit, :update, :destroy], module: :businesses
     end
     resources :taxpayers do
-      resources :tricycles, only: [:index], module: :taxpayers
+      resources :tricycles, only: [:index, :new, :create], module: :taxpayers
       resources :businesses, only: [:index], module: :taxpayers
       resources :real_properties, only: [:index], module: :taxpayers
       resources :settings, only: [:index], module: :taxpayers

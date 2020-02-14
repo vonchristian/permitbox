@@ -1,0 +1,5 @@
+<%= link_to 'New Fee', new_gov_module_bplo_settings_tricycle_fee_path, class: 'btn btn-danger' %>
+
+<% @tricycle_fees.each do |tricycle_fee| %>
+  <%= link_to tricycle_fee.name, gov_module_bplo_settings_tricycle_fee_path(tricycle_fee) %>
+<% end %>

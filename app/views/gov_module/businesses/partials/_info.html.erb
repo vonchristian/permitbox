@@ -1,0 +1,322 @@
+<div class='row'>
+  <div class='col-md-7 border-right'>
+    <div class="row">
+      <div class="col-md-9">
+        <h3 class="title-up"> Owners </h3>
+        <p class="text-muted"> Taxpayers that owns this business.</p>
+      </div>
+      <div class="col-md-3">
+        <% if current_user.bplo_officer? %>
+          <%= link_to new_gov_module_business_ownership_path(@business) do %>
+          <span class="btn btn-outline-warning btn-sm float-right"><i class="fa fa-user-plus"></i> Add</span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <% business.taxpayer_owners.each do |taxpayer| %>
+      <%= link_to gov_module_taxpayer_path(taxpayer) do %>
+       
+            <% if taxpayer.avatar.attachment.present? %>
+              <%= image_tag(taxpayer.avatar, class: "img-circle img-bordered-sm mr-3", height: 50, width: 50) %>
+            <% else %>
+              <%= image_tag("default_avatar.png",class: "img-circle img-bordered-sm mr-3", height: 50, width: 50) %>
+            <% end %>
+            <span class="username"><%= taxpayer.full_name %></span>
+            <% if current_user.bplo_officer? %>
+              <%= link_to gov_module_business_ownership_path(business_id: @business.id, taxpayer_id: taxpayer.id), method: :delete, data: { confirm: "Are you sure you want to remove this owner?" } do   %>
+                <span class="text-danger" data-toggle="tooltip" title="Remove"><i class="fa fa-trash"></i> </span>
+              <% end %>
+            <% end %>
+            <span class="description">
+              <i class="fa fa-map-marker mr-1"></i> <%= taxpayer.current_location_details %>
+            </span>
+
+      <% end %>
+    <% end %>
+    <hr>
+
+    <div class="row">
+      <div class="col-md-7">
+        <h3 class="title-up"> Gross Sales </h3>
+      </div>
+      <div class="col-md-5">
+      </div>
+    </div>
+    <% business.gross_sales.where(calendar_year: Date.current.last_year.year).each do |gross_sale| %>
+          <h3 class='title-up'><%= number_to_currency gross_sale.amount %></h3>
+            <%= gross_sale.gross_sale_type %>
+          <span class='text-muted'> For year <%= Date.current.last_year.year %> </span>
+       
+    <% end %>
+    <hr>
+    <div class="row">
+      <div class="col-md-8">
+        <h3 class="title-up"> Business Activities </h3>
+      </div>
+      <div class="col-md-4">
+        <% if current_user.bplo_officer? %>
+          <%= link_to new_gov_module_business_business_activity_path(business) do %>
+          <span class="btn btn-outline-warning float-right btn-sm"><i class="fa fa-plus"></i> Add</span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <br>
+    <% business.business_activities.each do |business_activity| %>
+      <div class="row">
+        <div class="col-md-2">
+          <%= business_activity.quantity.to_i %>
+        </div>
+        <div class="col-md-6">
+          <%= business_activity.name %>
+          <% if current_user.bplo_officer? %>
+            <%= link_to 'Edit', edit_gov_module_business_business_activity_path(id: business_activity.id, business_id: @business.id) %>
+          <% end %>
+        </div>
+        <div class="col-md-3">
+          <span class="float-right">
+            <%= number_to_currency business_activity.fee_amount %>
+          </span>
+        </div>
+        <div class="col-md-1">
+        <% if current_user.bplo_officer? %>
+          <%= link_to gov_module_business_business_activity_path(business_id: business.id, id: business_activity.id), method: :delete, data: { confirm: "Are you sure you want to remove this business activity?" } do %>
+            <span class="text-danger" data-toggle="tooltip" title="Remove Business Activity"><i class="fa fa-times"></i></span>
+          <% end %>
+          <% end %>
+        </div>
+      </div>
+      <br>
+    <% end %>
+    <hr>
+    <div class="row">
+      <div class="col-md-9">
+        <h3 class="title-up"> Location </h3>
+      </div>
+      <div class="col-md-3">
+          <% if @business.current_location.present? %>
+          <% if current_user.bplo_officer? %>
+            <%= link_to new_gov_module_business_location_path(business_id: @business.id) do %>
+              <span class="btn btn-outline-warning btn-sm float-right" title="Edit Business Tax Category" data-toggle="tooltip">
+                <i class="fa fa-pencil"></i> Edit
+              </span>
+            <% end %>
+            <% end %>
+          <% else %>
+          <% if current_user.bplo_officer? %>
+            <%= link_to new_gov_module_business_location_path(business_id: @business.id) do %>
+              <span class="btn btn-outline-warning btn-sm float-right" title="Edit Business Tax Category" data-toggle="tooltip">
+                <i class="fa fa-pencil"></i> Edit
+              </span>
+            <% end %>
+            <% end %>
+          <% end %>
+      </div>
+    </div>
+    <div class="min-margin"></div>
+    <div class="row">
+      <div class="col-md-5 offset-md-1">
+        Complete Address
+      </div>
+      <div class="col-md-6">
+        <%= business.current_location_complete_address %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-5">
+        Barangay
+      </div>
+      <div class="col-md-6">
+        <%= business.current_location_barangay_name %>
+      </div>
+    </div>
+    <% if business.recent_establishment.present? %>
+      <div class="row">
+        <div class="col-md-5 offset-md-1">
+          Business Area
+        </div>
+        <div class="col-md-6">
+          <%= number_to_currency business.recent_establishment.business_area, unit: "" %> sq.m.
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 offset-md-1">
+          Rented
+        </div>
+        <div class="col-md-6">
+          <%= business.recent_establishment.leased %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 offset-md-1">
+          Monthly Rental
+        </div>
+        <div class="col-md-6">
+          <%= number_to_currency business.recent_establishment.monthly_rental %>
+        </div>
+      </div>
+      <% if @business.tenancies.recent.present? %>
+      <div class="row">
+        <div class="col-md-5 offset-md-1">
+          Public Market
+        </div>
+        <div class="col-md-6">
+          <%= @business.tenancies.recent.try(:public_market).try(:name) %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 offset-md-1">
+          Tenancy
+        </div>
+        <div class="col-md-6">
+          <%= @business.tenancies.recent.try(:tenancy_type).try(:titleize) %>
+        </div>
+      </div>
+      <% end %>
+      <% if current_user.bplo_officer? %>
+      <%= link_to 'Add to Public Market', new_gov_module_business_establishment_path(@business), class: 'btn btn-outline-primary' %>
+      <% end %>
+      <% if @business.recent_establishment.tenancies.present? %>
+        <div class="row">
+          <div class="col-md-5 offset-md-1">
+            Public Market Tenancy
+          </div>
+          <div class="col-md-6">
+            <%= business.recent_establishment.tenancy_type %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 offset-md-1">
+            Public Market
+          </div>
+          <div class="col-md-6">
+            <%= business.recent_establishment.public_market_name %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <hr>
+    <h3 class="title-up"> Mode of Payment </h3>
+    <% Business.mode_of_payments.keys.to_a.each do |mode_of_payment| %>
+      <div class="row no-margin">
+        <div class="col-md-6">
+          <%= mode_of_payment.titleize %>
+        </div>
+        <div class="col-md-6">
+          <%= simple_form_for @mode_of_payment, url: :gov_module_mode_of_payments do |f| %>
+            <%= f.input :mode_of_payment, input_html: { value: mode_of_payment }, as: :hidden %>
+            <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+            <% if @business.mode_of_payment == mode_of_payment %>
+              <span class="btn float-right">
+                <i class="fa fa-toggle-on fa-2x text-success"></i>
+              </span>
+            <% else %>
+            <% if current_user.bplo_officer? %>
+              <%= button_tag(class: "btn float-right") do %>
+                <i class="fa fa-toggle-off fa-2x"></i>
+              <% end %>
+            <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <hr>
+    <div class="row">
+      <div class="col-md-9">
+        <h3 class="title-up">Business Category</h3>
+      </div>
+      <div class="col-md-3">
+      <% if current_user.bplo_officer? %>
+        <%= link_to edit_gov_module_business_business_tax_category_path(@business) do %>
+          <span class="btn btn-outline-warning btn-sm float-right" title="Edit Business Tax Category" data-toggle="tooltip">
+            <i class="fa fa-pencil"></i> Edit
+          </span>
+        <% end %>
+        <% end %>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-5">
+        Category
+      </div>
+      <div class="col-md-6">
+        <%= business.business_tax_category_title %>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-9">
+        <h3 class="title-up">Type of Organization</h3>
+        <br>
+      </div>
+      <div class="col-md-3">
+    <% if current_user.bplo_officer? %>  
+
+        <%=link_to edit_gov_module_business_ownership_type_path(@business) do %>
+          <span class="btn btn-outline-warning btn-sm float-right" title="Edit Ownership Type" data-toggle="tooltip">
+            <i class="fa fa-pencil"></i> Edit
+          </span>
+        <% end %>
+      <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-5">
+        Ownership Type
+      </div>
+      <div class="col-md-6">
+        <%= business.ownership_type_title %>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-9">
+        <h3 class="title-up">Business Tax Receivables</h3>
+        <br>
+      </div>
+    </div>
+    <% @business.business_tax_receivables.each do |business_tax| %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= business_tax.date.strftime("%B %e, %Y") %>
+        </div>
+        <div class="col-md-6">
+          <%=  number_to_currency business_tax.amount %>
+        </div>
+      </div>
+      <br>
+    <% end %>
+  </div>
+  <div class='col-md-4 offset-md-1'>
+    <h3 class="title-up"> Requirements </h3>
+        <% @business.required_documents.each do |required_document| %>
+          <div class="row">
+            <div class="col-md-8">
+              <strong>
+                <%= link_to required_document.title, gov_module_business_required_document_path(business_id: @business.id, id: required_document.id) %>
+              </strong>
+              <br>
+              <p class="text-muted"><%= required_document.issuing_office_name %></p>
+            </div>
+            <div class="col-md-4">
+              <% if required_document.verified?(from_date: Date.today.beginning_of_year, to_date: Date.today.end_of_year) %>
+                <span class="badge bg-success"><i class="fa fa-check"></i> Submitted</span>
+              <% else %>
+                <%= link_to gov_module_business_required_document_verifications_path(business_id: @business.id, required_document_id: required_document.id), method: :create do %>
+                  <span class=""><i class="fa fa-toggle-off fa-2x"></i> </span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+  </div>
+</div>

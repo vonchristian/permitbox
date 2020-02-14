@@ -1,0 +1,6 @@
+<%= simple_form_for @tricycle_fee, url: :gov_module_bplo_settings_tricycle_fees do |f| %>
+  <%= f.input :name %>
+  <%= f.input :amount %>
+  <%= f.input :charge_scope, collection: Tricycles::TricycleFee.charge_scopes.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
+  <%= f.submit "Create Fee" %>
+<% end %>

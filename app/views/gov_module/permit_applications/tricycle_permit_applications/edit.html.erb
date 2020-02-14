@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">
-    <h3 class="card-title"> Application Details </h3>
+    <h3 class="title-up"> Application Details </h3>
   </div>
   <div class="card-body">
     <div class="row">
@@ -26,7 +26,7 @@
           <%= f.input :tricycle_organization_id, collection: current_locality.tricycle_organizations.all.map{ |a| [a.abbreviated_name, a.id] }, default: @tricycle_permit_application.tricycle_organization %>
           <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
           <hr>
-          <h3 class="card-title">Address Details </h3>
+          <h3 class="title-up">Address Details </h3>
           <div class="min-margin"></div>
 
           <%= f.input :complete_address, input_html: { value: @tricycle_permit_application.complete_address } %>

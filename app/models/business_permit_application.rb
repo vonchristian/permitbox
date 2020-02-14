@@ -5,6 +5,7 @@ class BusinessPermitApplication < ApplicationRecord
   pg_search_scope :text_search, against: [:business_name, :application_number]
   enum mode_of_payment: [:annually, :quarterly, :semi_annually]
   enum tenancy_type: [:regular, :transient]
+  enum application_type: [:new_application, :renew]
 
   belongs_to :applicant, polymorphic: true
   belongs_to :ownership_type

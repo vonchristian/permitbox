@@ -3,9 +3,9 @@
   <div class="col-md">
   </div>
   <div class="col-md-8">
-    <div class="card card-outline card-primary">
+    <div class="card">
       <div class="card-header">
-        <h3 class="card-title"><%= @voucher.name %> </h3>
+        <h3 class="title-up"><%= @voucher.name %> </h3>
         <%= link_to gov_module_voucher_path(@voucher, format: 'pdf') do %>
           <span class="btn btn-default float-right" data-toggle="tooltip" title="View PDF format"><i class="fa fa-file"></i> View (PDF) </span>
         <% end %>
@@ -16,7 +16,7 @@
         <% end %>
       </div>
       <div class="card-body">
-        <h3 class="card-title"> Voucher Details </h3>
+        <h3 class="title-up"> Voucher Details </h3>
           <div class="row min-margin">
             <div class="col-md-5 offset-md-1">
               Date
@@ -54,7 +54,7 @@
 
           <hr>
         <p class="help-block"> Please review the following charges.</p>
-        <h3 class="card-title"> Taxes and Fees </h3>
+        <h3 class="title-up"> Taxes and Fees </h3>
         <% @voucher.voucher_amounts.order(:amount_cents).reverse.each do |voucher_amount| %>
           <div class="row min-margin">
             <div class="col-md-7 offset-md-1">
@@ -111,10 +111,10 @@
         <hr>
         <div class="row min-margin">
           <div class="col-md-7 offset-md-1">
-            <h3 class="card-title"> Total </h3>
+            <h3 class="title-up"> Total </h3>
           </div>
           <div class="col-md-3">
-            <h3 class="card-title">
+            <h3 class="title-up">
               <span class="float-right">
                 <%= number_to_currency @voucher.voucher_amounts.total %>
               </span>
@@ -122,7 +122,7 @@
           </div>
         </div>
         <hr>
-          <h3 class="card-title"> Payment Channels </h3>
+          <h3 class="title-up"> Payment Channels </h3>
           <br>
           <strong><i class="fa fa-credit-card"></i> Credit Card </strong>
           <p class="description"> Pay through credit card</p>

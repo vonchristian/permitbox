@@ -8,7 +8,7 @@
               <%= image_tag("tricycle_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
             </div>
             <div class="col-md-10">
-              <h3 class="card-title"><%= @tricycle_permit_application.plate_number %> - <%= @tricycle_permit_application.taxpayers_full_name.try(:titleize)%></h3>
+              <h3 class="title-up"><%= @tricycle_permit_application.plate_number %> - <%= @tricycle_permit_application.taxpayers_full_name.try(:titleize)%></h3>
               <p class="description"><i class="fa fa-map-marker"></i> <%= @tricycle_permit_application.tricycle_organization_name %></p>
             </div>
           </div>
@@ -24,10 +24,10 @@
               <%= number_to_currency charge.amount %>
             </div>
             <div class="col-md-2">
-              <% if !current_cart.voucher_amounts.pluck(:account_id).include?(charge.revenue_account_id) %>
+              <% if !@tricycle_permit_application.charges..include?(charge) %>
                 <%=simple_form_for [@tricycle_permit_application, @charge], url: :gov_module_permit_applications_tricycle_permit_application_voucher_amounts do |f| %>
                   <%= f.input :charge_id, input_html: { value: charge.id  }, as: :hidden %>
-                  <%= f.input :locality_id, input_html: { value: current_locality.id  }, as: :hidden %>
+                  <%= f.input :tricycle_permit_application_id, input_html: { value: @tricycle_permit_application.id  }, as: :hidden %>
 
                   <%= f.input :cart_id, input_html: { value: current_cart.id }, as: :hidden %>
                   <%= f.submit "Add", class: "btn btn-primary float-right" %>

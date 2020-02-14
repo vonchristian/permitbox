@@ -10,7 +10,7 @@
                 <%= image_tag("tricycle_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
               </div>
               <div class="col-md-10">
-                <h3 class="card-title"><%= @tricycle_permit_application.plate_number %> - <%= @tricycle_permit_application.taxpayers_full_name.try(:titleize)%></h3>
+                <h3 class="title-up"><%= @tricycle_permit_application.plate_number %> - <%= @tricycle_permit_application.taxpayers_full_name.try(:titleize)%></h3>
                 <p class="description"><i class="fa fa-map-marker"></i> <%= @tricycle_permit_application.tricycle_organization_name %></p>
               </div>
             </div>

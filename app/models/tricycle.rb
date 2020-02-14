@@ -5,17 +5,17 @@ class Tricycle < ApplicationRecord
   extend LocalityScoping #for_locality
   include Discountable
   pg_search_scope :text_search, against: [:make, :tricycle_model, :plate_number, :mtop_number]
-  has_one_attached :avatar
+  delegate :avatar, to: :taxpayer
 
   belongs_to :locality, class_name: "Locations::Locality"
+  belongs_to :taxpayer
   belongs_to :tricycle_organization
   belongs_to :temporary_assessment_account, class_name: 'Accounting::Account', optional: true
-  has_many :ownerships, as: :ownable
-  has_many :taxpayer_owners, through: :ownerships, source: :owner, source_type: "Taxpayer"
-  has_many :chargeables, as: :chargeable
-  has_many :charges, through: :chargeables
+  
+  has_many :tricycle_charges, class_name: 'Tricycles::TricycleCharge'
+  has_many :charges, through: :tricycle_charges
   has_many :vouchers, through: :voucher_amounts
-  has_many :tricycle_permit_applications, class_name: "PermitApplications::TricyclePermitApplication", as: :permitable
+  has_many :tricycle_permit_applications, class_name: "Tricycles::TricyclePermitApplication"
   has_many :tricycle_permits, through: :tricycle_permit_applications, class_name: "Permits::TricyclePermit"
   has_many :permit_applications, class_name: 'PermitApplications::TricyclePermitApplication', as: :permitable
   before_save :set_default_avatar
@@ -23,6 +23,7 @@ class Tricycle < ApplicationRecord
   delegate :name, :abbreviated_name, to: :tricycle_organization, prefix: true, allow_nil: true
   delegate :voucher_amounts, to: :temporary_assessment_account, allow_nil: true
   delegate :complete_address, to: :current_location, prefix: true, allow_nil: true
+  delegate :full_name, to: :taxpayer, prefix: true
   def self.with_permits(args={})
     from_date = args[:from_date]
     to_date   = args[:to_date]
@@ -43,10 +44,10 @@ class Tricycle < ApplicationRecord
   end
 
   def all_vouchers
-    if voucher_amounts.present?
-    ids = voucher_amounts.pluck(:voucher_id)
-    Voucher.where(id: ids)
-    end
+    account_ids = tricycle_charges.pluck(:revenue_account_id)
+    voucher_ids = Vouchers::VoucherAmount.where(account_id: account_ids).pluck(:voucher_id)
+   
+    Voucher.where(id: voucher_ids.compact.flatten.uniq)
   end
   
   def permit_application_vouchers
@@ -61,7 +62,7 @@ class Tricycle < ApplicationRecord
   end
 
   def taxpayers_full_name
-    taxpayer_owners.map{|a| a.full_name }.join("/")
+    taxpayer.full_name
   end
 
   private

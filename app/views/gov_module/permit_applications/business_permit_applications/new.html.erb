@@ -6,7 +6,7 @@
           <%= simple_form_for @business_permit_application, url: :gov_module_permit_applications_business_permit_applications do |f| %>
           <div class="row">
             <div class="col-md-4">
-              <h3 class="card-title">Application Details </h3>
+              <h3 class="title-up">Application Details </h3>
               <p class="text-muted">Please select the most appropriate options
                 for correct taxes and fees calculations.
               </p>
@@ -27,17 +27,17 @@
               <%= f.input :business_name, input_html: { value: @business.name }, autofocus: true %>
               <%= f.input :employee_count, label: "Number of employees", input_html: { value: @business.recent_employee_count_total_count } %>
               <%= f.input :mode_of_payment, collection: Business.mode_of_payments.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons, checked: @business.mode_of_payment  %>
-              <h4 class="card-title"> Ownership Setup </h4>
+              <h4 class="title-up"> Ownership Setup </h4>
               <p class="text-muted"> Select the most approriate ownership type for this business </p>
                     <%= f.input :ownership_type_id, label: false, collection: current_locality.ownership_types.all.map{|a| [a.title, a.id] }, default: @business.ownership_type_id, input_html: { class: 'chosen-select' } %>
               <hr>
-              <h4 class="card-title"> Business Category </h4>
+              <h4 class="title-up"> Business Category </h4>
               <p class="text-muted"> Select the most approriate category for this business. </p>
 
                   <%= f.input :business_tax_category_id, label: false, collection: BusinessTaxCategory.all.map{|a| [a.title, a.id] }, default: @business.business_tax_category_id, input_html: { class: 'chosen-select' } %>
 
               <hr>
-              <h4 class="card-title">Business Activities</h4>
+              <h4 class="title-up">Business Activities</h4>
               <p class="tex-muted"> Select all business activities applicable to this business. </p>
                   <%= f.input :line_of_business_ids, label: false, collection: LineOfBusiness.all.map{|a| [a.name, a.id] }, input_html: { class: "chosen-select", multiple: true }, selected: @business.line_of_businesses.try(:ids)  %>
               <hr>
@@ -48,7 +48,7 @@
           <br>
           <div class="row">
             <div class="col-md-4">
-              <h4 class="card-title">Establishment Location </h4>
+              <h4 class="title-up">Establishment Location </h4>
               <p class="text-muted">Please be specific with the location of the business. It will be
                 used for monitoring purposes and setting the correct taxes and fees. </p>
             </div>
@@ -75,7 +75,7 @@
                 <%= f.input :tenancy_type, collection: Tenancy.tenancy_types.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
               </div>
               <hr>
-              <h3 class="card-title">Applicable Discounts </h3>
+              <h3 class="title-up">Applicable Discounts </h3>
               <p class="text-muted"> Select applicable discounts for this business. </p>
               <%= f.input :discount_ids, label: false, collection: current_locality.discounts.map{|a| [a.name, a.id] }, input_html: { class: 'chosen-select', multiple: true } %>
 

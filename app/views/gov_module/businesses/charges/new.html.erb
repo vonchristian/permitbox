@@ -24,7 +24,7 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-5">
-          <h3 class="card-title">Taxes and Fees </h3>
+          <h3 class="title-up">Taxes and Fees </h3>
           <p class="text-muted">List of taxes and fees applicable to this business </p>
           <% @business.voucher_amounts.without_voucher.each do |voucher_amount| %>
               <div class="row">
@@ -49,10 +49,10 @@
           <hr>
           <div class="row">
             <div class="col-md-7">
-              <h3 class="card-title"><b> TOTAL </b></h3>
+              <h3 class="title-up"><b> TOTAL </b></h3>
             </div>
             <div class="col-md-5">
-              <h3 class="card-title"><b><span class="float-right"> <%= number_to_currency @business.voucher_amounts.total %> </span></b></h3>
+              <h3 class="title-up"><b><span class="float-right"> <%= number_to_currency @business.voucher_amounts.total %> </span></b></h3>
             </div>
           </div>
         </div>

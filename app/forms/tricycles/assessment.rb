@@ -18,11 +18,11 @@ module Tricycles
 
     def create_voucher
       voucher = Voucher.create!(
-        description: "#{description} - #{find_tricycle_permit_application.tricycle.taxpayers_full_name}",
+        description: "#{description} - #{find_tricycle_permit_application.taxpayer.full_name}",
         locality: find_tricycle_permit_application.locality,
         preparer_id: employee_id,
         account_number: find_tricycle_permit_application.account_number,
-        payee: find_tricycle_permit_application.applicant,
+        payee: find_tricycle_permit_application.taxpayer,
         date: date )
       voucher.voucher_amounts << find_cart.voucher_amounts
     end
@@ -39,7 +39,7 @@ module Tricycles
     end
 
     def find_tricycle_permit_application
-      ::PermitApplications::TricyclePermitApplication.find(tricycle_permit_application_id)
+      ::Tricycles::TricyclePermitApplication.find(tricycle_permit_application_id)
     end
     
     def update_permit_application_voucher_reference

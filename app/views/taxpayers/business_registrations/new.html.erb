@@ -8,7 +8,7 @@
             </center>
           </div>
           <div class="col-md-10">
-            <h3 class="card-title"> Start a Business in <%= @locality.name %></h3>
+            <h3 class="title-up"> Start a Business in <%= @locality.name %></h3>
             This portal will help you understand the costs and requirements of starting a business in <%= @locality.name %>.
             <hr>
             <i class="fa fa-info-circle fa-2x"></i> Please answer the questions below carefully. Cost and requirements will be based on your answers.
@@ -22,7 +22,7 @@
         <div id="businessNameAccordion">
           <div class="card-header">
             <button class="btn btn-link" data-toggle="collapse" data-target="#businessName">
-              <h3 class="card-title">What is your business name?</h3>
+              <h3 class="title-up">What is your business name?</h3>
             </button>
             <% if @cart.name.present? %>
               <div class="row">
@@ -61,7 +61,7 @@
           <div id="businessTypeAccordion">
             <div class="card-header">
               <button class="btn btn-link" data-toggle="collapse" data-target="#businessType">
-                  <h3 class="card-title">What type of business is this?</h3>
+                  <h3 class="title-up">What type of business is this?</h3>
               </button>
               <% if @cart.application_type.present? %>
                 <div class="row">
@@ -111,7 +111,7 @@
           <div id="businessOwnershipAccordion">
             <div class="card-header">
               <button class="btn btn-link" data-toggle="collapse" data-target="#businessOwnership">
-                  <h3 class="card-title">What is your business set-up?</h3>
+                  <h3 class="title-up">What is your business set-up?</h3>
               </button>
               <% if @cart.ownership_type.present? %>
               <div class="row">
@@ -159,7 +159,7 @@
           <div id="businessCategoryAccordion">
             <div class="card-header">
               <button class="btn btn-link" data-toggle="collapse" data-target="#businessCategory">
-                <h3 class="card-title">What category does your business fits in?</h3>
+                <h3 class="title-up">What category does your business fits in?</h3>
               </button>
               <% if @cart.business_tax_category.present? %>
                 <div class="row">
@@ -208,7 +208,7 @@
           <section id="businessFinanceAccordion">
             <div class="card-header">
               <button class="btn btn-link" data-toggle="collapse" data-target="#businessFinance">
-                  <h3 class="card-title">Business Finance Details</h3>
+                  <h3 class="title-up">Business Finance Details</h3>
               </button>
               <% if @cart.asset_size.present? || @cart.capital.present? %>
                 <div class="row">
@@ -302,7 +302,7 @@
     <div class="col-md-4">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Estimated Costs</h3>
+          <h3 class="title-up">Estimated Costs</h3>
         </div>
         <div class="card-body">
           <% if @cart.voucher_amounts.present? %>

@@ -15,7 +15,7 @@ class Taxpayer < ApplicationRecord
   has_many :buildings,   through: :ownerships, source_type: "RealPropertyTypes::Building", source: :ownable
   has_many :machineries, through: :ownerships, source_type: "RealPropertyTypes::Machinery", source: :ownable
   has_many :businesses,  through: :ownerships, source_type: "Business", source: :ownable
-  has_many :tricycles,   through: :ownerships, source_type: "Tricycle", source: :ownable
+  has_many :tricycles
   has_many :contacts,    as: :contactable
 
   delegate :number, to: :current_contact, prefix: true, allow_nil: true

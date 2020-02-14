@@ -49,6 +49,8 @@ module Locations
       it { is_expected.to have_many :business_surcharge_configs }
       it { is_expected.to have_many :ledger_accounts }
       it { is_expected.to have_many :accounts }
+      it { is_expected.to have_many :tricycle_fees }
+
     end
 
 

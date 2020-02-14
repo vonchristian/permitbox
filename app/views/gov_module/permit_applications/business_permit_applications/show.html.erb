@@ -17,12 +17,12 @@
 
 
 
-         <h3 class="card-title"> Assessment Details </h3>
+         <h3 class="title-up"> Assessment Details </h3>
 
         <!-- Move to policy -->
         <% if current_user.bplo_officer? %>
           <% if !@business_permit_application.business_permits.present? && @business_permit_application.paid? %>
-            <h3 class="card-title"> Permit Details </h3>
+            <h3 class="title-up"> Permit Details </h3>
             <div class="row">
               <div class="col-md-6">
                 <%= link_to new_gov_module_business_permit_application_permit_issuance_path(@business_permit_application) do %>
@@ -38,7 +38,7 @@
         <% end %>
 
         <hr>
-        <h3 class="card-title">Business Details</h3>
+        <h3 class="title-up">Business Details</h3>
         <div class="row min-margin">
 
           <div class="col-md-4">
@@ -107,7 +107,7 @@
           </div>
         </div>
         <hr>
-        <h3 class="card-title"> Location </h3>
+        <h3 class="title-up"> Location </h3>
         <div class="row min-margin">
           <div class="col-md-4">
             Complete Address
@@ -153,7 +153,7 @@
         <hr>
         <div class="row">
           <div class="col-md-9">
-            <h3 class="card-title"> Business Activities </h3>
+            <h3 class="title-up"> Business Activities </h3>
           </div>
           <div class="col-md-3">
 
@@ -194,7 +194,7 @@
         <hr>
         <div class="row">
           <div class="col-md-9">
-            <h3 class="card-title"> Gross Sales Details </h3>
+            <h3 class="title-up"> Gross Sales Details </h3>
           </div>
           <div class="col-md-3">
 
@@ -229,7 +229,7 @@
         <hr>
         <div class="row">
           <div class="col-md-8">
-            <h3 class="card-title">Capital Details </h3>
+            <h3 class="title-up">Capital Details </h3>
           </div>
           <div class="col-md-4">
 
@@ -249,7 +249,7 @@
           </div>
         </div>
         <hr>
-        <h3 class="card-title">Business Tax Payment Schedules </h3>
+        <h3 class="title-up">Business Tax Payment Schedules </h3>
           <div class="row min-margin">
             <div class="col-md-6">
               Business Tax
@@ -307,7 +307,7 @@
       <div class="card-header">
         <div class="row">
           <div class="col-md-9">
-            <h3 class="card-title"> Taxes and Fees </h3>
+            <h3 class="title-up"> Taxes and Fees </h3>
           </div>
           <div class="col-md-3">
             <%= link_to new_gov_module_permit_applications_business_permit_application_voucher_amount_path(@business_permit_application) do  %>

@@ -3,7 +3,7 @@
   <div class="col-md-4">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title"> CMCI Report </h3>
+        <h3 class="title-up"> CMCI Report </h3>
       </div>
       <div class="card-body">
         <% CompetetiveIndexCategory.all.each do |category| %>
@@ -21,7 +21,7 @@
     </div>
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title"> Businesses Per Barangay </h3>
+        <h3 class="title-up"> Businesses Per Barangay </h3>
       </div>
       <div class="card-body">
         <% current_locality.barangays.each do |barangay| %>
@@ -36,7 +36,7 @@
 
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title"> Business Permits</h3>
+        <h3 class="title-up"> Business Permits</h3>
       </div>
       <div class="card-body">
         <%= link_to "Business with Permits", gov_module_reports_business_permits_path %><br>
@@ -54,7 +54,7 @@
     </div>
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title"> Tricycle Permits</h3>
+        <h3 class="title-up"> Tricycle Permits</h3>
       </div>
       <div class="card-body">
         <%= link_to "Tricycle with Permits", gov_module_reports_tricycle_with_permits_path %>
@@ -66,7 +66,7 @@
   <div class="col-md-4">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title"> Public Markets </h3>
+        <h3 class="title-up"> Public Markets </h3>
       </div>
       <div class="card-body">
         <% @public_markets.each do |public_market| %>
@@ -94,7 +94,7 @@
   <div class="col-md-4">
     <div class="card card-solid">
       <div class="card-header">
-        <h3 class="card-title"> Tricycle Organizations </h3>
+        <h3 class="title-up"> Tricycle Organizations </h3>
       </div>
       <div class="card-body">
         <% TricycleOrganization.all.each do |organization| %>
@@ -112,7 +112,7 @@
     <div class="col-md-4">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title"> Businesses per Line of Business </h3>
+        <h3 class="title-up"> Businesses per Line of Business </h3>
       </div>
       <div class="card-body">
         <%=form_tag gov_module_reports_path, method: :get, id: "search-form" do %>

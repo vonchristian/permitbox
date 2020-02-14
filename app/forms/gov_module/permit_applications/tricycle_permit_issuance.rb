@@ -38,7 +38,7 @@ module GovModule
           signatory_id: signatory_id)
       end
       def find_permitable
-        ::PermitApplications::TricyclePermitApplication.find_by(id: permitable_id)
+        ::Tricycles::TricyclePermitApplication.find_by(id: permitable_id)
       end
     end
   end

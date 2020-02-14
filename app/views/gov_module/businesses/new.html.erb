@@ -12,7 +12,7 @@
               <%= image_tag("default_avatar.png", class: "img-circle", height: 90, width: 90) %>
             <% end %>
               <br><br>
-           <h3 class="card-title"> <%= @taxpayer.full_name %></h3>
+           <h3 class="title-up"> <%= @taxpayer.full_name %></h3>
 
           </center>
 
@@ -20,7 +20,7 @@
         <div class="card-body">
           <%= simple_form_for [@taxpayer, @business], url: :gov_module_businesses do |f| %>
           <%= f.input :business_type, collection: Business.business_types.keys.to_a.map{ |a| [a.titleize, a] }, as: :radio_buttons %>
-            <h4 class="card-title"> Business Name </h4>
+            <h4 class="title-up"> Business Name </h4>
             <p class="text-muted">Trade name or DTI/SEC/CDA Registered Name of this business</p>
 
             <div class="row">
@@ -31,7 +31,7 @@
               <%= f.input :account_number, input_html: { value: SecureRandom.uuid }, as: :hidden %>
               </div>
             </div>
-            <h4 class="card-title">Establishment Location </h4>
+            <h4 class="title-up">Establishment Location </h4>
             <p class="text-muted">Please be specific with the location of the business. It will be
             used for monitoring purposes. </p>
             <br>
@@ -57,7 +57,7 @@
               </div>
             </div>
             <hr>
-            <h4 class="card-title"> Ownership Setup </h4>
+            <h4 class="title-up"> Ownership Setup </h4>
             <p class="text-muted"> Select the most approriate ownership type for this business </p>
               <div class="row">
                 <div class="col-md-1">
@@ -67,7 +67,7 @@
                 </div>
               </div>
             <hr>
-            <h4 class="card-title"> Business Category </h4>
+            <h4 class="title-up"> Business Category </h4>
             <p class="text-muted"> Select the most approriate category for this business. </p>
 
             <br>
@@ -79,7 +79,7 @@
               </div>
             </div>
             <hr>
-            <h4 class="card-title"> Business Finances </h4>
+            <h4 class="title-up"> Business Finances </h4>
             <p class="text-muted"> Input capital amount, asset size of the business. </p>
             <div class="row">
               <div class="col-md-1">
@@ -90,7 +90,7 @@
                 <%= f.input :business_asset_size %>
               </div>
             </div>
-            <h4 class="card-title">Business Activities</h4>
+            <h4 class="title-up">Business Activities</h4>
             <p class="tex-muted"> Select all business activities applicable to this business. </p>
             <div class="row">
               <div class="col-md-1">

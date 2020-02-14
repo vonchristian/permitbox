@@ -7,11 +7,11 @@
         <div class="card-header bg-primary">
           <center><%= image_tag("business_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
             <br><br>
-            <h3 class="card-title"> <%= @business.name %></h3>
+            <h3 class="title-up"> <%= @business.name %></h3>
           </center>
         </div>
         <div class="card-body">
-          <h3 class="card-title"> Approval Details </h3>
+          <h3 class="title-up"> Approval Details </h3>
           <br>
 <%= simple_form_for [@required_document, @approval], url: :gov_module_business_required_document_approvals do |f| %>
   <%= f.input :date, as: :string, input_html: { value: Time.zone.now }, as: :hidden %>

@@ -46,7 +46,7 @@ module Locations
     has_many :sealing_fee_configs,                 class_name: "Configurations::SealingFeeConfig"
     has_many :storage_permit_fee_configs,          class_name: "Configurations::StoragePermitFeeConfig"
     has_many :business_permits,                    class_name: "Permits::BusinessPermit"
-    has_many :tricycle_permit_applications,        class_name: 'PermitApplications::TricyclePermitApplication'
+    has_many :tricycle_permit_applications,        class_name: 'Tricycles::TricyclePermitApplication'
     has_many :business_permit_applications
     has_many :capital_tax_configs
     has_many :tricycle_permits,                    class_name: "Permits::TricyclePermit"
@@ -56,6 +56,7 @@ module Locations
     has_many :penalty_configs,                     class_name: "Configurations::PenaltyConfig"
     has_many :ledger_accounts, class_name: 'Accounting::LedgerAccount', as: :ledgerable
     has_many :accounts, class_name: 'Accounting::Account', through: :ledger_accounts
+    has_many :tricycle_fees, class_name: 'Tricycles::TricycleFee'
     validates :name, presence: true, uniqueness: true
   end
 end

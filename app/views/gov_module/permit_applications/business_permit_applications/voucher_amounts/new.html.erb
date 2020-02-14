@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-body">
     <%=link_to gov_module_permit_applications_business_permit_application_path(@business_permit_application) do %>
-      <h3 class="card-title"><%= @business_permit_application.business_name %></h3>
+      <h3 class="title-up"><%= @business_permit_application.business_name %></h3>
       <small><i class="fa fa-map-marker"></i></small>
     <% end %>
   </div>
@@ -42,7 +42,7 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
-        <h3 class="card-title"> Taxes and Fees </h3>
+        <h3 class="title-up"> Taxes and Fees </h3>
         <% @business_permit_application.voucher_amounts.non_discount_amounts.with_non_zero_amounts.order(:amount_cents).reverse.each do |voucher_amount| %>
           <div class="row min-margin">
             <div class="col-md-6 offset-md-1">
@@ -106,10 +106,10 @@
         <hr>
         <div class="row min-margin">
           <div class="col-md-6">
-            <h3 class="card-title"> Total </h3>
+            <h3 class="title-up"> Total </h3>
           </div>
           <div class="col-md-4">
-            <h3 class="card-title">
+            <h3 class="title-up">
               <span class="float-right">
                 <%= number_to_currency @business_permit_application.voucher_amounts.total_less_discount %>
               </span>

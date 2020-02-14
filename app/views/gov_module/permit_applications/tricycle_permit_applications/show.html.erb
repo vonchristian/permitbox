@@ -8,16 +8,13 @@
               <%= image_tag("tricycle_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
             </div>
             <div class="col-md-10">
-              <h3 class="card-title"><%= @tricycle.plate_number %> - <%= @tricycle.taxpayers_full_name.try(:titleize)%></h3>
+              <h3 class="title-up"><%= @tricycle_permit_application.plate_number %> - <%= @tricycle_permit_application.taxpayer.full_name%></h3>
             </div>
           </div>
         <% end %>
       </div>
       <div class="card-body">
-
-
-
-        <h3 class="card-title"> Tricycle Details </h3>
+        <h3 class="title-up"> Tricycle Details </h3>
         <div class="min-margin"></div>
         <div class="row min-margin">
           <div class="col-md-6">
@@ -41,7 +38,7 @@
             Make and Model
           </div>
           <div class="col-md-6">
-            <%= @tricycle.make_and_model %>
+            <%= @tricycle_permit_application.make_and_model %>
           </div>
         </div>
 
@@ -50,7 +47,7 @@
             MTOP Number
           </div>
           <div class="col-md-6">
-            <%= @tricycle.mtop_number %>
+            <%= @tricycle_permit_application.mtop_number %>
           </div>
         </div>
 
@@ -59,7 +56,7 @@
             Plate Number
           </div>
           <div class="col-md-6">
-            <%= @tricycle.plate_number %>
+            <%= @tricycle_permit_application.plate_number %>
           </div>
         </div>
         <div class="row min-margin">
@@ -67,16 +64,16 @@
             Organization
           </div>
           <div class="col-md-6">
-            <%= @tricycle.tricycle_organization_name %>
+            <%= @tricycle_permit_application.tricycle_organization_name %>
           </div>
         </div>
 
         <div class="row min-margin">
           <div class="col-md-6">
-            Tricycle Type
+            Application  Type
           </div>
           <div class="col-md-6">
-            <%= @tricycle.tricycle_type.try(:titleize) %>
+            <%= @tricycle_permit_application.application_type.try(:titleize) %>
           </div>
         </div>
 
@@ -95,7 +92,7 @@
         <div class="card-header">
           <div class="row">
             <div class="col-md-8">
-              <h3 class="card-title"> Taxes and Fees </h3>
+              <h3 class="title-up"> Taxes and Fees </h3>
             </div>
             <div class="col-md-4">
               <%= link_to new_gov_module_permit_applications_tricycle_permit_application_voucher_amount_path(@tricycle_permit_application) do  %>
@@ -105,16 +102,16 @@
           </div>
         </div>
         <div class="card-body">
-
           <% current_cart.voucher_amounts.credit.without_voucher.each do |voucher_amount| %>
             <div class="row min-margin">
               <div class="col-md-6">
                 <%= voucher_amount.name %>
               </div>
               <div class="col-md-3">
-                <%=link_to gov_module_permit_applications_tricycle_permit_application_voucher_amount_path(tricycle_permit_application_id: @tricycle_permit_application.id, id: voucher_amount.id), method: :delete do %>
+                <%=link_to gov_module_permit_applications_tricycle_permit_application_charge_cancellation_path(tricycle_permit_application_id: @tricycle_permit_application.id, id: voucher_amount.id), method: :delete do %>
                  <span class="text-danger" data-toggle="tooltip" title="Remove"><i class="fa fa-times mr-3"></i> </span>
                 <% end %>
+
                 <%=link_to edit_gov_module_permit_applications_tricycle_permit_application_voucher_amount_path(tricycle_permit_application_id: @tricycle_permit_application.id, id: voucher_amount.id) do %>
                  <span class="text-warning" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> </span>
                 <% end %>
@@ -129,10 +126,10 @@
           <hr>
           <div class="row min-margin">
             <div class="col-md-6">
-              <h3 class="card-title"> Total </h3>
+              <h3 class="title-up"> Total </h3>
             </div>
             <div class="col-md-6">
-              <h3 class="card-title float-right"><%= number_to_currency current_cart.voucher_amounts.credit.without_voucher.sum(&:amount) %></h3>
+              <h3 class="title-up float-right"><%= number_to_currency current_cart.voucher_amounts.credit.without_voucher.sum(&:amount) %></h3>
             </div>
           </div>
           <hr>

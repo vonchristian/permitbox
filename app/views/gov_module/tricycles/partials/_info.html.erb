@@ -1,30 +1,7 @@
 <% content_for :title, "#{@tricycle.plate_number}" %>
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title"> Tricycle Details </h3>
-  </div>
-  <div class="card-body">
-    <h3 class="card-title"> Owner </h3>
-    <br>
-    <% tricycle.taxpayer_owners.each do |taxpayer| %>
-      <%= link_to gov_module_taxpayer_path(taxpayer) do %>
-        <div class="post">
-          <div class="user-block">
-            <% if taxpayer.avatar.attachment.present? %>
-              <%= image_tag(taxpayer.avatar, class: "img-circle img-bordered-sm mr-3", height: 50, width: 50) %>
-            <% else %>
-              <%= image_tag("default_avatar.png",class: "img-circle img-bordered-sm mr-3", height: 50, width: 50) %>
-            <% end %>
-            <strong><%= taxpayer.full_name.try(:titleize) %></strong>
-            <span class="description">
-              <i class="fa fa-map-marker mr-1"></i> <%= taxpayer.current_location_details %>
-            </span>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-    <hr>
-    <h3 class="card-title"> Tricycle Details </h3>
+
+
+    <h3 class="title-up"> Tricycle Details </h3>
     <div class="min-margin"></div>
     <div class="row min-margin">
       <div class="col-md-6">
@@ -67,7 +44,19 @@
         <%= tricycle.tricycle_organization_name %>
       </div>
     </div>
-
+    <hr>
+      <h3 class='title-up'> Tricycle Fees </h3>
+      <% @tricycle.tricycle_charges.each do |tricycle_charge| %>
+        <div class='row'>
+          <div class='col-md-6'>
+            <%= tricycle_charge.tricycle_fee_name %>
+          </div>
+          <div class='col-dm-6'>
+            <%= number_to_currency tricycle_charge.tricycle_fee_amount %>
+          </div>
+        </div>
+        <br>
+      <% end %>
     <%= link_to edit_gov_module_tricycle_path(@tricycle) do %>
       <span class="btn btn-outline-warning btn-sm" title="Edit Tricycle" data-toggle="tooltip"><i class="fa fa-edit"></i> Edit Tricycle </span>
     <% end %>

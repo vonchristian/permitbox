@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_061137) do
+ActiveRecord::Schema.define(version: 2020_02_14_051159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -342,8 +342,10 @@ ActiveRecord::Schema.define(version: 2020_02_13_061137) do
     t.string "account_number"
     t.decimal "gross_sale_amount", default: "0.0"
     t.uuid "business_tax_revenue_account_id"
+    t.integer "application_type", default: 0
     t.index ["account_number"], name: "index_business_permit_applications_on_account_number", unique: true
     t.index ["applicant_type", "applicant_id"], name: "index_applicant_on_business_permit_applications"
+    t.index ["application_type"], name: "index_business_permit_applications_on_application_type"
     t.index ["barangay_id"], name: "index_business_permit_applications_on_barangay_id"
     t.index ["business_id"], name: "index_business_permit_applications_on_business_id"
     t.index ["business_tax_category_id"], name: "index_business_permit_applications_on_business_tax_category_id"
@@ -1286,6 +1288,30 @@ ActiveRecord::Schema.define(version: 2020_02_13_061137) do
     t.index ["termable_type", "termable_id"], name: "index_terms_on_termable_type_and_termable_id"
   end
 
+  create_table "tricycle_charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "tricycle_id"
+    t.uuid "tricycle_permit_application_id"
+    t.uuid "revenue_account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "cancelled_at"
+    t.uuid "tricycle_fee_id"
+    t.index ["revenue_account_id"], name: "index_tricycle_charges_on_revenue_account_id"
+    t.index ["tricycle_fee_id"], name: "index_tricycle_charges_on_tricycle_fee_id"
+    t.index ["tricycle_id"], name: "index_tricycle_charges_on_tricycle_id"
+    t.index ["tricycle_permit_application_id"], name: "index_tricycle_charges_on_tricycle_permit_application_id"
+  end
+
+  create_table "tricycle_fees", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "locality_id", null: false
+    t.decimal "amount"
+    t.string "name"
+    t.integer "charge_scope"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["locality_id"], name: "index_tricycle_fees_on_locality_id"
+  end
+
   create_table "tricycle_organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "abbreviated_name"
     t.string "name"
@@ -1316,7 +1342,9 @@ ActiveRecord::Schema.define(version: 2020_02_13_061137) do
     t.string "application_number"
     t.integer "mode_of_payment"
     t.string "tricycle_model"
+    t.integer "application_type", default: 0
     t.index ["account_number"], name: "index_tricycle_permit_applications_on_account_number", unique: true
+    t.index ["application_type"], name: "index_tricycle_permit_applications_on_application_type"
     t.index ["barangay_id"], name: "index_tricycle_permit_applications_on_barangay_id"
     t.index ["locality_id"], name: "index_tricycle_permit_applications_on_locality_id"
     t.index ["mode_of_payment"], name: "index_tricycle_permit_applications_on_mode_of_payment"
@@ -1340,8 +1368,10 @@ ActiveRecord::Schema.define(version: 2020_02_13_061137) do
     t.string "tricycle_model"
     t.string "account_number"
     t.uuid "temporary_assessment_account_id"
+    t.uuid "taxpayer_id"
     t.index ["account_number"], name: "index_tricycles_on_account_number", unique: true
     t.index ["locality_id"], name: "index_tricycles_on_locality_id"
+    t.index ["taxpayer_id"], name: "index_tricycles_on_taxpayer_id"
     t.index ["temporary_assessment_account_id"], name: "index_tricycles_on_temporary_assessment_account_id"
     t.index ["tricycle_organization_id"], name: "index_tricycles_on_tricycle_organization_id"
     t.index ["tricycle_type"], name: "index_tricycles_on_tricycle_type"
@@ -1601,6 +1631,11 @@ ActiveRecord::Schema.define(version: 2020_02_13_061137) do
   add_foreign_key "sub_classifications", "classifications"
   add_foreign_key "taxpayer_accounts", "taxpayers"
   add_foreign_key "tenancies", "public_markets"
+  add_foreign_key "tricycle_charges", "accounts", column: "revenue_account_id"
+  add_foreign_key "tricycle_charges", "tricycle_fees"
+  add_foreign_key "tricycle_charges", "tricycle_permit_applications"
+  add_foreign_key "tricycle_charges", "tricycles"
+  add_foreign_key "tricycle_fees", "localities"
   add_foreign_key "tricycle_organizations", "localities"
   add_foreign_key "tricycle_permit_applications", "barangays"
   add_foreign_key "tricycle_permit_applications", "localities"
@@ -1610,6 +1645,7 @@ ActiveRecord::Schema.define(version: 2020_02_13_061137) do
   add_foreign_key "tricycle_permit_applications", "tricycles"
   add_foreign_key "tricycles", "accounts", column: "temporary_assessment_account_id"
   add_foreign_key "tricycles", "localities"
+  add_foreign_key "tricycles", "taxpayers"
   add_foreign_key "tricycles", "tricycle_organizations"
   add_foreign_key "users", "agencies"
   add_foreign_key "users", "localities"

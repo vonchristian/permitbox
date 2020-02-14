@@ -6,7 +6,7 @@ module Taxpayers
     before_action :authenticate_taxpayer_account!
     def index
       @taxpayer = Taxpayer.find(params[:taxpayer_id])
-      @businesses = @taxpayer.businesses
+      @pagy, @businesses = pagy(@taxpayer.businesses)
     end
     def new
       @taxpayer = Taxpayer.find(params[:taxpayer_id])

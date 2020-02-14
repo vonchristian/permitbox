@@ -1,31 +1,33 @@
 <div class="card">
   <div class="card-body">
     <div class="row">
-      <div class="col-md-8">
+      <div class='col-md-3'>
+        <h3 class='title-up'> Taxpayers </h3>
+      </div>
+      <div class="col-md-6">
         <%=form_tag gov_module_taxpayers_path, method: :get, id: "search-form" do %>
           <div class="input-group">
             <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search taxpayer...", type: "search" %>
             <span class="input-group-btn">
-              <%= button_tag(type: 'submit', class: "btn") do %>
-                <i class="fa fa-search"></i>
+              <%= button_tag(type: 'submit', class: "btn btn-outline-primary") do %>
+                <i class="fa fa-search"></i> Search
               <% end %>
             </span>
           </div>
         <% end %>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <%= link_to new_gov_module_taxpayer_path(@locality) do %>
           <span class="btn btn-primary float-right"><i class="fa fa-user-plus"> </i> New Taxpayer</span>
         <% end %>
       </div>
     </div>
-  </div>
-</div>
+    <br>
 <div class="table table-responsive">
   <table class="table table-hover">
     <thead>
       <tr>
-        <th> Taxpayer Name </th>
+        <th> Taxpayer </th>
         <th> Address </th>
         <th> Contact Number </th>
       </tr>

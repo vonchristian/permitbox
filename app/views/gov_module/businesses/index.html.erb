@@ -1,37 +1,48 @@
-
-<div class="card">
-  <div class="card-header no-border">
-    <%=form_tag gov_module_businesses_path, method: :get, id: "search-form" do %>
-      <div class="input-group">
-        <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search business...", type: "search" %>
-        <span class="input-group-btn">
-          <%= button_tag(type: 'submit', class: "btn") do %>
-            <i class="fa fa-search"></i>
+<div class='container'>
+  <div class="card">
+    <div class="card-body">
+      <div class='row'>
+        <div class='col-md-3'>
+          <h3 class='title-up'> Businesses </h3>
+        </div>
+        <div class='col-md-6'>
+          <%=form_tag gov_module_businesses_path, method: :get, id: "search-form" do %>
+            <div class="input-group">
+              <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search business...", type: "search" %>
+              <span class="input-group-btn">
+                <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>
+                  <i class="fa fa-search"></i> Search
+                <% end %>
+              </span>
+            </div>
           <% end %>
-        </span>
+        </div>
       </div>
-    <% end %>
-  </div>
-  <div class="card-body">
-<div class="table table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th> Business Name </th>
-        <th> Address </th>
-        <th> Status </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @businesses.each do |business| %>
-      <tr>
-        <td><%= link_to business.name, gov_module_business_path(business) %></td>
-        <td><%= business.current_location_complete_address %></td>
-        <td> <span class="badge bg-<%= business.badge_color(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year) %>"><%= business.business_permit_status(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year).try(:titleize) %></span></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%== pagy_bootstrap_nav(@pagy) %>
+    </div>
+      <div class="table table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th> Business Name </th>
+              <th> Taxpayer </th>
+              <th> Address </th>
+              <th> Status </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @businesses.each do |business| %>
+            <tr>
+              <td><%= link_to business.name, gov_module_business_path(business) %></td>
+              <td><%= business.taxpayers_full_name %></td>
+              <td><%= business.current_location_complete_address %></td>
+              <td> <span class="badge bg-<%= business.badge_color(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year) %>"><%= business.business_permit_status(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year).try(:titleize) %></span></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <%== pagy_bootstrap_nav(@pagy) %>
 
+      </div>
+    </div>
+  </div>
 </div>

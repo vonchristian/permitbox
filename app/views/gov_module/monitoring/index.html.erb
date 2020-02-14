@@ -3,7 +3,7 @@
     <div class="col-md-4">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title"> Barangay Businesses </h3>
+          <h3 class="title-up"> Barangay Businesses </h3>
         </div>
         <div class="card-body">
           <% current_locality.barangays.each do |barangay| %>
@@ -23,7 +23,7 @@
     <div class="col-md-4">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title"> Approved Permits/Clearances </h4>
+          <h4 class="title-up"> Approved Permits/Clearances </h4>
         </div>
         <div class="card-body">
           <% @documents.each do |document| %>
@@ -45,7 +45,7 @@
     <div class="col-md-4">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title"> Collections </h3>
+          <h3 class="title-up"> Collections </h3>
         </div>
         <div class="card-body">
           <% Accounting::Revenue.all.to_a.sort_by(&:balance).first(20).each do |account| %>

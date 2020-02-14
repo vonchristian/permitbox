@@ -2,8 +2,8 @@ module GovModule
   module Taxpayers
     class BusinessesController < ApplicationController
       def index
-        @taxpayer = Taxpayer.find(params[:taxpayer_id])
-        @businesses = @taxpayer.businesses.for_locality(locality: current_locality)
+        @taxpayer          = Taxpayer.find(params[:taxpayer_id])
+        @pagy, @businesses = pagy(@taxpayer.businesses.for_locality(locality: current_locality))
       end
       def new
         @taxpayer = Taxpayer.find(params[:taxpayer_id])
