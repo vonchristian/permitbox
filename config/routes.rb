@@ -110,6 +110,10 @@ Rails.application.routes.draw do
   resources :carts, only: [:destroy]
 
   namespace :gov_module do
+    namespace :approved_permits do 
+      resources :business_permits, only: [:index]
+      resources :tricycle_permits, only: [:index]
+    end
     resources :permits, shallow: true do
       resources :cancellations, only: [:create], module: :permits
     end

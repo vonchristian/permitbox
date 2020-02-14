@@ -46,6 +46,7 @@ module Locations
     has_many :sealing_fee_configs,                 class_name: "Configurations::SealingFeeConfig"
     has_many :storage_permit_fee_configs,          class_name: "Configurations::StoragePermitFeeConfig"
     has_many :business_permits,                    class_name: "Permits::BusinessPermit"
+    has_many :tricycle_permits,                    class_name: "Permits::TricyclePermit"
     has_many :tricycle_permit_applications,        class_name: 'Tricycles::TricyclePermitApplication'
     has_many :business_permit_applications
     has_many :capital_tax_configs

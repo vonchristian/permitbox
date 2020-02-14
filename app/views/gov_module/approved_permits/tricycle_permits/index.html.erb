@@ -1,0 +1,5 @@
+<%= @tricycle_permits.size %>
+
+<% @tricycle_permits.each do |tricycle_permit| %>
+  <%= link_to tricycle_permit.name, gov_module_tricycle_permit_path(tricycle_permit) %>
+<% end %>
