@@ -4,7 +4,7 @@ module GovModule
       if params[:search].present?
         @pagy, @taxpayers = pagy(current_locality.taxpayers.text_search(params[:search]))
       else
-        @pagy, @taxpayers = pagy(current_locality.taxpayers, items: 25)
+        @pagy, @taxpayers = pagy(current_locality.taxpayers.order(last_name: :asc), items: 25)
       end
     end
     def new
