@@ -2,12 +2,12 @@ require 'rails_helper'
 
 describe Tricycle do
   describe 'associations' do
+    it { is_expected.to belong_to :penalty_revenue_account }
     it { is_expected.to belong_to :taxpayer }
     it { is_expected.to belong_to :locality }
     it { is_expected.to belong_to :tricycle_organization }
     it { is_expected.to have_many :tricycle_permits }
     it { is_expected.to have_many :tricycle_charges }
-    it { is_expected.to have_many :charges }
     it { is_expected.to have_many :tricycle_permit_applications }
   end
 

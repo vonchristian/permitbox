@@ -9,6 +9,7 @@ module Tricycles
 
 
     belongs_to :tricycle_organization
+    belongs_to :penalty_revenue_account, class_name: 'Accounting::Account'
     belongs_to :locality, class_name: "Locations::Locality"
     belongs_to :tricycle, optional: true
     belongs_to :taxpayer
@@ -19,7 +20,7 @@ module Tricycles
     has_many :tricycle_fees, through: :tricycle_charges
     delegate :name, to: :tricycle_organization, prefix: true
     delegate :current_location_complete_address, to: :tricycle, allow_nil: true
-
+    delegate :full_name, to: :taxpayer, prefix: true
     def self.vouchers
       Voucher.where(payee_id: self.pluck(:id))
     end
@@ -29,7 +30,7 @@ module Tricycles
     end
 
     def name
-      taxpayers_full_name
+      taxpayer.full_name
     end
 
     def taxpayers_full_name

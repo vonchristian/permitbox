@@ -55,7 +55,7 @@ module Tricycles
     private
     def create_tricycle
       if !tricycle_id.present? 
-        tricycle = find_locality.tricycles.create!(
+        tricycle = find_locality.tricycles.build(
         account_number:           account_number,
         mtop_number:              mtop_number,
         plate_number:             plate_number,
@@ -64,6 +64,8 @@ module Tricycles
         color:                    color,
         taxpayer:                 find_taxpayer,
         tricycle_organization_id: tricycle_organization_id)
+        create_penalty_revenue_account(tricycle)
+        tricycle.save!
       end 
     end
    
@@ -71,6 +73,7 @@ module Tricycles
     def create_permit_application
       find_locality.tricycle_permit_applications.create!(
       tricycle:                 find_tricycle,
+      penalty_revenue_account:  find_tricycle.penalty_revenue_account,
       taxpayer:                 find_taxpayer,
       application_date:         application_date,
       application_number:       application_number,

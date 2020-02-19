@@ -6,7 +6,8 @@ class Tricycle < ApplicationRecord
   include Discountable
   pg_search_scope :text_search, against: [:make, :tricycle_model, :plate_number, :mtop_number]
   delegate :avatar, to: :taxpayer
-
+  
+  belongs_to :penalty_revenue_account, class_name: 'Accounting::Account'
   belongs_to :locality, class_name: "Locations::Locality"
   belongs_to :taxpayer
   belongs_to :tricycle_organization

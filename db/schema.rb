@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_14_134835) do
+ActiveRecord::Schema.define(version: 2020_02_19_031558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -343,6 +343,7 @@ ActiveRecord::Schema.define(version: 2020_02_14_134835) do
     t.decimal "gross_sale_amount", default: "0.0"
     t.uuid "business_tax_revenue_account_id"
     t.integer "application_type", default: 0
+    t.uuid "penalty_revenue_account_id"
     t.index ["account_number"], name: "index_business_permit_applications_on_account_number", unique: true
     t.index ["applicant_type", "applicant_id"], name: "index_applicant_on_business_permit_applications"
     t.index ["application_type"], name: "index_business_permit_applications_on_application_type"
@@ -353,6 +354,7 @@ ActiveRecord::Schema.define(version: 2020_02_14_134835) do
     t.index ["locality_id"], name: "index_business_permit_applications_on_locality_id"
     t.index ["mode_of_payment"], name: "index_business_permit_applications_on_mode_of_payment"
     t.index ["ownership_type_id"], name: "index_business_permit_applications_on_ownership_type_id"
+    t.index ["penalty_revenue_account_id"], name: "index_penalty_rev_account_on_business_permit_applications"
     t.index ["province_id"], name: "index_business_permit_applications_on_province_id"
     t.index ["public_market_id"], name: "index_business_permit_applications_on_public_market_id"
     t.index ["street_id"], name: "index_business_permit_applications_on_street_id"
@@ -418,6 +420,7 @@ ActiveRecord::Schema.define(version: 2020_02_14_134835) do
     t.integer "permit_status"
     t.datetime "closed_at"
     t.uuid "business_tax_revenue_account_id"
+    t.uuid "penalty_revenue_account_id"
     t.index ["business_tax_category_id"], name: "index_businesses_on_business_tax_category_id"
     t.index ["business_tax_computation_config_id"], name: "index_businesses_on_business_tax_computation_config_id"
     t.index ["business_tax_revenue_account_id"], name: "index_businesses_on_business_tax_revenue_account_id"
@@ -425,6 +428,7 @@ ActiveRecord::Schema.define(version: 2020_02_14_134835) do
     t.index ["locality_id"], name: "index_businesses_on_locality_id"
     t.index ["mode_of_payment"], name: "index_businesses_on_mode_of_payment"
     t.index ["ownership_type_id"], name: "index_businesses_on_ownership_type_id"
+    t.index ["penalty_revenue_account_id"], name: "index_businesses_on_penalty_revenue_account_id"
     t.index ["permit_status"], name: "index_businesses_on_permit_status"
   end
 
@@ -1323,11 +1327,13 @@ ActiveRecord::Schema.define(version: 2020_02_14_134835) do
     t.integer "mode_of_payment"
     t.string "tricycle_model"
     t.integer "application_type", default: 0
+    t.uuid "penalty_revenue_account_id"
     t.index ["account_number"], name: "index_tricycle_permit_applications_on_account_number", unique: true
     t.index ["application_type"], name: "index_tricycle_permit_applications_on_application_type"
     t.index ["barangay_id"], name: "index_tricycle_permit_applications_on_barangay_id"
     t.index ["locality_id"], name: "index_tricycle_permit_applications_on_locality_id"
     t.index ["mode_of_payment"], name: "index_tricycle_permit_applications_on_mode_of_payment"
+    t.index ["penalty_revenue_account_id"], name: "index_penalty_rev_account_on_tric_permit_applications"
     t.index ["street_id"], name: "index_tricycle_permit_applications_on_street_id"
     t.index ["taxpayer_id"], name: "index_tricycle_permit_applications_on_taxpayer_id"
     t.index ["tricycle_id"], name: "index_tricycle_permit_applications_on_tricycle_id"
@@ -1349,8 +1355,10 @@ ActiveRecord::Schema.define(version: 2020_02_14_134835) do
     t.string "account_number"
     t.uuid "temporary_assessment_account_id"
     t.uuid "taxpayer_id"
+    t.uuid "penalty_revenue_account_id"
     t.index ["account_number"], name: "index_tricycles_on_account_number", unique: true
     t.index ["locality_id"], name: "index_tricycles_on_locality_id"
+    t.index ["penalty_revenue_account_id"], name: "index_tricycles_on_penalty_revenue_account_id"
     t.index ["taxpayer_id"], name: "index_tricycles_on_taxpayer_id"
     t.index ["temporary_assessment_account_id"], name: "index_tricycles_on_temporary_assessment_account_id"
     t.index ["tricycle_organization_id"], name: "index_tricycles_on_tricycle_organization_id"
@@ -1481,6 +1489,7 @@ ActiveRecord::Schema.define(version: 2020_02_14_134835) do
   add_foreign_key "business_penalty_configs", "accounts", column: "revenue_account_id"
   add_foreign_key "business_penalty_configs", "localities"
   add_foreign_key "business_permit_applications", "accounts", column: "business_tax_revenue_account_id"
+  add_foreign_key "business_permit_applications", "accounts", column: "penalty_revenue_account_id"
   add_foreign_key "business_permit_applications", "barangays"
   add_foreign_key "business_permit_applications", "business_tax_categories"
   add_foreign_key "business_permit_applications", "businesses"
@@ -1497,6 +1506,7 @@ ActiveRecord::Schema.define(version: 2020_02_14_134835) do
   add_foreign_key "business_tax_receivables", "businesses"
   add_foreign_key "business_tax_receivables", "users", column: "employee_id"
   add_foreign_key "businesses", "accounts", column: "business_tax_revenue_account_id"
+  add_foreign_key "businesses", "accounts", column: "penalty_revenue_account_id"
   add_foreign_key "businesses", "business_tax_categories"
   add_foreign_key "businesses", "business_tax_computation_configs"
   add_foreign_key "businesses", "localities"
@@ -1615,12 +1625,14 @@ ActiveRecord::Schema.define(version: 2020_02_14_134835) do
   add_foreign_key "tricycle_charges", "tricycles"
   add_foreign_key "tricycle_fees", "localities"
   add_foreign_key "tricycle_organizations", "localities"
+  add_foreign_key "tricycle_permit_applications", "accounts", column: "penalty_revenue_account_id"
   add_foreign_key "tricycle_permit_applications", "barangays"
   add_foreign_key "tricycle_permit_applications", "localities"
   add_foreign_key "tricycle_permit_applications", "streets"
   add_foreign_key "tricycle_permit_applications", "taxpayers"
   add_foreign_key "tricycle_permit_applications", "tricycle_organizations"
   add_foreign_key "tricycle_permit_applications", "tricycles"
+  add_foreign_key "tricycles", "accounts", column: "penalty_revenue_account_id"
   add_foreign_key "tricycles", "accounts", column: "temporary_assessment_account_id"
   add_foreign_key "tricycles", "localities"
   add_foreign_key "tricycles", "taxpayers"
