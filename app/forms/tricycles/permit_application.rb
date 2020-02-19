@@ -73,7 +73,6 @@ module Tricycles
     def create_permit_application
       find_locality.tricycle_permit_applications.create!(
       tricycle:                 find_tricycle,
-      penalty_revenue_account:  find_tricycle.penalty_revenue_account,
       taxpayer:                 find_taxpayer,
       application_date:         application_date,
       application_number:       application_number,
@@ -88,7 +87,10 @@ module Tricycles
     def create_charges
       Tricycles::ChargeSetter.new(tricycle_permit_application: find_tricycle_permit_application, cart: find_cart).set_charges!
     end
-    
+
+    def create_penalty_revenue_account(tricycle)
+      AccountCreators::Tricycles::PenaltyRevenueAccount.new(tricycle: tricycle).create_accounts!
+    end 
     def find_cart
       Cart.find(cart_id)
     end

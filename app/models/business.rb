@@ -14,7 +14,10 @@ class Business < ApplicationRecord
   belongs_to :locality,                   class_name: "Locations::Locality"
   belongs_to :ownership_type
   belongs_to :business_tax_category
-  belongs_to :business_tax_revenue_account, class_name: 'Accounting::Account'
+  belongs_to :tax_revenue_account,     class_name: 'Accounting::Account', foreign_key: 'business_tax_revenue_account_id'
+  belongs_to :tax_discount_account,    class_name: 'Accounting::Account', foreign_key: 'business_tax_discount_account_id'
+  belongs_to :penalty_revenue_account, class_name: 'Accounting::Account', foreign_key: 'penalty_revenue_account_id'
+
   has_one :business_name,                 class_name: 'Businesses::BusinessName'
   has_one :business_capital,              class_name: "Businesses::BusinessCapital"
   has_many :establishments,               class_name: "Businesses::Establishment", dependent: :destroy

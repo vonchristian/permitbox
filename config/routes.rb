@@ -152,6 +152,7 @@ Rails.application.routes.draw do
         resources :assessments, only: [:index, :show, :new, :create], module: :business_permit_applications
       end
       resources :tricycle_permit_applications do
+        resources :penalty_amounts, only: [:new, :create], module: :tricycle_permit_applications
         resources :vouchers, only: [:show], module: :tricycle_permit_applications
         resources :voucher_amounts, only: [:new, :create, :edit, :update], module: :tricycle_permit_applications
         resources :charge_cancellations, only: [:destroy], module: :tricycle_permit_applications

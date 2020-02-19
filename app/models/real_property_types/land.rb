@@ -5,8 +5,8 @@ module RealPropertyTypes
 
     has_many :valuations, as: :valuable, class_name: "RealProperties::Valuation"
     has_many :property_revisions, class_name: "RealProperties::PropertyRevision", as: :property
-    has_many :arps, as: :real_property, class_name: "RealProperties::Arp"
-    has_many :adjustments, class_name: "RealProperties::Adjustment", as: :adjustable
+    has_many :arps,          as: :real_property, class_name: "RealProperties::Arp"
+    has_many :adjustments,   class_name: "RealProperties::Adjustment", as: :adjustable
     has_many :encumberances, class_name: "RealProperties::Encumberance", as: :encumberable
     has_many :area_measurements, as: :measurable
     has_many :real_property_classifications, as: :classifiable, class_name: "RealProperties::RealPropertyClassification"

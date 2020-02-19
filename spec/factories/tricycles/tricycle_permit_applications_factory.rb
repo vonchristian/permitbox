@@ -4,6 +4,6 @@ FactoryBot.define do
     association :taxpayer
     association :tricycle_organization 
     association :locality
-    association :penalty_revenue_account, factory: :revenue
+    application_date { Date.current }
   end 
 end 

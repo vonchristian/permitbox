@@ -4,6 +4,10 @@ describe Business do
   describe 'associations' do
     it { is_expected.to belong_to :locality }
     it { is_expected.to belong_to :business_tax_category }
+    it { is_expected.to belong_to :tax_revenue_account }
+    it { is_expected.to belong_to :tax_discount_account }
+    it { is_expected.to belong_to :penalty_revenue_account }
+
     it { is_expected.to belong_to :ownership_type }
     it { is_expected.to have_one  :business_capital }
     it { is_expected.to have_one  :business_name }

@@ -1,0 +1,7 @@
+<%= simple_form_for @penalty, url: :gov_module_permit_applications_tricycle_permit_application_penalty_amounts do |f| %>
+  <%= f.input :amount %>
+  <%= f.input :cart_id, input_html: { value: current_cart.id} %>
+  <%= f.input :employee_id, input_html: { value: current_user.id} %>
+  <%= f.input :tricycle_permit_application_id, input_html: { value: @tricycle_permit_application.id} %>
+  <%= f.submit 'Add Penalty' %>
+<% end %>
