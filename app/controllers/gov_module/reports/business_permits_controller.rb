@@ -61,7 +61,9 @@ module GovModule
             "Business Taxes",
             "Permit Type",
             "Employee Count",
-            "Ownership Type"
+            "Ownership Type",
+            "Business Tax Category",
+            "CMCI Category"
           ])
           @business_permits.order(approval_date: :asc).each do |permit|
             yielder << CSV.generate_line([
@@ -82,7 +84,9 @@ module GovModule
             Payments::Classifier.new(voucher: permit.voucher, business: permit.business).business_taxes,
             permit.permit_type,
             permit.business.recent_employee_count.try(:total_count),
-            permit.business.try(:ownership_type_title)
+            permit.business.try(:ownership_type_title),
+            permit.business.try(:business_tax_category).try(:title),
+            permit.business.line_of_businesses.competetive_index_category_names
             ])
           end
         end 

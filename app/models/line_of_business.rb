@@ -18,6 +18,10 @@ class LineOfBusiness < ApplicationRecord
     where(essential: true)
   end
 
+  def self.competetive_index_category_names
+    all.map{|a| a.competetive_index_category_name }.join(",")
+  end  
+
   def self.non_essentials
     where(essential: false)
   end
