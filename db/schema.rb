@@ -963,27 +963,6 @@ ActiveRecord::Schema.define(version: 2020_02_14_134835) do
     t.index ["general_revision_id"], name: "index_penalty_configs_on_general_revision_id"
   end
 
-  create_table "permit_applications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "applicant_type"
-    t.uuid "applicant_id"
-    t.datetime "application_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "application_type"
-    t.string "account_number"
-    t.uuid "locality_id"
-    t.string "permitable_type"
-    t.uuid "permitable_id"
-    t.uuid "voucher_id"
-    t.string "application_number"
-    t.index ["account_number"], name: "index_permit_applications_on_account_number", unique: true
-    t.index ["applicant_type", "applicant_id"], name: "index_permit_applications_on_applicant_type_and_applicant_id"
-    t.index ["application_type"], name: "index_permit_applications_on_application_type"
-    t.index ["locality_id"], name: "index_permit_applications_on_locality_id"
-    t.index ["permitable_type", "permitable_id"], name: "index_permit_applications_on_permitable_type_and_permitable_id"
-    t.index ["voucher_id"], name: "index_permit_applications_on_voucher_id"
-  end
-
   create_table "permit_signatories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "permit_id"
     t.uuid "signatory_id"
@@ -1599,8 +1578,6 @@ ActiveRecord::Schema.define(version: 2020_02_14_134835) do
   add_foreign_key "ownership_types", "agencies"
   add_foreign_key "ownership_types", "localities"
   add_foreign_key "penalty_configs", "general_revisions"
-  add_foreign_key "permit_applications", "localities"
-  add_foreign_key "permit_applications", "vouchers"
   add_foreign_key "permit_signatories", "permits"
   add_foreign_key "permit_signatories", "signatories"
   add_foreign_key "permits", "localities"
