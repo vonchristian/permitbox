@@ -3,7 +3,8 @@ module Tricycles
     class PenaltyAmountProcessing 
       include ActiveModel::Model
       attr_accessor :amount, :tricycle_permit_application_id, :cart_id, :employee_id
-
+      validates :amount, :tricycle_permit_application_id, :cart_id, :employee_id, presence: true
+      
       def process!
         if valid?
           ApplicationRecord.transaction do 
@@ -20,7 +21,7 @@ module Tricycles
           name: 'Fines and Penalties'
         )
       end 
-      
+
       def find_cart
         Cart.find(cart_id)
       end 

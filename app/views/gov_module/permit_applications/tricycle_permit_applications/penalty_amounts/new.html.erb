@@ -1,7 +1,13 @@
+<div class='container'>
+  <div class='row'>
+    <div class='col-md-6 offset-md-3'>
+      <div class='card'>
+        <div class='card-body'>
+          <h3 class='title-up'> Add Penalties </h3>
 <%= simple_form_for @penalty, url: :gov_module_permit_applications_tricycle_permit_application_penalty_amounts do |f| %>
   <%= f.input :amount %>
-  <%= f.input :cart_id, input_html: { value: current_cart.id} %>
-  <%= f.input :employee_id, input_html: { value: current_user.id} %>
-  <%= f.input :tricycle_permit_application_id, input_html: { value: @tricycle_permit_application.id} %>
-  <%= f.submit 'Add Penalty' %>
+  <%= f.input :cart_id, input_html: { value: current_cart.id}, as: :hidden %>
+  <%= f.input :employee_id, input_html: { value: current_user.id}, as: :hidden %>
+  <%= f.input :tricycle_permit_application_id, input_html: { value: @tricycle_permit_application.id}, as: :hidden %>
+  <%= f.submit 'Add Penalty', class: 'btn btn-primary float-right' %>
 <% end %>

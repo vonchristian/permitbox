@@ -16,7 +16,9 @@ module GovModule
       private 
       
       def cancel_charge!
-        tricycle_charge.update(cancelled_at: Date.current)
+        if tricycle_charge.present?
+          tricycle_charge.update(cancelled_at: Date.current)
+        end 
       end 
     end 
   end 
