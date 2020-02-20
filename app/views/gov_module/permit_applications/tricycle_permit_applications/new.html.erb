@@ -19,7 +19,7 @@
           <%= f.input :color, input_html: { value: @tricycle.color } %>
           <%= f.input :tricycle_id, input_html: { value: @tricycle.id } %> 
           <%= f.input :taxpayer_id, input_html: { value: @taxpayer.id }, as: :hidden %>
-          <%= f.input :tricycle_organization_id, collection: current_locality.tricycle_organizations.all.map{ |a| [a.abbreviated_name, a.id] }, default: @tricycle.tricycle_organization %>
+          <%= f.input :tricycle_organization_id, collection: current_locality.tricycle_organizations.all.map{ |a| [a.abbreviated_name, a.id] }, default: @tricycle.tricycle_organization, input_html: { class: 'chosen-select' } %>
           <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
           <%= f.input :cart_id, input_html: { value: current_cart.id }, as: :hidden %>
 

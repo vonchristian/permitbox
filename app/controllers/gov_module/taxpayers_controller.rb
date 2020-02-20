@@ -45,10 +45,12 @@ module GovModule
     end
 
     private
+    
     def registration_params
       params.require(:taxpayers_registration).
-      permit(:first_name, :middle_name, :last_name, :sex, :email, :contact_number, :tin_number, :avatar, :locality_id, :account_number)
+      permit(:first_name, :middle_name, :last_name, :sex, :email, :contact_number, :tin_number, :avatar, :locality_id, :account_number, :barangay_id, :complete_address)
     end
+
     def update_taxpayer_params
       params.require(:taxpayer).
       permit(:first_name, :middle_name, :last_name, :sex)

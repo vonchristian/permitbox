@@ -17,7 +17,7 @@ module Tricycles
     has_many :tricycle_charges, class_name: 'Tricycles::TricycleCharge', dependent: :nullify
     has_many :tricycle_fees, through: :tricycle_charges
     
-    validates :application_date, presence: true 
+    validates :application_date, :application_number, presence: true 
     delegate :name, to: :tricycle_organization, prefix: true
     delegate :current_location_complete_address, to: :tricycle
     delegate :full_name, to: :taxpayer, prefix: true

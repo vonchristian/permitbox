@@ -12,9 +12,10 @@ module Tricycles
       it { is_expected.to have_many :tricycle_charges }
       it { is_expected.to have_many :tricycle_fees }
     end
-    
+
     describe 'validations' do 
       it { is_expected.to validate_presence_of :application_date }
+      it { is_expected.to validate_presence_of :application_number }
     end 
 
     describe 'delegations' do

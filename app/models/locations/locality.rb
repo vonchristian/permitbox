@@ -7,13 +7,6 @@ module Locations
 
     belongs_to :business_tax_computation_config,      class_name: "Configurations::BusinessTaxComputationConfig"
     belongs_to :province, optional: true
-    belongs_to :capital_tax_revenue_account,          class_name: "Accounting::Account"
-    belongs_to :mayors_permit_fee_calculation_config, class_name: "Configurations::MayorsPermitFeeCalculationConfig"
-    belongs_to :sanitary_inspection_revenue_account,  class_name: "Accounting::Account"
-    belongs_to :police_clearance_revenue_account,     class_name: "Accounting::Account"
-    belongs_to :surcharge_revenue_account,            class_name: "Accounting::Account"
-    belongs_to :penalty_revenue_account,              class_name: "Accounting::Account"
-    belongs_to :zoning_revenue_account,               class_name: "Accounting::Account"
     has_many :barangays
     has_many :vouchers
     has_many :voucher_amounts, through: :vouchers

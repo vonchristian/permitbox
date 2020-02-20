@@ -2,9 +2,9 @@
 module Taxpayers
   class Registration
     include ActiveModel::Model
-    attr_accessor :first_name, :middle_name, :last_name, :tin_number, :email, :sex, :account_number, :contact_number, :avatar, :locality_id
+    attr_accessor :first_name, :middle_name, :last_name, :tin_number, :email, :sex, :account_number, :contact_number, :avatar, :locality_id, :barangay_id, :complete_address
 
-    validates :first_name, :middle_name, :last_name, :sex, :contact_number, presence: true
+    validates :first_name, :middle_name, :last_name, :sex, :contact_number, :barangay_id, :complete_address, presence: true
     def register!
       ActiveRecord::Base.transaction do
         create_taxpayer
@@ -28,6 +28,7 @@ module Taxpayers
       contactable: taxpayer,
       contact_number: contact_number)
       add_to_localities(taxpayer)
+      create_address(taxpayer)
     end
 
     def avatar_asset
@@ -37,6 +38,14 @@ module Taxpayers
         Rails.root.join('app', 'assets', 'images', 'default.png')
       end
     end
+
+    def create_address(taxpayer)
+      taxpayer.locations.create!(
+        barangay_id:      barangay_id, 
+        locality_id:      locality_id,
+        complete_address: complete_address)
+    end 
+
 
     def find_locality
       Locations::Locality.find(locality_id)

@@ -19,6 +19,9 @@
           <%= f.input :account_number, input_html: { value: SecureRandom.uuid }, as: :hidden %>
           <%= f.input :locality_id, input_html: { value: current_locality.id }, as: :hidden %>
           <%= f.input :sex, collection: Taxpayer.sexes.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
+          <h4 class='title-up'> Address Details </h4>
+          <%= f.input :barangay_id, collection: current_locality.barangays.map{|a| [a.name, a.id] }, input_html: { class: 'chosen-select'} %>
+          <%= f.input :complete_address %>
           <%= f.submit "Save Taxpayer", class: "btn btn-primary float-right", data: { disable_with: "Processing..." } %>
         <% end %>
       </div>

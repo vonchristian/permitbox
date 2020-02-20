@@ -46,7 +46,7 @@ module Tricycles
     end 
 
     def create_accounts(tricycle_charge)
-      AccountCreators::TricycleChargeRevenueAccount.new(tricycle_charge: tricycle_charge).create_accounts!
+      AccountCreators::Tricycles::TricycleChargeRevenueAccount.new(tricycle_charge: tricycle_charge).create_accounts!
     end 
   end
 end

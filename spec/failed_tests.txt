@@ -447,5 +447,6 @@ example_id                                                                      
 ./spec/system/taxpayers/settings/destroy_system_spec.rb[1:1]                                                                  | passed  | 0.27727 seconds |
 ./spec/system/taxpayers/settings/index_system_spec.rb[1:1]                                                                    | failed  | 0.23996 seconds |
 ./spec/system/taxpayers/tricycle_permit_applications/assessments/new_system_spec.rb[1:1]                                      | failed  | 0.38342 seconds |
-./spec/system/taxpayers/tricycle_permit_applications/new_system_spec.rb[1:1]                                                  | passed  | 5.24 seconds    |
+./spec/system/taxpayers/tricycle_permit_applications/new_system_spec.rb[1:1]                                                  | passed  | 8.52 seconds    |
+./spec/system/tricycles/assessments/new_system_spec.rb[1:1]                                                                   | failed  | 10.73 seconds   |
 ./spec/system/tricycles/penalties/new_system_spec.rb[1:1]                                                                     | passed  | 8.84 seconds    |
