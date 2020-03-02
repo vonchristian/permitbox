@@ -1,5 +1,5 @@
 class BusinessChargeSetter
-  attr_reader :chargeable, :locality, :business_tax_category, :barangay, :gross_sale, :business_area, :business_tax_amount, :gross_sale_amount, :gross_sale_essential, :cart
+  attr_reader :chargeable, :locality, :business_tax_category, :barangay, :gross_sale, :business_area, :business_tax_amount, :gross_sale_amount, :gross_sale_essential, :cart, :business
 
   def initialize(args)
     @chargeable             = args[:chargeable]
@@ -8,6 +8,7 @@ class BusinessChargeSetter
     @business_area         = args[:business_area]
     @business_tax_amount   = args[:business_tax_amount]
     @cart                  = @chargeable.cart 
+    @business              = @chargeable.business
   end
 
   def set_charges
@@ -48,11 +49,11 @@ class BusinessChargeSetter
   end
 
   def set_mayors_permit_fees
-    chargeable.line_of_businesses.each do |line_of_business|
+    business.business_activities.not_cancelled.each do |business_activity|
       cart.voucher_amounts.credit.create!(
-      name: "Mayors Permit Fee (#{line_of_business.name})",
-      amount: line_of_business.fee_amount,
-      account: chargeable.business_activities.not_cancelled.find_by(line_of_business: line_of_business).revenue_account)
+      name: "Mayors Permit Fee (#{business_activity.name})",
+      amount: business_activity.total_fee_amount,
+      account: business_activity.revenue_account)
     end
   end
   def set_barangay_clearance_fee

@@ -16,8 +16,8 @@ module Payments
     end
 
     def business_taxes
-      if business.business_tax_revenue_account.present?
-        voucher.voucher_amounts.where(account: business.business_tax_revenue_account).total 
+      if business.tax_revenue_account.present?
+        voucher.voucher_amounts.where(account: business.tax_revenue_account).total 
       else
         voucher.voucher_amounts.where(account: business.business_tax_category.revenue_account).total
       end

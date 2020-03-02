@@ -130,7 +130,7 @@ module GovModule
           business_activity = find_business.business_activities.cancelled.find_by(line_of_business_id: line_of_business.id)
           business_activity.update(cancelled_at: nil)
         else 
-          business_activity = find_business.business_activities.build(
+          business_activity = find_business.business_activities.not_cancelled.build(
             line_of_business: line_of_business,
             quantity:         1)
             create_business_activity_accounts(business_activity)

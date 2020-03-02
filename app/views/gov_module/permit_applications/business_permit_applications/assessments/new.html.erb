@@ -1,45 +1,5 @@
-<div class="card">
-  <div class="card-body">
-    <%=link_to gov_module_permit_applications_business_permit_application_path(@business_permit_application) do %>
-      <h3 class="title-up"><%= @business_permit_application.business_name %></h3>
-      <small><i class="fa fa-map-marker"></i></small>
-    <% end %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6">
-    <div class="card">
-
-      <div class="card-body">
-        <% current_locality.charges.for_business.each do |charge| %>
-          <div class="row">
-            <div class="col-md-5">
-              <%= charge.name %>
-            </div>
-            <div class="col-md-3">
-              <%= number_to_currency charge.amount %>
-            </div>
-            <div class="col-md-2">
-              <% if !@business_permit_application.charges.include?(charge) %>
-                <%=simple_form_for [@business_permit_application, GovModule::BusinessPermitApplications::ChargeProcessing.new], url: :gov_module_permit_applications_business_permit_application_voucher_amounts do |f| %>
-                  <%= f.input :charge_id, input_html: { value: charge.id  }, as: :hidden %>
-                  <%= f.input :business_permit_application_id, input_html: { value: @business_permit_application.id }, as: :hidden %>
-                  <%= f.submit "Add", class: "btn btn-primary float-right" %>
-                <% end %>
-              <% else %>
-                <span class="badge bg-success float-right"><i class="fa fa-plus-circle"></i> Added </span>
-                <br>
-                <br>
-              <% end %>
-            </div>
-          </div>
-          <hr>
-        <% end %>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6">
+<div class='container'>
+  <div class="col-md-6 offset-md-3">
     <div class="card">
       <div class="card-body">
         <h3 class="title-up"> Taxes and Fees </h3>
