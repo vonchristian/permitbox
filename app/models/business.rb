@@ -32,7 +32,6 @@ class Business < ApplicationRecord
   has_many :business_activities,          class_name: "Businesses::BusinessActivity", dependent: :destroy
   has_many :line_of_businesses,           through: :business_activities
   has_many :line_of_business_categories,  through: :line_of_businesses
-  has_many :tin_plates,                   class_name: "TinPlate", as: :tin_platable, dependent: :destroy
   has_many :amounts,                      class_name: "Accounting::Amount", as: :amountable ,dependent: :nullify
   has_many :entries,                      class_name: "Accounting::Entry", through: :amounts
   has_many :voucher_amounts,              class_name: "Vouchers::VoucherAmount", as: :amountable, dependent: :destroy
