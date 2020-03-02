@@ -1,8 +1,7 @@
 class BusinessTaxCategory < ApplicationRecord
-  belongs_to :revenue_account, class_name: "Accounting::Account"
-  belongs_to :discount_account, class_name: "Accounting::Account"
-
-  belongs_to :locality, class_name: "Locations::Locality"
+  belongs_to :revenue_account,      class_name: "Accounting::Account"
+  belongs_to :discount_account,     class_name: "Accounting::Account"
+  belongs_to :locality,             class_name: "Locations::Locality"
   has_many :gross_sales_tax_ranges, class_name: "BusinessTaxCategories::GrossSalesTaxRange"
   has_many :businesses, dependent: :nullify
 

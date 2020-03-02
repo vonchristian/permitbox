@@ -39,10 +39,11 @@ module GovModule
       end
 
       def destroy
-        @business = Business.find(params[:business_id])
+        @business          = current_locality.find(params[:business_id])
         @business_activity = @business.business_activities.find(params[:id])
-        @business_activity.destroy
-        redirect_to gov_module_business_url(@business), notice: "Removed successfully."
+        ::Businesses::BusinessActivityCancellation.new(business_activity: @business_activity).cancel!
+        
+        redirect_to gov_module_business_url(@business), notice: "Cancelled successfully."
       end
 
       private

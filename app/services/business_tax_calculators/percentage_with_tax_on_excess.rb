@@ -20,7 +20,7 @@ module BusinessTaxCalculators
     private
 
     def tax_on_gross_limit
-gross_sales_tax_range.gross_limit * gross_sales_tax_range.tax_rate
+      gross_sales_tax_range.gross_limit * gross_sales_tax_range.tax_rate
     end
 
     def tax_on_excess
