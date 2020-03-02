@@ -1,3 +1,4 @@
+<% if business_permit_application.cart.present? %>
 <% business_permit_application.cart.voucher_amounts.non_discount_amounts.order(created_at: :asc).each do |voucher_amount| %>
   <div class="row">
     <div class="col-md-7">
@@ -79,3 +80,4 @@
   </div>
 </div>
 
+<% end %>
