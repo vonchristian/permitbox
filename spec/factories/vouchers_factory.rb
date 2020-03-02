@@ -4,5 +4,7 @@ FactoryBot.define do
     association :locality
     association :preparer, factory: :user
     account_number { SecureRandom.uuid }
+    date           { Date.current }
   end
+
 end

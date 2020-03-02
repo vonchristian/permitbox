@@ -1,7 +1,7 @@
 
 <div class="row">
   <div class="col-md-7">
-    <div class="card card-outline card-purple">
+    <div class="card card-outline">
       <div class="card-header">
         <ul class="nav navbar-tabs">
           <li class="nav-item">
@@ -13,7 +13,7 @@
 
         </ul>
       </div>
-      <div class="card-body bg-purple">
+      <div class="card-body">
 
 
 
@@ -150,59 +150,62 @@
             </div>
           </div>
         <% end %>
-        <hr>
+      </div>
+    </div>
+    <div class='card'>
+      <div class='card-body'>
         <div class="row">
           <div class="col-md-9">
             <h3 class="title-up"> Business Activities </h3>
           </div>
           <div class="col-md-3">
-
-              <%= link_to new_gov_module_permit_applications_business_permit_application_business_activity_path(@business_permit_application) do %>
-                <span class="btn btn-outline-primary btn-sm float-right" data-toggle="tooltip" title="Add Business Activity">
-                  <i class="fa fa-plus-circle"></i> Add
-                </span>
-              <% end %>
-
+            <%= link_to "Add", new_gov_module_permit_applications_business_permit_application_business_activity_path(@business_permit_application), id: 'add-business-activities', class: 'btn btn-outline-primary float-right' %>
           </div>
         </div>
         <div class="min-margin"></div>
-        <% @business_permit_application.business_activities.each do |business_activity| %>
-          <div class="row">
-            <div class="col-md-1">
-              <%= business_activity.quantity %>
-            </div>
-            <div class="col-md-3">
-              <%= number_to_currency business_activity.fee_amount %>
-            </div>
-            <div class="col-md-6">
-              <%= business_activity.name %>
-              <% if business_activity.has_storage_permit_fee? %>
-                <%= link_to "Add Volume", new_gov_module_permit_applications_business_permit_application_volume_path(id: business_activity, business_permit_application_id: @business_permit_application.id) %>
+        <div class='table table-responsive'>
+          <table class='table table-hover'>
+            <thead>
+              <tr>
+                <th> QTY </th>
+                <th> NAME </th>
+                <th> Fee Amount</th>
+                <th> Total Fee</th>
+
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @business.business_activities.not_cancelled.each do |business_activity| %>
+                <tr>
+                  <td><%= business_activity.quantity %></td>
+                  <td><%= business_activity.name %><br>
+                    <small class='text-muted'><%= business_activity.line_of_business.line_of_business_category.title %></small>
+
+                  </td>
+                  <td><%= number_to_currency business_activity.fee_amount %></td>
+                  <td><%= number_to_currency business_activity.total_fee_amount %></td>
+
+                  <td>
+                    <%= link_to gov_module_permit_applications_business_permit_application_business_activity_path(@business_permit_application, business_activity), method: :delete, id: "#{business_activity.id}-cancel-business-activity" do %>
+                      <span class="text-danger" data-toggle="tooltip" title="Remove Business Activity"><i class="fa fa-times"></i></span>
+                    <% end %>
+                  </td>
+                </tr>
               <% end %>
-            </div>
-            <div class="col-md-2">
-
-
-                <%= link_to gov_module_permit_applications_business_permit_application_business_activity_path(@business_permit_application, business_activity), method: :delete do %>
-                  <span class="text-danger" data-toggle="tooltip" title="Remove Business Activity"><i class="fa fa-times"></i></span>
-                <% end %>
-
-            </div>
-          </div>
-          <br>
-        <% end %>
-        <hr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class='card'>
+      <div class='card-body'>
         <div class="row">
           <div class="col-md-9">
             <h3 class="title-up"> Gross Sales Details </h3>
           </div>
           <div class="col-md-3">
-
-
-                <%= link_to new_gov_module_permit_applications_business_permit_application_gross_sale_path(@business_permit_application) do %>
-                  <span class="btn btn-sm btn-outline-primary float-right"><i class="fa fa-plus-circle"></i> Add </span>
-                <% end %>
-
+            <%= link_to 'Add Gross Sale', new_gov_module_permit_applications_business_permit_application_gross_sale_path(@business_permit_application), id: 'add-gross-sale', class: 'btn btn-outline-primary float-right' %>    
           </div>
         </div>
         <% @business_permit_application.gross_sales.each do |gross_sale| %>
@@ -226,7 +229,10 @@
           </div>
         <% end %>
 
-        <hr>
+        </div>
+      </div>
+      <div class='card'>
+        <div class='card-body'>
         <div class="row">
           <div class="col-md-8">
             <h3 class="title-up">Capital Details </h3>
@@ -234,10 +240,8 @@
           <div class="col-md-4">
 
 
-            <%= link_to new_gov_module_permit_applications_business_permit_application_capital_path(@business_permit_application) do %>
-              <span class="btn btn-sm btn-outline-primary float-right"><i class="fa fa-plus-circle"></i> Add </span>
-            <% end %>
-
+            <%= link_to 'Add Capital', new_gov_module_permit_applications_business_permit_application_capital_path(@business_permit_application), id: "add-business-capital", class: 'btn btn-outline-primary float-right' %>
+             
           </div>
         </div>
         <div class="row">
@@ -245,7 +249,7 @@
             Amount
           </div>
           <div class="col-md-5">
-            <%= number_to_currency @business_permit_application.capital_amount %>
+            <%= number_to_currency @business.business_capital.try(:capital_amount) %>
           </div>
         </div>
         <hr>
@@ -296,8 +300,6 @@
         <%= link_to edit_gov_module_permit_applications_business_permit_application_path(@business_permit_application) do %>
           <span class="btn btn-outline-warning float-right"><i class="fa fa-edit"></i> Edit Application </span>
         <% end %>
-
-
       </div>
     </div>
   </div>
@@ -306,19 +308,25 @@
     <div class="card card-outline card-secondary">
       <div class="card-header">
         <div class="row">
-          <div class="col-md-9">
+          <div class="col-md-6">
             <h3 class="title-up"> Taxes and Fees </h3>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-6">
+<%= link_to 'Add Penalty', new_gov_module_permit_applications_business_permit_application_penalty_path(@business_permit_application), class: 'btn btn-outline-danger btn-sm float-right' %>
+&nbsp; &nbsp;
             <%= link_to new_gov_module_permit_applications_business_permit_application_voucher_amount_path(@business_permit_application) do  %>
-              <span class="btn btn-outline-primary btn-sm float-right" data-toggle="tooltip" title="Add Fees and Taxes"><i class="fa fa-plus-circle"></i> Add</span>
+              <span class="btn btn-outline-primary btn-sm float-right" data-toggle="tooltip" title="Add Fees and Taxes"><i class="fa fa-plus-circle"></i> Add Fees/Taxes </span>
             <% end %>
           </div>
         </div>
       </div>
       <div class="card-body">
+
         <%= render 'gov_module/permit_applications/business_permit_applications/partials/charges', business_permit_application: @business_permit_application %>
+        
         <hr>
-        <%= link_to "Proceed to Assesment", new_gov_module_permit_applications_business_permit_application_assessment_path(@business_permit_application), class: "btn btn-block btn-primary" %>
+
+
+        <%= link_to "Proceed to Assessment", new_gov_module_permit_applications_business_permit_application_assessment_path(@business_permit_application), class: "btn btn-block btn-primary" %>
       </div>
     </div>

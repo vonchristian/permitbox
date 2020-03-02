@@ -26,11 +26,11 @@ module GovModule
 
         def destroy
           @business_permit_application = BusinessPermitApplication.find(params[:business_permit_application_id])
-          @business_activity = @business_permit_application.business_activities.find(params[:id])
-
-          remove_voucher_amounts
-
-          @business_activity.destroy
+          @business_activity = @business_permit_application.business.business_activities.find(params[:id])
+          ::Businesses::BusinessActivityCancellation.new(business_activity: @business_activity).cancel!
+         
+          @business_permit_application.cart.voucher_amounts.where(account_id: @business_activity.revenue_account_id).destroy_all
+   
 
           redirect_to gov_module_permit_applications_business_permit_application_url(@business_permit_application), notice: "Removed successfully."
         end
@@ -38,10 +38,7 @@ module GovModule
         private
         def business_activity_params
           params.require(:gov_module_business_activity_processing).
-          permit(:quantity, :business_id, :line_of_business_id, :volume, :business_permit_application_id)
-        end
-        def remove_voucher_amounts
-          @business_permit_application.voucher_amounts.where(name: "Mayors Permit Fee (#{@business_activity.line_of_business.name})").destroy_all
+          permit(:quantity, :business_id, :line_of_business_id, :volume, :business_permit_application_id, :employee_id)
         end
       end
     end

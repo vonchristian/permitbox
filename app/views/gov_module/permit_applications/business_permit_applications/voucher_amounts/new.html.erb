@@ -8,7 +8,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-7">
     <div class="card">
 
       <div class="card-body">
@@ -21,11 +21,15 @@
               <%= number_to_currency charge.amount %>
             </div>
             <div class="col-md-2">
-              <% if !@business_permit_application.voucher_amounts.pluck(:name).include?(charge.name) %>
+              <% if !@business.business_charges.cancelled.include?(charge) %>
                 <%=simple_form_for [@business_permit_application, GovModule::BusinessPermitApplications::ChargeProcessing.new], url: :gov_module_permit_applications_business_permit_application_voucher_amounts do |f| %>
                   <%= f.input :charge_id, input_html: { value: charge.id  }, as: :hidden %>
                   <%= f.input :business_permit_application_id, input_html: { value: @business_permit_application.id }, as: :hidden %>
-                  <%= f.submit "Add", class: "btn btn-primary float-right" %>
+                  <% if !@business.charges.active_business_charges.include?(charge) %>
+                    <%= f.submit "Add", class: "btn btn-primary float-right" %>
+                  <% else %>
+                    <span class='label bg-success'> ADDED </span>
+                  <% end %>
                 <% end %>
               <% else %>
                 <span class="badge bg-success float-right"><i class="fa fa-plus-circle"></i> Added </span>
@@ -39,85 +43,24 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6">
-    <div class="card">
+
+    <div class="col-md-5">
+    <div class="card card-outline card-secondary">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-9">
+            <h3 class="title-up"> Taxes and Fees </h3>
+          </div>
+          <div class="col-md-3">
+            <%= link_to new_gov_module_permit_applications_business_permit_application_voucher_amount_path(@business_permit_application) do  %>
+              <span class="btn btn-outline-primary btn-sm float-right" data-toggle="tooltip" title="Add Fees and Taxes"><i class="fa fa-plus-circle"></i> Add</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
       <div class="card-body">
-        <h3 class="title-up"> Taxes and Fees </h3>
-        <% @business_permit_application.voucher_amounts.non_discount_amounts.with_non_zero_amounts.order(:amount_cents).reverse.each do |voucher_amount| %>
-          <div class="row min-margin">
-            <div class="col-md-6 offset-md-1">
-              <%= voucher_amount.name %>
-
-            </div>
-            <div class="col-md-3">
-              <span class="float-right">
-                <%= number_to_currency voucher_amount.amount %>
-              </span>
-            </div>
-            <div class="col-md-2">
-              <%=link_to gov_module_permit_applications_business_permit_application_voucher_amount_path(business_permit_application_id: @business_permit_application.id, id: voucher_amount.id), method: :delete, data: {confirm: "Are you sure you want to delete this charge?" } do %>
-               <span class="text-danger" data-toggle="tooltip" title="Remove"><i class="fa fa-times mr-3"></i> </span>
-              <% end %>
-              <%=link_to edit_gov_module_permit_applications_business_permit_application_voucher_amount_path(business_permit_application_id: @business_permit_application.id, id: voucher_amount.id) do %>
-               <span class="text-warning" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> </span>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-        <hr class="min-margin">
-        <div class="row min-margin">
-          <div class="col-md-7">
-            SUBTOTAL
-          </div>
-          <div class="col-md-3">
-            <span class="float-right">
-              <%= number_to_currency @business_permit_application.voucher_amounts.non_discount_amounts.total %>
-            </span>
-          </div>
-          <div class="col-md-2">
-          </div>
-        </div>
-        <% @business_permit_application.voucher_amounts.discount_amounts.with_non_zero_amounts.order(:amount_cents).reverse.each do |voucher_amount| %>
-          <div class="row min-margin">
-            <div class="col-md-7">
-              <%= voucher_amount.name %>
-            </div>
-            <div class="col-md-3">
-              <span class="float-right">
-                <%= number_to_currency voucher_amount.amount %>
-              </span>
-            </div>
-            <div class="col-md-2">
-            </div>
-          </div>
-        <% end %>
-        <div class="row min-margin text-danger">
-          <div class="col-md-7">
-            Discounts
-          </div>
-          <div class="col-md-3">
-            <span class="float-right">
-              - <%= number_to_currency @business_permit_application.voucher_amounts.discount_amounts.total %>
-            </span>
-          </div>
-          <div class="col-md-2">
-          </div>
-        </div>
+        <%= render 'gov_module/permit_applications/business_permit_applications/partials/charges', business_permit_application: @business_permit_application %>
         <hr>
-        <div class="row min-margin">
-          <div class="col-md-6">
-            <h3 class="title-up"> Total </h3>
-          </div>
-          <div class="col-md-4">
-            <h3 class="title-up">
-              <span class="float-right">
-                <%= number_to_currency @business_permit_application.voucher_amounts.total_less_discount %>
-              </span>
-            </h3>
-          </div>
-        </div>
-        <hr>
-
+        <%= link_to "Proceed to Assesment", new_gov_module_permit_applications_business_permit_application_assessment_path(@business_permit_application), class: "btn btn-block btn-primary" %>
       </div>
     </div>
-  </div>

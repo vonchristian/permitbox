@@ -12,8 +12,12 @@ class LineOfBusiness < ApplicationRecord
   belongs_to :cart, optional: true
 
   validates :name, presence: true
-  delegate :revenue_account, to: :line_of_business_category
   delegate :name, to: :competetive_index_category, prefix: true, allow_nil: true
+  
+  def self.active_business_activities 
+    joins(:business_activities).where('business_activities.cancelled_at' => nil)
+  end 
+
   def self.essentials
     where(essential: true)
   end

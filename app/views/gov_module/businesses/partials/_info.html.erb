@@ -27,9 +27,7 @@
                 <span class="text-danger" data-toggle="tooltip" title="Remove"><i class="fa fa-trash"></i> </span>
               <% end %>
             <% end %>
-            <span class="description">
-              <i class="fa fa-map-marker mr-1"></i> <%= taxpayer.current_location_details %>
-            </span>
+            
 
       <% end %>
     <% end %>
@@ -138,7 +136,7 @@
           Business Area
         </div>
         <div class="col-md-6">
-          <%= number_to_currency business.recent_establishment.business_area, unit: "" %> sq.m.
+          <%= number_to_currency business.recent_establishment, unit: "" %> sq.m.
         </div>
       </div>
       <div class="row">

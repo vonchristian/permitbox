@@ -1,23 +1,20 @@
 module ChargeCalculators
   class MayorsPermitFee
-    attr_reader :chargeable, :line_of_business, :quantity, :business_activity
+    attr_reader :chargeable, :line_of_business, :quantity, :business_activity, :cart
     def initialize(args)
       @chargeable        = args[:chargeable]
       @business_activity = args[:business_activity]
       @line_of_business  = @business_activity.line_of_business
       @quantity          = args[:quantity]
+      @cart              = args[:cart]
     end
 
     def calculate_charge
-      chargeable.voucher_amounts.credit.create(
+      cart.voucher_amounts.credit.create!(
         name:    "Mayors Permit Fee (#{line_of_business.name})",
-        amount:  compute_fee,
+        amount:  business_activity.total_fee_amount,
         account: business_activity.revenue_account
       )
     end
-
-    def compute_fee
-      quantity * line_of_business.fee_amount
-    end 
   end
 end

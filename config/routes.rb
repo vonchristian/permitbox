@@ -150,6 +150,7 @@ Rails.application.routes.draw do
         resources :voucher_amounts, only: [:new, :create, :edit, :update, :destroy], module: :business_permit_applications
         resources :capitals, only: [:new, :create], module: :business_permit_applications
         resources :assessments, only: [:index, :show, :new, :create], module: :business_permit_applications
+        resources :penalties,   only: [:new, :create], module: :business_permit_applications 
       end
       resources :tricycle_permit_applications do
         resources :penalty_amounts, only: [:new, :create], module: :tricycle_permit_applications

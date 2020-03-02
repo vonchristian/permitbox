@@ -4,7 +4,8 @@ module GovModule
       class VoucherAmountsController < ApplicationController
 
         def new
-          @business_permit_application = BusinessPermitApplication.find(params[:business_permit_application_id])
+          @business_permit_application = current_locality.business_permit_applications.find(params[:business_permit_application_id])
+          @business = @business_permit_application.business 
           @charge = GovModule::BusinessPermitApplications::ChargeProcessing.new
         end
 
@@ -12,7 +13,7 @@ module GovModule
           @business_permit_application = BusinessPermitApplication.find(params[:gov_module_business_permit_applications_charge_processing][:business_permit_application_id])
           @charge = GovModule::BusinessPermitApplications::ChargeProcessing.new(charge_params)
           @charge.process!
-          redirect_to new_gov_module_permit_applications_business_permit_application_assessment_url(@business_permit_application)
+          redirect_to new_gov_module_permit_applications_business_permit_application_voucher_amount_url(@business_permit_application), notice: "Added successfully."
         end
 
         def edit
@@ -33,7 +34,19 @@ module GovModule
 
         def destroy
           @business_permit_application = BusinessPermitApplication.find(params[:business_permit_application_id])
-          @voucher_amount = @business_permit_application.voucher_amounts.find(params[:id])
+          @business = @business_permit_application.business 
+          @cart                        = @business_permit_application.cart 
+          @voucher_amount   = @cart.voucher_amounts.find(params[:id])
+          @business_activity = @business.business_activities.find_by(revenue_account_id: @voucher_amount.account_id)
+          @business_charge   = @business.business_charges.find_by(revenue_account_id: @voucher_amount.account_id)
+          if @business_activity.present?
+            ::Businesses::BusinessActivityCancellation.new(business_activity: @business_activity).cancel!
+          end 
+
+          if @business_charge.present?
+            ::Businesses::BusinessChargeCancellation.new(business_charge: @business_charge).cancel!
+          end 
+
           @voucher_amount.destroy
           redirect_to gov_module_permit_applications_business_permit_application_url(@business_permit_application), notice: "removed successfully."
         end

@@ -1,4 +1,4 @@
-<% business_permit_application.voucher_amounts.non_discount_amounts.order(:amount_cents).reverse.each do |voucher_amount| %>
+<% business_permit_application.cart.voucher_amounts.non_discount_amounts.order(created_at: :asc).each do |voucher_amount| %>
   <div class="row">
     <div class="col-md-7">
       <%= voucher_amount.name %>
@@ -27,11 +27,11 @@
   </div>
   <div class="col-md-4">
     <span class="float-right">
-      <%= number_to_currency business_permit_application.voucher_amounts.non_discount_amounts.total %>
+      <%= number_to_currency business_permit_application.cart.voucher_amounts.non_discount_amounts.total %>
     </span>
   </div>
 </div>
-<% business_permit_application.voucher_amounts.discount_amounts.each do |voucher_amount| %>
+<% business_permit_application.cart.voucher_amounts.discount_amounts.each do |voucher_amount| %>
   <div class="row min-margin">
     <div class="col-md-7">
       <%= voucher_amount.name %>
@@ -53,17 +53,19 @@
   </div>
 <% end %>
 <hr>
-<div class="row min-margin text-danger">
+
+<div class="row min-margin text-success">
   <div class="col-md-8">
     TOTAL DISCOUNTS
   </div>
   <div class="col-md-4">
     <span class="float-right">
-      - <%= number_to_currency business_permit_application.voucher_amounts.discount_amounts.total %>
+      - <%= number_to_currency business_permit_application.cart.voucher_amounts.discount_amounts.total %>
     </span>
   </div>
 </div>
 <hr>
+
 <div class="row min-margin">
   <div class="col-md-8">
     <h3 class="title-up"> TOTAL </h3>
@@ -71,8 +73,9 @@
   <div class="col-md-4">
     <h3 class="title-up">
       <span class="float-right">
-        <%= number_to_currency business_permit_application.voucher_amounts.total_less_discount %>
+        <%= number_to_currency business_permit_application.cart.voucher_amounts.total_less_discount %>
       </span>
     </h3>
   </div>
 </div>
+

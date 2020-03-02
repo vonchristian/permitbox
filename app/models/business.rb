@@ -1,4 +1,6 @@
 class Business < ApplicationRecord
+  self.implicit_order_column = "created_at"
+
   include PgSearch::Model
   include Locationable
   include Discountable
@@ -10,7 +12,6 @@ class Business < ApplicationRecord
 
   enum business_type: [:new_business, :old_business]
   enum mode_of_payment: [:annually, :quarterly, :semi_annually]
-  # belongs_to :receivable_account,         class_name: 'Accounting::Account'
   belongs_to :locality,                   class_name: "Locations::Locality"
   belongs_to :ownership_type
   belongs_to :business_tax_category
@@ -31,7 +32,7 @@ class Business < ApplicationRecord
   has_many :business_activities,          class_name: "Businesses::BusinessActivity", dependent: :destroy
   has_many :line_of_businesses,           through: :business_activities
   has_many :line_of_business_categories,  through: :line_of_businesses
-  has_many :tin_plates,                   class_name: "Businesses::TinPlate", dependent: :destroy
+  has_many :tin_plates,                   class_name: "TinPlate", as: :tin_platable, dependent: :destroy
   has_many :amounts,                      class_name: "Accounting::Amount", as: :amountable ,dependent: :nullify
   has_many :entries,                      class_name: "Accounting::Entry", through: :amounts
   has_many :voucher_amounts,              class_name: "Vouchers::VoucherAmount", as: :amountable, dependent: :destroy

@@ -16,7 +16,7 @@
             <div class="col-md-6">
               <%= f.input :account_number, input_html: { value: SecureRandom.uuid }, as: :hidden %>
                 <%= f.input :applicant_id, input_html: { value: @applicant.id }, as: :hidden %>
-
+                <%= f.input :cart_id, input_html: { value: current_cart.id }, as: :hidden %>
               <%= f.input :business_id, input_html: { value: @business.id },as: :hidden %>
               <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
               <%= f.input :application_date, as: :string, input_html: { class: 'datepicker' } %>
@@ -29,17 +29,17 @@
               <%= f.input :mode_of_payment, collection: Business.mode_of_payments.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons, checked: @business.mode_of_payment  %>
               <h4 class="title-up"> Ownership Setup </h4>
               <p class="text-muted"> Select the most approriate ownership type for this business </p>
-                    <%= f.input :ownership_type_id, label: false, collection: current_locality.ownership_types.all.map{|a| [a.title, a.id] }, default: @business.ownership_type_id, input_html: { class: 'chosen-select' } %>
+                    <%= f.input :ownership_type_id, label: 'Ownership Setup', collection: current_locality.ownership_types.all.map{|a| [a.title, a.id] }, default: @business.ownership_type_id, input_html: { class: 'chosen-select' } %>
               <hr>
               <h4 class="title-up"> Business Category </h4>
               <p class="text-muted"> Select the most approriate category for this business. </p>
 
-                  <%= f.input :business_tax_category_id, label: false, collection: BusinessTaxCategory.all.map{|a| [a.title, a.id] }, default: @business.business_tax_category_id, input_html: { class: 'chosen-select' } %>
+                  <%= f.input :business_tax_category_id, label: 'Business Category', collection: BusinessTaxCategory.all.map{|a| [a.title, a.id] }, default: @business.business_tax_category_id, input_html: { class: 'chosen-select' } %>
 
               <hr>
               <h4 class="title-up">Business Activities</h4>
               <p class="tex-muted"> Select all business activities applicable to this business. </p>
-                  <%= f.input :line_of_business_ids, label: false, collection: LineOfBusiness.all.map{|a| [a.name, a.id] }, input_html: { class: "chosen-select", multiple: true }, selected: @business.line_of_businesses.try(:ids)  %>
+                  <%= f.input :line_of_business_ids, label: 'Business Activities', collection: LineOfBusiness.all.map{|a| [a.name, a.id] }, input_html: { class: "chosen-select", multiple: true }, selected: @business.line_of_businesses.try(:ids)  %>
               <hr>
             </div>
             <div class="col-md-1">
@@ -65,13 +65,15 @@
               <span class="text-muted"> Check this box if this business is a leasing its establishment and enter monthly rental amount. </span>
 
               <div id="rental-details" style="display:none;">
+
                 <%= f.input :monthly_rental %>
               </div>
+              <hr />
               <span class="text-muted"> Check this box if this business is a market vendor and choose the Public Market this business belongs to. </span>
-              <div class="min-margin"></div>
+
               <%= f.input :market_vendor, as: :boolean, input_html: {id: "market-vendor"} %>
               <div id="market-details" style="display: none">
-                <%= f.input :public_market_id, collection: PublicMarket.all.map{|a| [a.name, a.id] } %>
+                <%= f.input :public_market_id, collection: PublicMarket.all.map{|a| [a.name, a.id] }, input_html: { class: 'chosen-select' } %>
                 <%= f.input :tenancy_type, collection: Tenancy.tenancy_types.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
               </div>
               <hr>

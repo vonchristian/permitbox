@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_130030) do
+ActiveRecord::Schema.define(version: 2020_03_02_092339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -266,6 +266,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_130030) do
     t.uuid "business_permit_application_id"
     t.decimal "volume", default: "0.0", null: false
     t.uuid "revenue_account_id"
+    t.datetime "cancelled_at"
     t.index ["business_id"], name: "index_business_activities_on_business_id"
     t.index ["business_permit_application_id"], name: "index_business_activities_on_business_permit_application_id"
     t.index ["line_of_business_id"], name: "index_business_activities_on_line_of_business_id"
@@ -288,10 +289,22 @@ ActiveRecord::Schema.define(version: 2020_02_19_130030) do
     t.uuid "charge_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "cancelled_at"
     t.index ["business_id"], name: "index_business_charges_on_business_id"
     t.index ["business_permit_application_id"], name: "index_business_charges_on_business_permit_application_id"
     t.index ["charge_id"], name: "index_business_charges_on_charge_id"
     t.index ["revenue_account_id"], name: "index_business_charges_on_revenue_account_id"
+  end
+
+  create_table "business_fees", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "charge_scope"
+    t.string "name"
+    t.decimal "amount"
+    t.uuid "locality_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["charge_scope"], name: "index_business_fees_on_charge_scope"
+    t.index ["locality_id"], name: "index_business_fees_on_locality_id"
   end
 
   create_table "business_names", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -345,6 +358,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_130030) do
     t.uuid "business_tax_revenue_account_id"
     t.integer "application_type", default: 0
     t.uuid "penalty_revenue_account_id"
+    t.uuid "cart_id"
     t.index ["account_number"], name: "index_business_permit_applications_on_account_number", unique: true
     t.index ["applicant_type", "applicant_id"], name: "index_applicant_on_business_permit_applications"
     t.index ["application_type"], name: "index_business_permit_applications_on_application_type"
@@ -352,6 +366,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_130030) do
     t.index ["business_id"], name: "index_business_permit_applications_on_business_id"
     t.index ["business_tax_category_id"], name: "index_business_permit_applications_on_business_tax_category_id"
     t.index ["business_tax_revenue_account_id"], name: "index_business_tax_rev_account_on_business_permit_applications"
+    t.index ["cart_id"], name: "index_business_permit_applications_on_cart_id"
     t.index ["locality_id"], name: "index_business_permit_applications_on_locality_id"
     t.index ["mode_of_payment"], name: "index_business_permit_applications_on_mode_of_payment"
     t.index ["ownership_type_id"], name: "index_business_permit_applications_on_ownership_type_id"
@@ -1277,6 +1292,17 @@ ActiveRecord::Schema.define(version: 2020_02_19_130030) do
     t.index ["termable_type", "termable_id"], name: "index_terms_on_termable_type_and_termable_id"
   end
 
+  create_table "tin_plates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "tin_platable_type", null: false
+    t.uuid "tin_platable_id", null: false
+    t.string "number"
+    t.uuid "locality_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["locality_id"], name: "index_tin_plates_on_locality_id"
+    t.index ["tin_platable_type", "tin_platable_id"], name: "index_tin_plates_on_tin_platable_type_and_tin_platable_id"
+  end
+
   create_table "tricycle_charges", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "tricycle_id"
     t.uuid "tricycle_permit_application_id"
@@ -1488,6 +1514,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_130030) do
   add_foreign_key "business_charges", "accounts", column: "revenue_account_id"
   add_foreign_key "business_charges", "business_permit_applications"
   add_foreign_key "business_charges", "businesses"
+  add_foreign_key "business_fees", "localities"
   add_foreign_key "business_names", "businesses"
   add_foreign_key "business_penalty_configs", "accounts", column: "revenue_account_id"
   add_foreign_key "business_penalty_configs", "localities"
@@ -1496,6 +1523,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_130030) do
   add_foreign_key "business_permit_applications", "barangays"
   add_foreign_key "business_permit_applications", "business_tax_categories"
   add_foreign_key "business_permit_applications", "businesses"
+  add_foreign_key "business_permit_applications", "carts"
   add_foreign_key "business_permit_applications", "localities"
   add_foreign_key "business_permit_applications", "ownership_types"
   add_foreign_key "business_permit_applications", "provinces"
@@ -1623,6 +1651,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_130030) do
   add_foreign_key "sub_classifications", "classifications"
   add_foreign_key "taxpayer_accounts", "taxpayers"
   add_foreign_key "tenancies", "public_markets"
+  add_foreign_key "tin_plates", "localities"
   add_foreign_key "tricycle_charges", "accounts", column: "revenue_account_id"
   add_foreign_key "tricycle_charges", "tricycle_fees"
   add_foreign_key "tricycle_charges", "tricycle_permit_applications"

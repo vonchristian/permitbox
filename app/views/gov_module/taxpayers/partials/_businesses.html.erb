@@ -6,11 +6,7 @@
   </div>
   <div class='col-md-3'>
     <% if policy(:business_permit_application).new? %>
-      <%= link_to new_gov_module_permit_applications_business_permit_application_path(applicant_id: @taxpayer.id) do %>
-        <span class="btn btn-primary float-right" data-toggle="tooltip" title="New Business">
-          <i class="fa fa-plus-circle"></i> New Application
-        </span>
-      <% end %>
+      <%= link_to 'New Application', new_gov_module_permit_applications_business_permit_application_path(applicant_id: @taxpayer.id),class: 'btn btn-primary float-right' %>
     <% end %>
   </div>
 </div>

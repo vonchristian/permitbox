@@ -13,7 +13,7 @@ module GovModule
           @gross_sale                  = GovModule::GrossSaleProcessing.new(gross_sale_params)
           if @gross_sale.valid?
             @gross_sale.process!
-            redirect_to gov_module_permit_applications_business_permit_application_url(@business_permit_application), notice: "Gross sales added successfully."
+            redirect_to gov_module_permit_applications_business_permit_application_url(@business_permit_application), notice: "Gross sales saved successfully."
           else
             render :new
           end
@@ -39,10 +39,10 @@ module GovModule
         end
 
         def remove_amounts
-          @business_permit_application.voucher_amounts.where(
-          account: @business_permit_application.business_tax_category.revenue_account).destroy_all
+          @business_permit_application.cart.voucher_amounts.where(
+          account: @business_permit_application.business.tax_revenue_account).destroy_all
 
-          @business_permit_application.voucher_amounts.where(
+          @business_permit_application.cart.voucher_amounts.where(
           account: @business_permit_application.business_tax_category.discount_account).destroy_all
         end
       end

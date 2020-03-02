@@ -12,7 +12,6 @@ module BusinessesSection
 
       private
       def create_charge
-        charge = Charge.create!(locality_id: locality_id, name: "Business Tax", revenue_account: find_business_tax_category.revenue_account, amount: tax_amount)
         gross_sales_tax_range = find_business_tax_category.gross_sales_tax_ranges.create!(
           minimum_gross_sale: minimum_gross_sale,
           maximum_gross_sale: maximum_gross_sale,

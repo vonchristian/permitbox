@@ -1,7 +1,7 @@
 module GovModule
   class BusinessActivityProcessing
     include ActiveModel::Model
-    attr_accessor :quantity, :business_id, :business_permit_application_id, :line_of_business_id, :volume
+    attr_accessor :quantity, :business_id, :business_permit_application_id, :line_of_business_id, :volume, :employee_id
 
     def process!
       ActiveRecord::Base.transaction do
@@ -9,31 +9,42 @@ module GovModule
       end
     end
     def find_business_activity
-      find_applicant.business_activities.find_by(line_of_business_id: line_of_business_id)
+      find_business.business_activities.find_by(line_of_business_id: line_of_business_id)
     end
 
     private
+
     def create_business_activity
-      if !find_applicant.line_of_businesses.include?(find_line_of_business)
-       business_activity = find_applicant.business_activities.build(
-        line_of_business: find_line_of_business,
-        volume:           volume.to_f,
-        quantity:         quantity)
-        create_accounts(business_activity)
-        business_activity.save! 
+      if find_business.business_activities.cancelled.find_by(line_of_business_id: line_of_business_id).present?
+        business_activity = find_business.business_activities.cancelled.find_by(line_of_business_id: line_of_business_id)
+        business_activity.update(
+          cancelled_at: nil,
+          volume: volume.to_f,
+          quantity: quantity
+        )
+      else 
+        business_activity = find_business.business_activities.build(
+          line_of_business: find_line_of_business,
+          volume:           volume.to_f,
+          quantity:         quantity)
+          create_accounts(business_activity)
+          business_activity.save! 
+  
+        end 
         create_charges(business_activity)
       end 
-    end
+
 
     def create_accounts(business_activity)
-      AccountCreators::BusinessActivityRevenueAccount.new(business_activity: business_activity).create_accounts!
+      AccountCreators::Businesses::BusinessActivityRevenueAccount.new(business_activity: business_activity).create_accounts!
     end 
 
     def create_charges(business_activity)
       ChargeCalculators::MayorsPermitFee.new(
-        chargeable:        find_applicant,
+        chargeable:        find_business_permit_application,
         quantity:          quantity.to_f,
-        business_activity: business_activity
+        business_activity: business_activity,
+        cart:              find_business_permit_application.cart
       ).calculate_charge
       if find_line_of_business.has_storage_permit_fee?
         set_storage_permit_fee
@@ -55,13 +66,16 @@ module GovModule
         business_activity: find_business_activity).calculate_charge
     end
 
-    def find_applicant
-      if find_business.present?
-        find_business
-      elsif find_business_permit_application.present?
-        find_business_permit_application
-      end
+    def find_business
+      find_locality.businesses.find(business_id)
     end
 
+    def find_locality
+      find_employee.locality
+    end 
+
+    def find_employee
+      User.find(employee_id)
+    end 
   end
 end

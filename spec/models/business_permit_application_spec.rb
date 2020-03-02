@@ -3,6 +3,7 @@ require 'rails_helper'
 describe BusinessPermitApplication do
   describe 'associations' do
     it { is_expected.to belong_to :applicant }
+    it { is_expected.to belong_to(:cart).optional }
     it { is_expected.to belong_to :ownership_type }
     it { is_expected.to belong_to :business_tax_category }
     it { is_expected.to belong_to(:business).optional }

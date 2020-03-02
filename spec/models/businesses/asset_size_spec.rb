@@ -4,7 +4,7 @@ module Businesses
   describe AssetSize do
     describe 'associations' do
       it { is_expected.to belong_to :business }
-      it { is_expected.to belong_to :enterprise_scale }
+      it { is_expected.to belong_to(:enterprise_scale).optional }
     end
 
     it ".current" do

@@ -17,7 +17,7 @@
               <strong><i class="fa fa-list"></i> Business Activities </strong>
               <br>
               <br>
-               <% @business_permit_application.business_activities.each do |business_activity| %>
+               <% @business_permit_application.business.business_activities.not_cancelled.each do |business_activity| %>
             <div class="row">
               <div class="col-md-1">
                 <%= business_activity.quantity %>
@@ -58,9 +58,9 @@
                     </div>
                     <div class="col-md-3">
                       <br>
-                      <% unless @business_permit_application.line_of_businesses.include?(line_of_business) %>
+                      <% unless @business_permit_application.line_of_businesses.active_business_activities.include?(line_of_business) %>
 
-                        <%= f.input :quantity, input_html: { value: 1 }, label: false %>
+                        <%= f.input :quantity, input_html: { value: 1, id: "business-activity-quantity" }, label: false %>
                         <% if line_of_business.has_storage_permit_fee? %>
                           <%= f.input :volume %>
                         <% end %>
@@ -69,8 +69,12 @@
                     <div class="col-md-3">
                       <%= f.input :line_of_business_id, input_html: { value: line_of_business.id }, as: :hidden %>
                       <%= f.input :business_permit_application_id, input_html: { value: @business_permit_application.id }, as: :hidden %>
-                      <% unless @business_permit_application.line_of_businesses.include?(line_of_business) %>
-                        <%= f.submit "Add", class: "btn btn-outline-success btn-sm float-right" %>
+                      <%= f.input :business_id, input_html: { value: @business_permit_application.business_id }, as: :hidden %>
+
+                      <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+
+                      <% unless @business_permit_application.line_of_businesses.active_business_activities.include?(line_of_business) %>
+                        <%= f.submit "Add Activity", class: "btn btn-outline-primary  float-right" %>
                       <% else %>
                         <br>
                         <span class="badge bg-success"> Added </span>

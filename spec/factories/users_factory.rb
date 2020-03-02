@@ -8,5 +8,9 @@ FactoryBot.define do
     factory :bplo_officer, class: User do 
       role { 'bplo_officer' }
     end 
+
+    factory :collection_officer, class: User do 
+      role { 'collection_officer' }
+    end 
   end
 end

@@ -1,15 +1,16 @@
 module ChargeCalculators
   class BusinessTax
-    attr_reader :chargeable, :gross_sale_amount, :revenue_account, :business_tax_amount, :charge_name
+    attr_reader :chargeable, :gross_sale_amount, :revenue_account, :business_tax_amount, :charge_name, :cart
     def initialize(args)
       @chargeable            = args[:chargeable]
       @revenue_account       = args[:revenue_account]
       @business_tax_amount   = args[:business_tax_amount]
       @charge_name           = args[:charge_name]
+      @cart                  = @chargeable.cart 
     end
 
     def calculate_charge
-      chargeable.voucher_amounts.credit.create!(
+      cart.voucher_amounts.credit.create!(
       name:    charge_name,
       amount:  business_tax_amount,
       account: revenue_account)

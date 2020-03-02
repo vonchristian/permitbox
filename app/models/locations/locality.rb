@@ -6,6 +6,7 @@ module Locations
     enum locality_type: [:city, :municipality]
 
     belongs_to :business_tax_computation_config,      class_name: "Configurations::BusinessTaxComputationConfig"
+    belongs_to :mayors_permit_fee_calculation_config, class_name: "Configurations::MayorsPermitFeeCalculationConfig"
     belongs_to :province, optional: true
     has_many :barangays
     has_many :vouchers

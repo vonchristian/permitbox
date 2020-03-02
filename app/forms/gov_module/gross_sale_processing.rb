@@ -48,7 +48,7 @@ module GovModule
         charge_name: "Business Tax (#{gross_sale_type.titleize})",
         business_tax_amount: ::Businesses::GrossSalesTaxComputation.new(gross_sale: gross_sale).compute_tax!,
         chargeable: find_grossable,
-        revenue_account: find_grossable.business_tax_revenue_account,
+        revenue_account: find_grossable.business.tax_revenue_account,
       ).calculate_charge
     end
 

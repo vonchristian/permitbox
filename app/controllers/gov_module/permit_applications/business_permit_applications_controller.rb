@@ -13,12 +13,12 @@ module GovModule
 
       def new
         @applicant = current_locality.taxpayers.find_by(id: params[:applicant_id])
-        @business_permit_application = GovModule::PermitApplications::BusinessPermit.new
+        @business_permit_application = GovModule::Businesses::BusinessPermitApplication.new
         authorize @business_permit_application, policy_class: BusinessPermitApplicationPolicy
       end
       def create
-        @applicant = current_locality.taxpayers.find_by(id: params[:gov_module_permit_applications_business_permit][:applicant_id])
-        @business_permit_application = GovModule::PermitApplications::BusinessPermit.new(application_params)
+        @applicant = current_locality.taxpayers.find_by(id: params[:gov_module_businesses_business_permit_application][:applicant_id])
+        @business_permit_application = GovModule::Businesses::BusinessPermitApplication.new(application_params)
         authorize @business_permit_application, policy_class: BusinessPermitApplicationPolicy
 
         if @business_permit_application.valid?
@@ -31,6 +31,7 @@ module GovModule
 
       def show
         @business_permit_application = current_locality.business_permit_applications.find(params[:id])
+        @business = @business_permit_application.business
         respond_to do |format|
           format.html
           format.pdf do
@@ -70,8 +71,8 @@ module GovModule
         end
       end
       def application_params
-        params.require(:gov_module_permit_applications_business_permit).
-        permit(:account_number, :employee_id, :applicant_id, :applicant_type, :business_id, :locality_id, :business_name, :application_date, :application_number, :ownership_type_id, :mode_of_payment, :business_permit_application_account_number,
+        params.require(:gov_module_businesses_business_permit_application).
+        permit(:cart_id, :account_number, :employee_id, :applicant_id, :applicant_type, :business_id, :locality_id, :business_name, :application_date, :application_number, :ownership_type_id, :mode_of_payment, :business_permit_application_account_number,
         :complete_address, :barangay_id, :street_id, :rented, :monthly_rental, :market_vendor, :public_market_id, :tenancy_type, :business_area,
         :business_tax_category_id,  :employee_count, :discount_ids => [], :line_of_business_ids => [])
       end

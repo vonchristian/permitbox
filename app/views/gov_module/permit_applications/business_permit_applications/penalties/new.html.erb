@@ -1,0 +1,6 @@
+<%= simple_form_for @penalty, url: :gov_module_permit_applications_business_permit_application_penalties do |f| %>
+  <%= f.input :business_permit_application_id, input_html: { value: @business_permit_application.id }, as: :hidden %>
+  <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+  <%= f.input :amount %>
+  <%= f.submit "Save Penalty" %>
+<% end %>

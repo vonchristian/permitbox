@@ -16,7 +16,7 @@
           <%= simple_form_for @capital, url: :gov_module_permit_applications_business_permit_application_capitals do |f| %>
             <%= f.input :amount %>
             <%= f.input :business_permit_application_id, input_html: { value: @business_permit_application.id }, as: :hidden %>
-            <%= f.submit "Create Capital", class: "btn btn-primary float-right", data: { disable_with: "Processing..." } %>
+            <%= f.submit "Save Capital", class: "btn btn-primary float-right", data: { disable_with: "Processing..." } %>
           <% end %>
         </div>
       </div>
