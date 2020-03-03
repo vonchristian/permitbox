@@ -28,7 +28,7 @@
         <tr>
           <td><%= business_permit_application.application_date.strftime('%B %e, %Y') %></td>
           <td><%= business_permit_application.application_number %></td>
-          <td><%= number_to_currency business_permit_application.voucher.voucher_amounts.credit.total %></td>
+          <td><%= number_to_currency business_permit_application.voucher.voucher_amounts.total %></td>
           <td>
 
           <% if business_permit_application.paid? %>

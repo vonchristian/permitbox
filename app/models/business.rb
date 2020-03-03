@@ -57,6 +57,10 @@ class Business < ApplicationRecord
     where.not(closed_at: nil)
   end
 
+  def self.not_closed
+    where(closed_at: nil)
+  end
+
   def self.closed_on(args={})
     from_date = args[:from_date]
     to_date   = args[:to_date]
@@ -72,14 +76,14 @@ class Business < ApplicationRecord
     from_date = args[:from_date]
     to_date   = args[:to_date]
     date_range = DateRange.new(from_date: from_date, to_date: to_date)
-    joins(:business_permits).where('permits.cancelled_at' => nil).where('permits.approval_date' => date_range.range)
+    not_closed.joins(:business_permits).where('permits.cancelled_at' => nil).where('permits.approval_date' => date_range.range)
   end
 
   def self.without_permits(args={})
     from_date = args[:from_date]
     to_date   = args[:to_date]
     ids = with_permits(from_date: from_date, to_date: to_date).pluck(:id)
-    where.not(id: ids)
+    not_closed.where.not(id: ids)
   end
 
   def all_vouchers
