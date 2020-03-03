@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'New tricycle penalty' do 
+describe 'New tricycle assessment' do 
   before(:each) do 
     bplo_officer = create(:bplo_officer)
     tricycle = create(:tricycle)
@@ -21,6 +21,6 @@ describe 'New tricycle penalty' do
 
     click_button 'Create Assessment'
 
-    expect(page).to have_content('created successfully')
+    expect(page).to have_content('saved successfully')
   end 
 end 

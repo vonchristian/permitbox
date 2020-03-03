@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+include ChosenSelect
 describe 'New tricycle permit application' do
   before(:each) do
     locality = create(:locality)
@@ -8,7 +8,7 @@ describe 'New tricycle permit application' do
     toda     = create(:tricycle_organization, abbreviated_name: "LAGAWETODA", locality: locality)
     barangay = create(:barangay, name: 'Poblacion', locality: locality)
     revenue_account = create(:revenue, name: 'Permit Fee')
-    charge          = create(:charge, name: 'Permit Fee', revenue_account: revenue_account, amount: 100, charge_scope: 'for_tricycle', locality: locality)
+    charge          = create(:charge, name: 'Permit Fee',  amount: 100, charge_scope: 'for_tricycle', locality: locality)
     locality.taxpayers << taxpayer
     locality.accounts << revenue_account
     login_as(user, scope: :user)
@@ -17,8 +17,7 @@ describe 'New tricycle permit application' do
     click_link 'New Application'
   end
 
-  it 'with valid attributes' do
-    fill_in 'Application date', with: Date.current
+  it 'with valid attributes', js: true do
     fill_in 'Application number', with: '3131313'
     choose 'New Application'
     fill_in 'MTOP Number', with: '3131'
@@ -26,9 +25,11 @@ describe 'New tricycle permit application' do
     fill_in 'Make/Brand', with: 'Kawasaki'
     fill_in 'Tricycle model', with: 'NS160'
     fill_in 'Color', with: 'Black'
-    select 'LAGAWETODA'
+    select_from_chosen 'LAGAWETODA', from: 'Tricycle organization'
+    fill_in 'Application date', with: Date.current
 
     click_button 'Save Application'
-    save_and_open_page
+    
+    expect(page).to have_content('created successfully')
   end
 end

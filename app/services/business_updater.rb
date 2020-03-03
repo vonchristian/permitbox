@@ -18,24 +18,24 @@ class BusinessUpdater
   end
   def update_employee_count
     business.employee_counts.create!(
-      locality: locality,
-      date: business_permit_application.application_date,
+      locality:    locality,
+      date:        business_permit_application.application_date,
       total_count: business_permit_application.employee_count
     )
   end
   def update_business
     business.update_attributes(
-      name: business_permit_application.business_name,
-      mode_of_payment: business_permit_application.mode_of_payment,
-      ownership_type: business_permit_application.ownership_type,
+      name:                  business_permit_application.business_name,
+      mode_of_payment:       business_permit_application.mode_of_payment,
+      ownership_type:        business_permit_application.ownership_type,
       business_tax_category: business_permit_application.business_tax_category
     )
   end
   def update_location
     if business.current_location.present?
       business.current_location.update_attributes(
-        barangay: business_permit_application.barangay,
-        street: business_permit_application.street,
+        barangay:         business_permit_application.barangay,
+        street:           business_permit_application.street,
         complete_address: business_permit_application.complete_address
       )
     else
@@ -90,7 +90,5 @@ class BusinessUpdater
   def create_gross_sale
     business.gross_sales << business_permit_application.gross_sales
   end
-  def create_business_tax_payment_schedule
-    business.business_tax_receivables << business_permit_application.business_tax_receivables
-  end
+  
 end

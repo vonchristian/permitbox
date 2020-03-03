@@ -21,7 +21,7 @@ module Businesses
     end 
 
     def regular_tax
-      find_grossable.business_tax_category.compute_tax(gross_sale.amount)
+      gross_sale.business_tax
     end 
 
     def find_grossable

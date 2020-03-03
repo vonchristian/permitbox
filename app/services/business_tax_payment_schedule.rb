@@ -2,10 +2,10 @@ class BusinessTaxPaymentSchedule
   attr_reader :scheduleable, :employee, :business_tax_amount, :date
 
   def initialize(args)
-    @scheduleable = args[:scheduleable]
-    @employee = args[:employee]
+    @scheduleable        = args[:scheduleable]
+    @employee            = args[:employee]
     @business_tax_amount = args[:business_tax_amount]
-    @date = args[:date]
+    @date                = args[:date]
   end
 
   def create_schedule
@@ -17,8 +17,8 @@ class BusinessTaxPaymentSchedule
 
   def create_first_schedule
     scheduleable.business_tax_receivables.create!(
-      date: date,
-      amount: amortized_amount,
+      date:     date,
+      amount:   amortized_amount,
       employee: employee
     )
   end

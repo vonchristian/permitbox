@@ -4,6 +4,7 @@ class Tenancy < ApplicationRecord
   belongs_to :land_lord, polymorphic: true, optional: true
   belongs_to :public_market
   delegate :name, to: :public_market, prefix: true
+  
   def self.recent
     order(created_at: :desc).first
   end
