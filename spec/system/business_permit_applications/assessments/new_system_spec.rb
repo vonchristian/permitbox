@@ -12,7 +12,7 @@ describe 'New business permit application assessment' do
     line_of_business             = create(:line_of_business, locality: locality, fee_amount: 100)
     business_activity            = create(:business_activity, business: business, line_of_business: line_of_business)
     bplo_officer                 = create(:bplo_officer, locality: locality)
-    create(:credit_voucher_amount, cart: @business_permit_application.cart,  account: @business_permit_application.business_tax_revenue_account, amount: 10_000)
+    create(:credit_voucher_amount, cart: @business_permit_application.cart,  account: business.tax_revenue_account, amount: 10_000)
     create(:credit_voucher_amount, cart: @business_permit_application.cart, account: business_activity.revenue_account, amount: 10_000)
 
     login_as(bplo_officer, scope: :user)

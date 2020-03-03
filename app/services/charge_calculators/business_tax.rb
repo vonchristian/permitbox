@@ -1,26 +1,19 @@
 module ChargeCalculators
   class BusinessTax
-    attr_reader :chargeable, :gross_sale_amount, :revenue_account, :business_tax_amount, :charge_name, :cart
+    attr_reader :business_permit_application, :gross_sale, :business,  :cart
     def initialize(args)
-      @chargeable            = args[:chargeable]
-      @revenue_account       = args[:revenue_account]
-      @business_tax_amount   = args[:business_tax_amount]
-      @charge_name           = args[:charge_name]
-      @cart                  = @chargeable.cart 
-    end
+    
+      @gross_sale                  = args[:gross_sale]
+      @cart                        = args[:cart]
+      @business                    = @gross_sale.business
 
-    def calculate_charge
-      cart.voucher_amounts.credit.create!(
-      name:    charge_name,
-      amount:  business_tax_amount,
-      account: revenue_account)
+
     end
-    def payable_amount
-      if chargeable.annually?
-        chargeable.business_tax
-      else
-        chargeable.payable_amount_per_schedule
-      end
+    def create_charges!
+      cart.voucher_amounts.credit.create!(
+      name:    "Business Tax (#{gross_sale.gross_sale_type.titleize})",
+      amount:  gross_sale.business_tax,
+      account: business.tax_revenue_account)
     end
   end
 end

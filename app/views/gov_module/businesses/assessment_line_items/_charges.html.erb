@@ -1,0 +1,46 @@
+<div class='card animated fadeIn'>
+  <div class='card-body'>
+    <div class='row'>
+      <div class='col-md-2'>
+        <%= image_tag("business_logo_placeholder.png", class: "rounded", height: 45, width: 45) %>
+      </div>
+      <div class='col-md-10'>
+        <h4 class='subtitle-up'><%= @business.name.upcase %></h4>
+        <span class='text-muted'><i class="fa fa-map-marker"></i> <%= @business.current_location_complete_address %></small></span>
+      </div>
+    </div>
+    <hr>
+    <h4 class='subtitle-up'> TAXES AND FEES</h4>
+    <% current_cart.voucher_amounts.without_voucher.each do |voucher_amount| %>
+      <div class='row min-margin'>
+        <div class='col-md-6 offset-md-1'>
+          <%= voucher_amount.name %>
+        </div>
+        <div class='col-md-3'>
+          <span class='float-right'><%= number_to_currency voucher_amount.amount %></span>
+        </div>
+        <div class='col-md-1'>
+          <%= link_to gov_module_business_additional_voucher_amount_path(business_id: @business.id, id: voucher_amount.id), method: :delete  do %>
+            <span class='float-right'><i class='fa fa-times text-danger'></i></span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <hr>
+    <% if current_cart.voucher_amounts.without_voucher.total > 0 %>
+      <div class='row min-margin'>
+        <div class='col-md-5'>
+          <h4 class='title-up'> TOTAL </h4>
+        </div>
+        <div class='col-md-5'>
+          <h4 class='title-up float-right'><%= number_to_currency current_cart.voucher_amounts.total %></h4>
+        </div>
+      </div>
+      <hr>
+
+        <%= link_to 'Cancel', gov_module_business_assessment_line_item_path(id: @business.id), method: :delete, class: 'btn btn-link text-danger float-left' %>
+        <%= link_to 'Proceed to Assessment', new_gov_module_business_assessment_path(@business), class: 'btn btn-primary float-right' %>
+
+    <% end %>
+  </div>
+</div>

@@ -27,9 +27,7 @@ module GovModule
             create_establishment
             create_business_permit_application
             create_line_of_businesses
-            create_discounts
             set_charges
-            set_discounts
           end
         end 
       end
@@ -154,11 +152,6 @@ module GovModule
         ).set_charges
       end
 
-      def set_discounts
-        BusinessDiscountSetter.new(
-          discountable: find_business_permit_application,
-        ).set_discounts
-      end
 
       def find_locality
         Locations::Locality.find(locality_id)

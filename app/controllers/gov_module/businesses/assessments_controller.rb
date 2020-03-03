@@ -23,7 +23,7 @@ module GovModule
       private
       def assessment_params
         params.require(:gov_module_businesses_assessment).
-        permit(:business_id, :date, :employee_id, :account_number)
+        permit(:business_id, :cart_id, :date, :employee_id, :account_number)
       end
     end
   end

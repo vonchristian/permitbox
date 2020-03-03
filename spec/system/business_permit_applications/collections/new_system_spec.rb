@@ -14,7 +14,7 @@ describe 'New business permit application assessment' do
     collection_officer           = create(:collection_officer, locality: locality)
     create(:employee_cash_account, employee: collection_officer, default_account: true)
     voucher = create(:voucher, payee: @business_permit_application)
-    create(:credit_voucher_amount, voucher: voucher, account: @business_permit_application.business_tax_revenue_account, amount: 10_000)
+    create(:credit_voucher_amount, voucher: voucher, account: business.tax_revenue_account, amount: 10_000)
     create(:credit_voucher_amount, voucher: voucher, account: business_activity.revenue_account, amount: 10_000)
 
     login_as(collection_officer, scope: :user)

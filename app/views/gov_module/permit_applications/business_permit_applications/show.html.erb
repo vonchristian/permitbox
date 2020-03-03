@@ -1,22 +1,8 @@
 
 <div class="row">
   <div class="col-md-7">
-    <div class="card card-outline">
-      <div class="card-header">
-        <ul class="nav navbar-tabs">
-          <li class="nav-item">
-            <%= link_to 'Info', gov_module_permit_applications_business_permit_application_path(@business_permit_application), class: "nav-link #{'active' if current_page?(gov_module_permit_applications_business_permit_application_path(@business_permit_application))}" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'Assessments', gov_module_permit_applications_business_permit_application_assessments_path(@business_permit_application), class: "nav-link #{'active' if current_page?(gov_module_permit_applications_business_permit_application_assessments_path(@business_permit_application))}" %>
-          </li>
-
-        </ul>
-      </div>
+    <div class='card'>
       <div class="card-body">
-
-
-
          <h3 class="title-up"> Assessment Details </h3>
 
         <!-- Move to policy -->
@@ -329,4 +315,4 @@
 
         <%= link_to "Proceed to Assessment", new_gov_module_permit_applications_business_permit_application_assessment_path(@business_permit_application), class: "btn btn-block btn-primary" %>
       </div>
-    </div>
+    </div> 

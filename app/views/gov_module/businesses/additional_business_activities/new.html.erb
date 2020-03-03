@@ -1,0 +1,67 @@
+<div class='container'>
+  <div class='row'>
+    <div class="col-md-7">
+      <div class='card'>
+        <div class='card-body'>
+          <%= link_to new_gov_module_business_assessment_line_item_path(@business) do %>
+            <i class='fa fa-arrow-left'></i> &nbsp; <%= @business.name %>
+          <% end %>
+          <br>
+          <br>
+          <%= form_tag new_gov_module_business_additional_business_activity_path(@business), method: :get, id: "search-form" do %>
+            <div class="input-group">
+              <%= text_field_tag :search, params[:search], class: "search-query form-control border-input", placeholder: "Search line of businesses...", type: "search" %>
+              <span class="input-group-btn">
+                <%= button_tag(type: 'submit', class: "btn") do %>
+                  <i class="fa fa-search"></i>
+                <% end %>
+              </span>
+            </div>
+          <% end %>
+          <% @line_of_businesses.each do |line_of_business| %>
+            <%= simple_form_for @business_activity, url: :gov_module_business_additional_business_activities do |f| %>
+              <div class="row">
+                <div class="col-md-6">
+                  <span class="text-muted">
+                    <br>
+                    <%= line_of_business.name %><br>
+                    <%= number_to_currency line_of_business.fee_amount %>
+                  </span>
+                </div>
+                <div class="col-md-3">
+                  <br>
+                  <% unless @business.line_of_businesses.active_business_activities.include?(line_of_business) %>
+
+                    <%= f.input :quantity, input_html: { value: 1, id: "business-activity-quantity" }, label: false %>
+                    <% if line_of_business.has_storage_permit_fee? %>
+                      <%= f.input :volume %>
+                    <% end %>
+                    <% end %>
+                </div>
+                <div class="col-md-3">
+                  <%= f.input :line_of_business_id, input_html: { value: line_of_business.id }, as: :hidden %>
+                  <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+                  
+                  <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+                  <%= f.input :cart_id, input_html: { value: current_cart.id }, as: :hidden %>
+
+
+                  <% unless @business.line_of_businesses.active_business_activities.include?(line_of_business) %>
+                    <%= f.submit "Add Activity", class: "btn btn-outline-primary  float-right" %>
+                  <% else %>
+                    <br>
+                    <span class="badge bg-success"> Added </span>
+                  <% end %>
+                </div>
+              </div>
+              <hr>
+            <% end %>
+          <% end %>
+          <center><%==pagy_bootstrap_nav(@pagy) %></center>
+        </div>
+      </div>
+    </div>
+    <div class='col-md-5'>
+      <%= render 'gov_module/businesses/assessment_line_items/charges', business: @business %>
+    </div>
+  </div>

@@ -2,7 +2,7 @@ module GovModule
   module BusinessPermitApplications
     class ChargeProcessing
       include ActiveModel::Model
-      attr_accessor :charge_id, :business_permit_application_id
+      attr_accessor :charge_id, :business_permit_application_id, :business_id, :cart_id
       def process!
         ActiveRecord::Base.transaction do
           create_business_charge
@@ -28,18 +28,30 @@ module GovModule
       
 
       def create_charge(business_charge)
-        find_business_permit_application.cart.voucher_amounts.credit.create!(
+        find_cart.voucher_amounts.credit.create!(
           name:    find_charge.name,
           amount:  find_charge.amount,
           account: business_charge.revenue_account
         )
       end
+      
+      def find_cart
+        if cart_id.present?
+          Cart.find(cart_id)
+        else 
+          find_business_permit_application.cart 
+        end 
+      end 
 
       def find_business_permit_application
         BusinessPermitApplication.find(business_permit_application_id)
       end
       def find_business
-        find_business_permit_application.business 
+        if business_id.present?
+          Business.find(business_id)
+        else 
+          find_business_permit_application.business 
+        end 
       end 
       def find_charge
         Charge.find(charge_id)

@@ -38,7 +38,7 @@ module GovModule
         private
         def business_activity_params
           params.require(:gov_module_business_activity_processing).
-          permit(:quantity, :business_id, :line_of_business_id, :volume, :business_permit_application_id, :employee_id)
+          permit(:cart_id, :quantity, :business_id, :line_of_business_id, :volume, :business_permit_application_id, :employee_id)
         end
       end
     end

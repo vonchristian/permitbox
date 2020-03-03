@@ -19,7 +19,7 @@
             <%= link_to 'Business Permits', gov_module_business_permits_path(@business), class: "nav-link #{'active' if current_page?(gov_module_business_permits_path(@business))}" %>
           </li>
           <li class="nav-item">
-            <%= link_to 'Assessments', gov_module_business_assessments_path(@business), class: "nav-link #{'active' if current_page?(gov_module_business_assessments_path(@business))}" %>
+            <%= link_to 'Assessments', gov_module_business_assessments_path(@business), id: "#{@business.id}-assessments", class: "nav-link #{'active' if current_page?(gov_module_business_assessments_path(@business))}" %>
           </li>
           <li class="nav-item">
             <%= link_to 'Settings', gov_module_business_settings_path(@business), class: "nav-link #{'active' if current_page?(gov_module_business_settings_path(@business))}" %>

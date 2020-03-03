@@ -254,7 +254,6 @@ Rails.application.routes.draw do
       resources :required_documents, only: [:new, :create, :show], module: :businesses do
         resources :approvals, only:  [:new, :create], module: :required_documents
         resources :verifications, only: [:new, :create], module: :required_documents
-
       end
 
       resources :payments, only: [:index], module: :businesses
@@ -264,6 +263,13 @@ Rails.application.routes.draw do
       resources :business_activities, only: [:new, :create, :destroy], module: :businesses
       resources :charges, only: [:new, :create], module: :businesses
       resources :assessments, only: [:index, :new, :create], module: :businesses
+      resources :assessment_line_items, only: [:new, :create, :destroy], module: :businesses
+      resources :additional_business_activities, only: [:new, :create, :destroy],  module: :businesses 
+      resources :additional_gross_sales,         only: [:new, :create],            module: :businesses 
+      resources :additional_penalties,           only: [:new, :create],            module: :businesses 
+      resources :additional_charges,             only: [:new, :create, :destroy],            module: :businesses 
+      resources :additional_voucher_amounts,     only: [:edit, :update, :destroy], module: :businesses 
+
       resources :requirements, only: [:index], module: :businesses
 
     end

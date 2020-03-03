@@ -12,8 +12,8 @@ class BusinessChargeSetter
   end
 
   def set_charges
-    set_barangay_charges
-    set_default_charges
+    # set_barangay_charges
+    # set_default_charges
     set_mayors_permit_fees
     # set_sanitary_inspection_fee
     # set_fire_safety_inspection_fee
@@ -41,10 +41,12 @@ class BusinessChargeSetter
 
   def set_default_charges
     locality.charges.default.for_business.each do |charge|
+      business.business_charges.where(charge: charge).each do |business_charge|
       cart.voucher_amounts.credit.create!(
-        amount: charge.amount,
-        name: charge.name,
-        account: charge.revenue_account)
+        amount:  business_charge.charge.amount,
+        name:    business_charge.charge_name,
+        account: business_charge.revenue_account)
+      end 
     end
   end
 

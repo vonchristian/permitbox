@@ -72,6 +72,8 @@
                       <%= f.input :business_id, input_html: { value: @business_permit_application.business_id }, as: :hidden %>
 
                       <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+                      <%= f.input :cart_id, input_html: { value: @business_permit_application.cart_id }, as: :hidden %>
+
 
                       <% unless @business_permit_application.line_of_businesses.active_business_activities.include?(line_of_business) %>
                         <%= f.submit "Add Activity", class: "btn btn-outline-primary  float-right" %>

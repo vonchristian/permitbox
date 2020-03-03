@@ -39,7 +39,7 @@ module GovModule
       end
 
       def destroy
-        @business          = current_locality.find(params[:business_id])
+        @business          = current_locality.businesses.find(params[:business_id])
         @business_activity = @business.business_activities.find(params[:id])
         ::Businesses::BusinessActivityCancellation.new(business_activity: @business_activity).cancel!
         

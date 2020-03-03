@@ -11,12 +11,10 @@
 <%= link_to 'New Discount', new_gov_module_bplo_settings_discount_path %>
 <%= link_to 'New Signatory', new_gov_module_bplo_settings_signatory_path %>
 <%= link_to 'New Public Market', new_gov_module_bplo_settings_public_market_path %>
-<%= link_to 'Set Capital Tax', new_gov_module_bplo_settings_capital_tax_config_path %>
+
 <%= link_to 'New Surcharge', new_gov_module_bplo_settings_surcharge_path %>
-<% if current_locality.capital_tax_configs.present? %>
-  <h2><%= current_locality.capital_tax_configs.recent.rate %></h2>
-  <small>CAPITAL TAX RATE</small>
-<% end %>
+
+
 <div class="row">
   <div class="col-md-4">
     <div class="card">

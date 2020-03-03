@@ -29,10 +29,10 @@ class BusinessPermitApplication < ApplicationRecord
   delegate :title, to: :ownership_type, prefix: true
   delegate :title, to: :business_tax_category, prefix: true
   delegate :name, to: :barangay, prefix: true
-  delegate :taxpayers_full_name, to: :business
+  delegate :taxpayers_full_name,  to: :business
 
   delegate :name, to: :public_market, prefix: true, allow_nil: true
-
+  
   def current_gross_sale
     gross_sales.current
   end

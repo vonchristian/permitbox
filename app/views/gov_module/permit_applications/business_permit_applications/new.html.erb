@@ -76,11 +76,8 @@
                 <%= f.input :public_market_id, collection: PublicMarket.all.map{|a| [a.name, a.id] }, input_html: { class: 'chosen-select' } %>
                 <%= f.input :tenancy_type, collection: Tenancy.tenancy_types.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons %>
               </div>
-              <hr>
-              <h3 class="title-up">Applicable Discounts </h3>
-              <p class="text-muted"> Select applicable discounts for this business. </p>
-              <%= f.input :discount_ids, label: false, collection: current_locality.discounts.map{|a| [a.name, a.id] }, input_html: { class: 'chosen-select', multiple: true } %>
-
+             
+              
             </div>
 
             <div class="col-md-1">

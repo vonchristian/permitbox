@@ -4,7 +4,7 @@ module Businesses
     belongs_to :revenue_account, class_name: 'Accounting::Revenue'
     belongs_to :charge 
 
-    delegate :name, to: :charge, prefix: true
+    delegate :name, :amount, to: :charge, prefix: true
 
     def self.not_cancelled
       where(cancelled_at: nil)

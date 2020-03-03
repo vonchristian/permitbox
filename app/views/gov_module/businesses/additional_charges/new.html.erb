@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-7">
+      <div class="card">
+        <div class="card-body">
+        <%= link_to new_gov_module_business_assessment_line_item_path(@business) do %>
+                <i class='fa fa-arrow-left'></i> Back 
+              <% end %>
+          <% current_locality.charges.for_business.each do |charge| %>
+            <div class="row">
+              <div class="col-md-5">
+                <%= charge.name %>
+              </div>
+              <div class="col-md-3">
+                <%= number_to_currency charge.amount %>
+              </div>
+              <div class="col-md-2">
+                <% if !@business.business_charges.cancelled.include?(charge) %>
+                  <%=simple_form_for @charge, url: :gov_module_business_additional_charges do |f| %>
+                    <%= f.input :charge_id, input_html: { value: charge.id  }, as: :hidden %>
+                    <%= f.input :cart_id, input_html: { value: current_cart.id  }, as: :hidden %>
+
+                    <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+                    <% if !@business.charges.active_business_charges.include?(charge) %>
+                      <%= f.submit "Add", class: "btn btn-primary float-right" %>
+                    <% else %>
+                      <span class='label bg-success'> ADDED </span>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <span class="badge bg-success float-right"><i class="fa fa-plus-circle"></i> Added </span>
+                  <br>
+                  <br>
+                <% end %>
+              </div>
+            </div>
+            <hr>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class='col-md-5'>
+      <%= render 'gov_module/businesses/assessment_line_items/charges', business: @business %>
+    </div>
+  </div>
+</div>

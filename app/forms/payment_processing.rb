@@ -33,14 +33,17 @@ class PaymentProcessing
   end
 
   def set_voucher_entry(entry)
-    find_voucher.update_attributes!(entry_id: entry.id)
+    find_voucher.update!(entry_id: entry.id)
   end
+
   def find_voucher
     Voucher.find(voucher_id)
   end
+  
   def cash_on_hand_account
     Accounting::Asset.find(cash_account_id)
   end
+
   def find_employee
     User.find(employee_id)
   end

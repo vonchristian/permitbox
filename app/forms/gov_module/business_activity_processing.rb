@@ -1,7 +1,7 @@
 module GovModule
   class BusinessActivityProcessing
     include ActiveModel::Model
-    attr_accessor :quantity, :business_id, :business_permit_application_id, :line_of_business_id, :volume, :employee_id
+    attr_accessor :quantity, :business_id, :business_permit_application_id, :line_of_business_id, :volume, :employee_id, :cart_id
 
     def process!
       ActiveRecord::Base.transaction do
@@ -44,7 +44,7 @@ module GovModule
         chargeable:        find_business_permit_application,
         quantity:          quantity.to_f,
         business_activity: business_activity,
-        cart:              find_business_permit_application.cart
+        cart:              find_cart
       ).calculate_charge
       if find_line_of_business.has_storage_permit_fee?
         set_storage_permit_fee
@@ -76,6 +76,10 @@ module GovModule
 
     def find_employee
       User.find(employee_id)
+    end 
+
+    def find_cart
+      Cart.find(cart_id)
     end 
   end
 end

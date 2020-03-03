@@ -1,0 +1,22 @@
+<div class='container'>
+  <div class='row'>
+    <div class='col-md-7'>
+      <div class='card'>
+        <div class='card-body'>
+          <h3 class='title-up'> Add Penalties </h3>
+          <%= simple_form_for @penalty, url: :gov_module_business_additional_penalties do |f| %>
+            <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+            <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+            <%= f.input :cart_id, input_html: { value: current_cart.id }, as: :hidden %>
+
+            <%= f.input :amount %>
+            <%= f.submit "Save Penalty", class: 'btn btn-primary float-right' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+   <div class='col-md-5'>
+      <%= render 'gov_module/businesses/assessment_line_items/charges', business: @business %>
+    </div>
+  </div>
+</div>

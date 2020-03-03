@@ -17,13 +17,15 @@ module Taxpayers
     private
     def create_taxpayer
       taxpayer = Taxpayer.create!(
-      avatar:         avatar_asset,
+      avatar:         avatar,
       sex:            sex,
       account_number: account_number,
       first_name:     ProperCaser.new(text: first_name).propercase,
       middle_name:    ProperCaser.new(text: middle_name).propercase,
       last_name:      ProperCaser.new(text: last_name).propercase)
-
+      if avatar.blank?
+        taxpayer.avatar.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'default_avatar.png')), filename: 'default_avatar.png')
+      end
       Contact.create!(
       contactable: taxpayer,
       contact_number: contact_number)
@@ -45,7 +47,6 @@ module Taxpayers
         locality_id:      locality_id,
         complete_address: complete_address)
     end 
-
 
     def find_locality
       Locations::Locality.find(locality_id)

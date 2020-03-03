@@ -12,7 +12,7 @@ class VoucherPdf < Prawn::Document
     non_discount_amount_details
     discount_amount_details
     signatory
-    fire_assessment
+    # fire_assessment
   end
   private
   def price(number)
@@ -106,12 +106,7 @@ class VoucherPdf < Prawn::Document
       move_down 10
     end
 
-    table([["", "Fire Safety Inspection Fee (Assessment)", "#{price(fire_assessment)}"]],column_widths: [50, 250, 100]) do
-      cells.borders = []
-      column(2).align = :right
-      row(0).font_style = :bold
-      row(0).font_size = 10
-    end 
+    
   end
   def non_discount_amounts_data
     voucher.voucher_amounts.non_discount_amounts.with_non_zero_amounts.map{|a| ["", a.name, price(a.amount)] }
@@ -127,7 +122,5 @@ class VoucherPdf < Prawn::Document
     text "#{voucher.preparer_full_name.upcase}", size: 11, style: :bold
     text "#{voucher.preparer_designation}", size: 10
   end
-  def fire_assessment
-    locality.fire_safety_inspection_configs.recent.compute_fee(voucher)
-  end
+  
 end

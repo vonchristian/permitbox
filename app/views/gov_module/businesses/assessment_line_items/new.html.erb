@@ -1,0 +1,106 @@
+<div class='container'>
+  <div class='row'>
+    <div class='col-md-6'>
+      <div class='card'>
+        <div class='card-body'> 
+          <%= link_to gov_module_business_path(@business) do %>
+            <i class='fa fa-arrow-left'></i> Back 
+          <% end %>
+          <hr>
+          <div class="row">
+            <div class="col-md-7">
+              <h3 class="title-up"> Gross Sales </h3>
+            </div>
+            <div class="col-md-5">
+              <%= link_to 'New Gross Sale', new_gov_module_business_additional_gross_sale_path(@business), class: 'btn btn-outline-primary float-right' %>
+
+            </div>
+          </div>
+          <% @business.gross_sales.where(calendar_year: Date.current.last_year.year).each do |gross_sale| %>
+                <h3 class='title-up'><%= number_to_currency gross_sale.amount %></h3>
+                  <%= gross_sale.gross_sale_type %>
+                <span class='text-muted'> For year <%= Date.current.last_year.year %> </span>
+                <hr>
+          <% end %>
+           <hr>
+          <div class="row">
+            <div class="col-md-8">
+              <h3 class="title-up"> Business Activities </h3>
+            </div>
+            <div class="col-md-4">
+              <% if current_user.bplo_officer? %>
+                <%= link_to 'Add Business Activity', new_gov_module_business_additional_business_activity_path(@business), class: 'btn btn-outline-primary float-right' %>
+              <% end %>
+            </div>
+          </div>
+          <br>
+          <% @business.business_activities.not_cancelled.each do |business_activity| %>
+            <div class="row">
+              <div class="col-md-2">
+                <%= business_activity.quantity.to_i %>
+              </div>
+              <div class="col-md-6">
+                <%= business_activity.name %>
+              </div>
+              <div class="col-md-3">
+                <span class="float-right">
+                  <%= number_to_currency business_activity.total_fee_amount %>
+                </span>
+              </div>
+              <div class='col-md-1'>
+                <% if current_user.bplo_officer? %>
+                  <%= link_to gov_module_business_additional_business_activity_path(business_id: @business.id, id: business_activity.id), method: :delete, data: { confirm: "Are you sure you want to remove this business activity?" } do %>
+                    <span class="text-danger" data-toggle="tooltip" title="Remove Business Activity"><i class="fa fa-times"></i></span>
+                  <% end %>
+                <% end %>
+              </div>
+              
+            </div>
+            <br>
+          <% end %>
+          <hr>
+          <div class='row'>
+            <div class='col-md-7'>
+              <h3 class='title-up'> Penalties </h3>
+            </div>
+            <div class='col-md-5'>
+              <%= link_to 'Add Penalty', new_gov_module_business_additional_penalty_path(@business), class: 'btn btn-outline-primary float-right' %>
+            </div>
+          </div>
+          <hr />
+          <div class='row'>
+            <div class='col-md-7'>
+              <h3 class='title-up'> Fees/Charges </h3>
+            </div>
+            <div class='col-md-5'>
+              <%= link_to 'Add Charges', new_gov_module_business_additional_charge_path(@business), class: 'btn btn-outline-primary float-right' %>
+            </div>
+          </div>
+          <% @business.business_charges.not_cancelled.each do |business_charge| %>
+            <div class="row min-margin">
+              <div class="col-md-6">
+                <%= business_charge.charge_name %>
+              </div>
+              <div class="col-md-4">
+                <span class="float-right">
+                  <%= number_to_currency business_charge.charge_amount %>
+                </span>
+              </div>
+              <div class='col-md-2'>
+                <% if current_user.bplo_officer? %>
+                  <%= link_to gov_module_business_additional_charge_path(business_id: @business.id, id: business_charge.id), method: :delete, data: { confirm: "Are you sure you want to remove this business activity?" } do %>
+                    <span class="text-danger" data-toggle="tooltip" title="Remove Charge"><i class="fa fa-times"></i></span>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class='col-md-6'>
+      <%= render 'gov_module/businesses/assessment_line_items/charges', business: @business %>
+    </div>
+  </div>
+</div>

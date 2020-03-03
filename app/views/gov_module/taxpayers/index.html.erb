@@ -17,9 +17,7 @@
         <% end %>
       </div>
       <div class="col-md-3">
-        <%= link_to new_gov_module_taxpayer_path(@locality) do %>
-          <span class="btn btn-primary float-right"><i class="fa fa-user-plus"> </i> New Taxpayer</span>
-        <% end %>
+        <%= link_to 'New Taxpayer', new_gov_module_taxpayer_path(@locality), class: 'btn btn-primary float-right' %>
       </div>
     </div>
     <br>

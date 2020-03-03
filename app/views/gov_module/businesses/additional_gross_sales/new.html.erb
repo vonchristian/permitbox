@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-7">
+      <div class="card">
+        <div class="card-body">
+          <%= simple_form_for  @gross_sale, url: :gov_module_business_additional_gross_sales do |f| %>
+          <strong>Gross Sales Details</strong>
+            <%= f.input :amount, autofocus: true %>
+            <%= f.input :gross_sale_type, collection: Businesses::GrossSale.gross_sale_types.keys.to_a.map{|a| [a.titleize, a] }, as: :radio_buttons, checked: Businesses::GrossSale.gross_sale_types.first %>
+            <%= f.input :mode_of_payment, collection: BusinessPermitApplication.mode_of_payments.keys.to_a.map{|mode| [mode.titleize, mode] }, as: :radio_buttons, checked: @business.mode_of_payment %>
+            <p class="text-muted"> Preceding year this gross sales </p>
+            <%= f.input :calendar_year, input_html: { value: Date.today.last_year.year } %>
+
+            <%= f.input :business_id, input_html: { value: @business.id }, as: :hidden %>
+            <%= f.input :cart_id,     input_html: { value: current_cart.id }, as: :hidden %>
+
+            <%= f.input :employee_id, input_html: { value: current_user.id }, as: :hidden %>
+
+            <%= f.submit "Save Gross Sale", class: "btn btn-primary float-right" %>
+          <% end %>
+          </div>
+      </div>
+    </div>
+  <div class='col-md-5'>
+    <%= render 'gov_module/businesses/assessment_line_items/charges', business: @business %>
+  </div>
+</div>

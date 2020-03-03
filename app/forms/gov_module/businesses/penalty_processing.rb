@@ -2,10 +2,9 @@ module GovModule
   module Businesses 
     class PenaltyProcessing 
       include ActiveModel::Model
-      attr_accessor :amount, :business_permit_application_id, :employee_id 
+      attr_accessor :amount, :business_permit_application_id, :employee_id, :cart_id, :business_id
 
-      validates :amount, presence: true, numericality: true 
-      validates :business_permit_application_id, :employee_id, presence: true 
+      validates :amount, presence: true, numericality: true  
 
       def process! 
         if valid?
@@ -23,11 +22,22 @@ module GovModule
       end 
 
       def find_cart
-        find_business_permit_application.cart 
+        if cart_id.present?
+          Cart.find(cart_id)
+        else 
+          find_business_permit_application.cart
+        end  
       end 
       
       def penalty_revenue_account
-        find_business_permit_application.business.penalty_revenue_account
+        find_business.penalty_revenue_account
+      end 
+      def find_business
+        if business_id.present?
+          find_locality.businesses.find(business_id)
+        else 
+          find_business_permit_application.business 
+        end 
       end 
 
       def find_business_permit_application

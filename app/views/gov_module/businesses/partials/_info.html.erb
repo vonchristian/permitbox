@@ -52,15 +52,10 @@
         <h3 class="title-up"> Business Activities </h3>
       </div>
       <div class="col-md-4">
-        <% if current_user.bplo_officer? %>
-          <%= link_to new_gov_module_business_business_activity_path(business) do %>
-          <span class="btn btn-outline-warning float-right btn-sm"><i class="fa fa-plus"></i> Add</span>
-          <% end %>
-        <% end %>
       </div>
     </div>
     <br>
-    <% business.business_activities.each do |business_activity| %>
+    <% business.business_activities.not_cancelled.each do |business_activity| %>
       <div class="row">
         <div class="col-md-2">
           <%= business_activity.quantity.to_i %>
