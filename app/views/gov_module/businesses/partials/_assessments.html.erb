@@ -16,7 +16,7 @@
         <tr>
           <td><%= link_to voucher.date.strftime('%B %e, %Y'), gov_module_voucher_path(voucher) %></td>
           <td><%= voucher.preparer_full_name %></td>
-          <td><%= number_to_currency voucher.voucher_amounts.credit.total %></td>
+          <td><%= number_to_currency voucher.voucher_amounts.total %></td>
           <td>
            <% if !voucher.paid? %>
               <%= link_to gov_module_voucher_path(voucher), method: :delete do %>
