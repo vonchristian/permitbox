@@ -1,11 +1,11 @@
 module Businesses
   class GrossSale < ApplicationRecord
     enum gross_sale_type: [:non_essential, :essential]
-    belongs_to :business, optional: true
-    belongs_to :business_activity, optional: true
-    belongs_to :business_permit_application, optional: true
+    belongs_to :business
     delegate :business_tax_category, :business_tax_payable_amount, to: :business_permit_application
-    # before_destroy :delete_business_tax
+    
+    validates :calendar_year, presence: true
+    validates :amount, presence: true, numericality: true
 
     def self.current
       order(calendar_year: :desc).first

@@ -1,6 +1,6 @@
 class BusinessPermitApplication < ApplicationRecord
   include PgSearch::Model
-  include Discountable
+
   extend RecentApplicationFinder
   pg_search_scope :text_search, against: [:business_name, :application_number]
   enum mode_of_payment: [:annually, :quarterly, :semi_annually]

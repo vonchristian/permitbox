@@ -4,7 +4,8 @@ module Locations
     pg_search_scope :text_search, against: [:name]
     has_one_attached :logo
     enum locality_type: [:city, :municipality]
-
+    
+    belongs_to :locality_classification
     belongs_to :business_tax_computation_config,      class_name: "Configurations::BusinessTaxComputationConfig"
     belongs_to :mayors_permit_fee_calculation_config, class_name: "Configurations::MayorsPermitFeeCalculationConfig"
     belongs_to :province, optional: true
@@ -43,10 +44,8 @@ module Locations
     has_many :tricycle_permits,                    class_name: "Permits::TricyclePermit"
     has_many :tricycle_permit_applications,        class_name: 'Tricycles::TricyclePermitApplication'
     has_many :business_permit_applications
-    has_many :capital_tax_configs
     has_many :tricycle_permits,                    class_name: "Permits::TricyclePermit"
     has_many :signatories
-    has_many :discounts
     has_many :business_surcharge_configs,          class_name: "Configurations::BusinessSurchargeConfig"
     has_many :penalty_configs,                     class_name: "Configurations::PenaltyConfig"
     has_many :ledger_accounts, class_name: 'Accounting::LedgerAccount', as: :ledgerable

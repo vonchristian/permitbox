@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 module RealProperties
-  RSpec.describe PropertyRevision, type: :model do
-    pending "add some examples to (or delete) #{__FILE__}"
+  describe PropertyRevision do
+    describe 'associations' do 
+      it { is_expected.to belong_to :general_revision }
+      it { is_expected.to belong_to :real_property }
+    end 
   end
 end

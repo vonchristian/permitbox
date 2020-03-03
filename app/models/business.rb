@@ -3,7 +3,6 @@ class Business < ApplicationRecord
 
   include PgSearch::Model
   include Locationable
-  include Discountable
   extend LocalityScoping #finding businesses that belong to a locality
   multisearchable :against => [:name]
   pg_search_scope :text_search, :against => :name

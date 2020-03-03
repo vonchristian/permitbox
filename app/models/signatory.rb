@@ -5,6 +5,7 @@ class Signatory < ApplicationRecord
 
   validates :full_name, :designation, presence: true
   validates :full_name, uniqueness: { scope: :locality_id }
+  
   def self.recent
     order(created_at: :desc).first
   end

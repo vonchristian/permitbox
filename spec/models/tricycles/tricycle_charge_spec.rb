@@ -13,24 +13,14 @@ module Tricycles
     end 
     
     describe 'validations' do 
-      it 'is_expected.to validate_uniqueness_of(:charge_id).scoped_to(:tricycle_id)' do 
-        tricycle = create(:tricycle)
-        charge   = create(:charge)
-        create(:tricycle_charge, tricycle: tricycle, charge: charge)
-        tricycle_charge = build(:tricycle_charge, tricycle: tricycle, charge: charge)
+      it 'is_expected.to validate_uniqueness_of(:tricycle_fee_id).scoped_to(:tricycle_id)' do 
+        tricycle      = create(:tricycle)
+        tricycle_fee  = create(:tricycle_fee)
+        create(:tricycle_charge, tricycle: tricycle, tricycle_fee: tricycle_fee)
+        tricycle_charge = build(:tricycle_charge, tricycle: tricycle, tricycle_fee: tricycle_fee)
         tricycle_charge.save 
 
-        expect(tricycle_charge.errors[:charge_id]).to eql ['has already been taken']
-      end 
-
-      it 'is_expected.to validate_uniqueness_of(:charge_id).scoped_to(:tricycle_permit_application_id)' do 
-        tricycle_permit_application = create(:tricycle_permit_application)
-        charge   = create(:charge)
-        create(:tricycle_charge, tricycle_permit_application: tricycle_permit_application, charge: charge)
-        tricycle_charge = build(:tricycle_charge, tricycle_permit_application: tricycle_permit_application, charge: charge)
-        tricycle_charge.save 
-
-        expect(tricycle_charge.errors[:charge_id]).to eql ['has already been taken']
+        expect(tricycle_charge.errors[:tricycle_fee_id]).to eql ['has already been taken']
       end 
     end 
     

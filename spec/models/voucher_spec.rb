@@ -24,7 +24,7 @@ describe Voucher do
 
   describe 'scopes' do
     it '.entered_on(args={})' do
-      voucher = create(:voucher, date: Date.current)
+      voucher     = create(:voucher, date: Date.current)
       old_voucher = create(:voucher, date: Date.current.last_year)
 
       expect(described_class.entered_on(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year)).to include(voucher)

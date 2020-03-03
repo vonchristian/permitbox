@@ -3,7 +3,7 @@ class Tricycle < ApplicationRecord
   enum tricycle_type: [:new_tricycle, :old_tricycle]
 
   extend LocalityScoping #for_locality
-  include Discountable
+
   pg_search_scope :text_search, against: [:make, :tricycle_model, :plate_number, :mtop_number]
   delegate :avatar, to: :taxpayer
   

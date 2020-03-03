@@ -1,5 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe BusinessTaxReceivable, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe BusinessTaxReceivable do
+  it { is_expected.to belong_to(:business).optional }
+  it { is_expected.to belong_to(:business_permit_application).optional }
+  it { is_expected.to belong_to :employee }
 end

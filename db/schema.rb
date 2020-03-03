@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_02_092339) do
+ActiveRecord::Schema.define(version: 2020_03_03_024321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -858,8 +858,10 @@ ActiveRecord::Schema.define(version: 2020_03_02_092339) do
     t.uuid "surcharge_revenue_account_id"
     t.uuid "penalty_revenue_account_id"
     t.uuid "zoning_revenue_account_id"
+    t.uuid "locality_classification_id"
     t.index ["business_tax_computation_config_id"], name: "index_localities_on_business_tax_computation_config_id"
     t.index ["capital_tax_revenue_account_id"], name: "index_localities_on_capital_tax_revenue_account_id"
+    t.index ["locality_classification_id"], name: "index_localities_on_locality_classification_id"
     t.index ["locality_type"], name: "index_localities_on_locality_type"
     t.index ["mayors_permit_fee_calculation_config_id"], name: "index_localities_on_mayors_permit_fee_calculation_config_id"
     t.index ["penalty_revenue_account_id"], name: "index_localities_on_penalty_revenue_account_id"
@@ -881,6 +883,12 @@ ActiveRecord::Schema.define(version: 2020_03_02_092339) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_locality_accounts_on_email", unique: true
     t.index ["reset_password_token"], name: "index_locality_accounts_on_reset_password_token", unique: true
+  end
+
+  create_table "locality_classifications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "locality_taxpayers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1080,12 +1088,12 @@ ActiveRecord::Schema.define(version: 2020_03_02_092339) do
 
   create_table "property_revisions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "general_revision_id"
-    t.string "property_type"
-    t.uuid "property_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "real_property_type", null: false
+    t.uuid "real_property_id", null: false
     t.index ["general_revision_id"], name: "index_property_revisions_on_general_revision_id"
-    t.index ["property_type", "property_id"], name: "index_property_revisions_on_property_type_and_property_id"
+    t.index ["real_property_type", "real_property_id"], name: "index_real_property_on_property_revisions"
   end
 
   create_table "provinces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1603,6 +1611,7 @@ ActiveRecord::Schema.define(version: 2020_03_02_092339) do
   add_foreign_key "localities", "accounts", column: "surcharge_revenue_account_id"
   add_foreign_key "localities", "accounts", column: "zoning_revenue_account_id"
   add_foreign_key "localities", "business_tax_computation_configs"
+  add_foreign_key "localities", "locality_classifications"
   add_foreign_key "localities", "mayors_permit_fee_calculation_configs"
   add_foreign_key "localities", "provinces"
   add_foreign_key "locality_taxpayers", "accounts", column: "receivable_account_id"

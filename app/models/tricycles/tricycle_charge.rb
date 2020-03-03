@@ -5,7 +5,7 @@ module Tricycles
     belongs_to :revenue_account, class_name: 'Accounting::Revenue'
     belongs_to :tricycle_fee,    class_name: 'Tricycles::TricycleFee'
 
-    validates :tricycle_fee_id, uniqueness: { scope: :tricycle_permit_application_id }
+    validates :tricycle_fee_id, uniqueness: { scope: :tricycle_id }
 
     
     delegate :name, :amount, to: :tricycle_fee, prefix: true

@@ -20,7 +20,7 @@ describe Taxpayer do
   it "#full_name" do
     taxpayer = build(:taxpayer, first_name: "Juan", middle_name: "Dela", last_name: "Cruz")
 
-    expect(taxpayer.full_name).to eql "Juan Dela Cruz"
+    expect(taxpayer.full_name).to eql "Juan D. Cruz"
   end
 
   it ".women" do

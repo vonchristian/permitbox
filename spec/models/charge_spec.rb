@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe Charge do
   describe 'associations' do
-    it { is_expected.to belong_to :revenue_account }
     it { is_expected.to belong_to :locality }
   end
   describe 'validations' do

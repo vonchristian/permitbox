@@ -1,4 +1,3 @@
 class BusinessPenaltyConfig < ApplicationRecord
-  belongs_to :locality
-  belongs_to :revenue_account
+  belongs_to :locality, class_name: 'Locations::Locality'
 end

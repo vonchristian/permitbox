@@ -1,5 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe CompetetiveIndexCategory, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe CompetetiveIndexCategory, type: :model do
+  describe 'associations' do 
+    it { is_expected.to have_many :line_of_businesses }
+    it { is_expected.to have_many :businesses }
+  end 
+  
+  describe 'validations' do 
+    it { is_expected.to validate_presence_of :name }
+  end 
 end

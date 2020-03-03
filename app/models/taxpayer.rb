@@ -8,7 +8,7 @@ class Taxpayer < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
   has_one_attached :avatar
-  has_one :taxpayer_account
+  has_one :taxpayer_account, class_name: 'Taxpayers::TaxpayerAccount'
   has_many :ownerships,  as: :owner
   has_many :locality_taxpayers, class_name: 'Localities::LocalityTaxpayer', dependent: :destroy
   has_many :lands,       through: :ownerships, source_type: "RealPropertyTypes::Land", source: :ownable

@@ -12,7 +12,7 @@ module Accounting
     has_many :credit_entries,       :through => :credit_amounts, :source => :entry, :class_name => 'Accounting::Entry'
     has_many :debit_entries,        :through => :debit_amounts, :source => :entry, :class_name => 'Accounting::Entry'
     has_many :subsidiary_accounts,  class_name: "Accounting::Account", foreign_key: 'main_account_id'
-    has_many :account_budgets
+    has_many :account_budgets,      class_name: 'Budgeting::AccountBudget'
     has_many :voucher_amounts,      class_name: 'Vouchers::VoucherAmount'
     has_many :ledger_accounts,      class_name: 'Accounting::LedgerAccount'
     validates :type, :name, :code, presence: true

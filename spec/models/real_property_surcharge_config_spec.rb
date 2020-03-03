@@ -1,5 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe RealPropertySurchargeConfig, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe RealPropertySurchargeConfig do
+  describe 'associations' do 
+    it { is_expected.to belong_to :locality }
+    it { is_expected.to belong_to :general_revision }
+  end 
 end

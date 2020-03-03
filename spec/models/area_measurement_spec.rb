@@ -7,7 +7,7 @@ describe AreaMeasurement do
 
   it ".current" do
     area_measurement = create(:area_measurement, created_at: Date.yesterday)
-    current = create(:area_measurement, created_at: Date.today)
+    current          = create(:area_measurement, created_at: Date.today)
 
     expect(described_class.current).to eql(current)
   end

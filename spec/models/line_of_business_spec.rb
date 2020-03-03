@@ -13,7 +13,5 @@ describe LineOfBusiness do
     it { is_expected.to validate_presence_of :name }
   end
 
-  describe 'delegations' do
-    it { is_expected.to delegate_method(:revenue_account).to(:line_of_business_category) }
-  end
+
 end

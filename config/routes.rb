@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
- devise_for :taxpayer_accounts, controllers: { sessions: 'taxpayer_accounts/sessions', registrations: 'taxpayer_accounts/registrations', confirmations: 'taxpayer_accounts/confirmations' }
+  # devise_for :taxpayer_accounts, model_name: "Taxpayers::TaxpayerAccount", controllers: { sessions: 'taxpayer_accounts/sessions', registrations: 'taxpayer_accounts/registrations', confirmations: 'taxpayer_accounts/confirmations' }
 
   # unauthenticated :user do
   #   root to: "home#index"
