@@ -5,9 +5,9 @@ module GovModule
 
       def index
         if params[:search].present?
-          @business_permit_applications = current_locality.business_permit_applications.text_search(params[:search]).paginate(page: params[:page], per_page: 25)
+          @pagy, @business_permit_applications = pagy(current_locality.business_permit_applications.where.not(business_id: nil).text_search(params[:search]))
         else
-          @business_permit_applications = current_locality.business_permit_applications.paginate(page: params[:page], per_page: 25)
+          @pagy, @business_permit_applications = pagy(current_locality.business_permit_applications.where.not(business_id: nil))
         end
       end
 

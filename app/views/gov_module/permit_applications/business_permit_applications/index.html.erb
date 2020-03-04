@@ -31,9 +31,9 @@
             <td><%= link_to permit_application.application_date.strftime('%B %e, %Y'), gov_module_permit_applications_business_permit_application_path(permit_application) %></td>
             <td><%= permit_application.application_number %></td>
             <td><%= permit_application.application_type %></td>
-            <td><%= permit_application.taxpayers_full_name %></td>
+            <td><%= permit_application.try(:taxpayers_full_name) %></td>
             <td><%= permit_application.business_name %></td>
-            <td><%= number_to_currency permit_application.voucher.voucher_amounts.total %></td>
+            <td><%= number_to_currency permit_application.voucher.try(:voucher_amounts).try(:total) %></td>
             <td><% if permit_application.paid? %>
             <span class='badge bg-success'> Paid </span>
               <% else %>
@@ -44,4 +44,5 @@
         <% end %>
       </tbody>
     </table>
+    <%==pagy_bootstrap_nav(@pagy) %>
   </div>
