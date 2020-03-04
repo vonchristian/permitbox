@@ -3,11 +3,11 @@ module GovModule
     class EstablishmentsController < ApplicationController
       def new
         @business = Business.find(params[:business_id])
-        @establishment = PublicMarkets::BusinessProcessing.new
+        @establishment = ::PublicMarkets::BusinessProcessing.new
       end
       def create
         @business = Business.find(params[:public_markets_business_processing][:business_id])
-        @establishment = PublicMarkets::BusinessProcessing.new(establishment_params)
+        @establishment = ::PublicMarkets::BusinessProcessing.new(establishment_params)
         @establishment.process!
         redirect_to gov_module_business_url(@business), notice: "Added to market successfully."
       end

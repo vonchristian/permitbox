@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-body">
+      <h3 class='title-up'><%= public_market.name %></h3>
+      <small class='text-muted'><i class='fa fa-map-marker'></i> <%= public_market.barangay_name %></small>
+      <nav class="nav nav-pills nav-pills-underline">
+        <li class="nav-item">
+          <%= link_to 'Profile', gov_module_public_market_path(public_market), class: "nav-link #{'active' if current_page?(gov_module_public_market_path(public_market))}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Businesses', gov_module_public_market_businesses_path(public_market), class: "nav-link #{'active' if current_page?(gov_module_public_market_businesses_path(public_market))}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Collections', gov_module_public_market_collections_path(public_market), class: "nav-link #{'active' if current_page?(gov_module_public_market_collections_path(public_market))}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Reports', gov_module_public_market_reports_path(public_market), class: "nav-link #{'active' if current_page?(gov_module_public_market_reports_path(public_market))}" %>
+        </li>
+      </nav>
+      <br>
+        <% if current_page? gov_module_public_market_path(public_market) %>
+          <%= render 'gov_module/public_markets/partials/info', public_market: public_market %>
+        <% end %>
+
+        <% if current_page? gov_module_public_market_businesses_path(public_market) %>
+          <%= render 'gov_module/public_markets/partials/businesses', public_market: public_market %>
+        <% end %>
+
+        <% if current_page? gov_module_public_market_reports_path(public_market) %>
+          <%= render 'gov_module/public_markets/partials/reports', public_market: public_market %>
+        <% end %>
+      </div>
+    </div>
+

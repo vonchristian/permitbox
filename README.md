@@ -10,10 +10,7 @@ Accounting Department
 on assessment show
   add fees/taxes
 
-
-
 business show
-
 
 destroy voucher
 check chosen js in production

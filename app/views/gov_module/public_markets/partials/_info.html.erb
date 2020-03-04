@@ -1,0 +1,76 @@
+
+<% businesses_data = [] %>
+<% businesses_data << { "With Permits #{Date.current.year}" => @public_market.businesses.with_permits(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year).distinct.size } %>
+<% businesses_data << { "Without Permits #{Date.current.year}" => @public_market.businesses.without_permits(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year).distinct.size } %>
+<% businesses_data << { "Closed" => @public_market.businesses.closed.size } %>
+
+
+      <%= pie_chart (Hash[*businesses_data.collect{|h| h.to_a}.flatten].delete_if{|k,v| v.blank?}),messages: {empty: "No data"}, download: true, legend: true, label: "Value" %>
+
+<hr>
+    <div class='row'>
+      <div class='col-md-3'>
+        <small class='text-muted'> TOTAL BUSINESSES </small>
+        <h1 class='title-up'><%= @public_market.businesses.distinct.size %></h1>
+      </div>
+
+      <div class='col-md-3'>
+        <small class='text-success'> WITH PERMITS (<%= Date.current.year %>) </small>
+        <h1 class='title-up text-success'><%= @public_market.businesses.with_permits(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year).distinct.size %></h1>
+      </div>
+
+      <div class='col-md-3'>
+        <small class='text-danger'> WITHOUT PERMITS (<%= Date.current.year %>) </small>
+        <h1 class='title-up text-danger'><%= @public_market.businesses.without_permits(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year).distinct.size %></h1>
+      </div>
+
+       <div class='col-md-3'>
+        <small class='text-muted'> CLOSED  </small>
+        <h1 class='title-up'><%= @public_market.businesses.closed.distinct.size %></h1>
+      </div>
+    </div>
+    <hr>
+    <h3 class='title-up'> Regular Tenants </h3>
+    <div class='row'>
+      <div class='col-md-3'>
+        <small class='text-muted'> TOTAL BUSINESSES </small>
+        <h1 class='title-up'><%= @public_market.regular_tenants.distinct.size %></h1>
+      </div>
+
+      <div class='col-md-3'>
+        <small class='text-success'> WITH PERMITS (<%= Date.current.year %>) </small>
+        <h1 class='title-up text-success'><%= @public_market.regular_tenants.with_permits(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year).distinct.size %></h1>
+      </div>
+
+      <div class='col-md-3'>
+        <small class='text-danger'> WITHOUT PERMITS (<%= Date.current.year %>) </small>
+        <h1 class='title-up text-danger'><%= @public_market.regular_tenants.without_permits(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year).distinct.size %></h1>
+      </div>
+
+       <div class='col-md-3'>
+        <small class='text-muted'> CLOSED  </small>
+        <h1 class='title-up'><%= @public_market.regular_tenants.closed.distinct.size %></h1>
+      </div>
+    </div>
+    <h3 class='title-up'> Transient Tenants </h3>
+    <div class='row'>
+      <div class='col-md-3'>
+        <small class='text-muted'> TOTAL BUSINESSES </small>
+        <h1 class='title-up'><%= @public_market.transient_tenants.distinct.size %></h1>
+      </div>
+
+      <div class='col-md-3'>
+        <small class='text-success'> WITH PERMITS (<%= Date.current.year %>) </small>
+        <h1 class='title-up text-success'><%= @public_market.transient_tenants.with_permits(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year).distinct.size %></h1>
+      </div>
+
+      <div class='col-md-3'>
+        <small class='text-danger'> WITHOUT PERMITS (<%= Date.current.year %>) </small>
+        <h1 class='title-up text-danger'><%= @public_market.transient_tenants.without_permits(from_date: Date.current.beginning_of_year, to_date: Date.current.end_of_year).distinct.size %></h1>
+      </div>
+
+       <div class='col-md-3'>
+        <small class='text-muted'> CLOSED  </small>
+        <h1 class='title-up'><%= @public_market.transient_tenants.closed.distinct.size %></h1>
+      </div>
+    </div>

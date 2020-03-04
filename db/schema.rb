@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_03_024321) do
+ActiveRecord::Schema.define(version: 2020_03_04_010743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -1112,6 +1112,8 @@ ActiveRecord::Schema.define(version: 2020_03_03_024321) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "barangay_id"
+    t.index ["barangay_id"], name: "index_public_markets_on_barangay_id"
     t.index ["locality_id"], name: "index_public_markets_on_locality_id"
   end
 
@@ -1640,6 +1642,7 @@ ActiveRecord::Schema.define(version: 2020_03_03_024321) do
   add_foreign_key "prerequisites", "documents", column: "sub_document_id"
   add_foreign_key "property_revisions", "general_revisions"
   add_foreign_key "provinces", "regions"
+  add_foreign_key "public_markets", "barangays"
   add_foreign_key "public_markets", "localities"
   add_foreign_key "real_property_classifications", "classifications"
   add_foreign_key "real_property_sub_classifications", "sub_classifications"

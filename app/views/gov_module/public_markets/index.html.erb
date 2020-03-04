@@ -1,0 +1,3 @@
+<% @public_markets.each do |public_market| %>
+  <%= link_to public_market.name, gov_module_public_market_path(public_market) %>
+<% end %>

@@ -110,6 +110,13 @@ Rails.application.routes.draw do
   resources :carts, only: [:destroy]
 
   namespace :gov_module do
+    resources :public_markets, only: [:index, :show] do 
+      resources :businesses,   only: [:index], module: :public_markets 
+      resources :collections, only: [:index], module: :public_markets 
+      resources :reports,     only: [:index], module: :public_markets 
+      resources :businesses_without_permits, only: [:index], module: :public_markets 
+      resources :business_permits, only: [:index], module: :public_markets 
+    end 
     namespace :approved_permits do 
       resources :business_permits, only: [:index]
       resources :tricycle_permits, only: [:index]

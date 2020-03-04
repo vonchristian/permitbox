@@ -288,9 +288,13 @@ example_id                                                                      
 ./spec/models/permit_spec.rb[1:7]                                                                                             | passed | 0.1083 seconds  |
 ./spec/models/permits/business_permit_spec.rb[1:1:1]                                                                          | passed | 0.01732 seconds |
 ./spec/models/permits/business_permit_spec.rb[1:1:2]                                                                          | passed | 0.0018 seconds  |
-./spec/models/public_market_spec.rb[1:1:1]                                                                                    | passed | 0.01 seconds    |
-./spec/models/public_market_spec.rb[1:1:2]                                                                                    | passed | 0.00319 seconds |
-./spec/models/public_market_spec.rb[1:1:3]                                                                                    | passed | 0.00119 seconds |
+./spec/models/public_market_spec.rb[1:1:1]                                                                                    | passed | 0.20728 seconds |
+./spec/models/public_market_spec.rb[1:1:2]                                                                                    | passed | 0.00246 seconds |
+./spec/models/public_market_spec.rb[1:1:3]                                                                                    | passed | 0.00432 seconds |
+./spec/models/public_market_spec.rb[1:1:4]                                                                                    | passed | 0.02305 seconds |
+./spec/models/public_market_spec.rb[1:1:5]                                                                                    | passed | 0.0107 seconds  |
+./spec/models/public_market_spec.rb[1:1:6]                                                                                    | passed | 0.00135 seconds |
+./spec/models/public_market_spec.rb[1:2:1]                                                                                    | passed | 0.00133 seconds |
 ./spec/models/real_properties/adjustment_spec.rb[1:2:1]                                                                       | passed | 0.00912 seconds |
 ./spec/models/real_properties/property_revision_spec.rb[1:1:1]                                                                | passed | 0.02273 seconds |
 ./spec/models/real_properties/property_revision_spec.rb[1:1:2]                                                                | passed | 0.00249 seconds |
@@ -440,8 +444,6 @@ example_id                                                                      
 ./spec/system/businesses/assessment_line_items/penalties/new_system_spec.rb[1:2]                                              | passed | 0.77003 seconds |
 ./spec/system/businesses/business_activities/new_system_spec.rb[1:1]                                                          | failed | 0.22243 seconds |
 ./spec/system/businesses/closing/new_closing_system_path_spec.rb[1:1]                                                         | failed | 0.20421 seconds |
-./spec/system/businesses/gross_sales/destroy_gross_sale_system_spec.rb[1:1]                                                   | failed | 0.08458 seconds |
-./spec/system/businesses/gross_sales/new_gross_sale_system_spec.rb[1:1]                                                       | failed | 0.0486 seconds  |
 ./spec/system/businesses_section/charges/new_charge_system_spec.rb[1:1]                                                       | failed | 0.2395 seconds  |
 ./spec/system/businesses_section/charges/new_charge_system_spec.rb[1:2]                                                       | failed | 0.18217 seconds |
 ./spec/system/businesses_section/documents/new_document_feature_spec.rb[1:1]                                                  | failed | 0.09051 seconds |
