@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_04_010743) do
+ActiveRecord::Schema.define(version: 2020_03_08_130535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -294,6 +294,15 @@ ActiveRecord::Schema.define(version: 2020_03_04_010743) do
     t.index ["business_permit_application_id"], name: "index_business_charges_on_business_permit_application_id"
     t.index ["charge_id"], name: "index_business_charges_on_charge_id"
     t.index ["revenue_account_id"], name: "index_business_charges_on_revenue_account_id"
+  end
+
+  create_table "business_employees", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "business_id", null: false
+    t.uuid "employee_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["business_id"], name: "index_business_employees_on_business_id"
+    t.index ["employee_id"], name: "index_business_employees_on_employee_id"
   end
 
   create_table "business_fees", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -765,6 +774,12 @@ ActiveRecord::Schema.define(version: 2020_03_04_010743) do
     t.index ["tax_type"], name: "index_gross_sales_tax_ranges_on_tax_type"
   end
 
+  create_table "health_certificate_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "health_certificate_configs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.decimal "fee_amount"
     t.uuid "revenue_account_id"
@@ -775,12 +790,62 @@ ActiveRecord::Schema.define(version: 2020_03_04_010743) do
     t.index ["revenue_account_id"], name: "index_health_certificate_configs_on_revenue_account_id"
   end
 
+  create_table "health_certificate_lab_tests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "laboratory_id", null: false
+    t.uuid "lab_test_id", null: false
+    t.uuid "health_certificate_id", null: false
+    t.integer "result"
+    t.datetime "date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["health_certificate_id"], name: "index_health_certificate_lab_tests_on_health_certificate_id"
+    t.index ["lab_test_id"], name: "index_health_certificate_lab_tests_on_lab_test_id"
+    t.index ["laboratory_id"], name: "index_health_certificate_lab_tests_on_laboratory_id"
+    t.index ["result"], name: "index_health_certificate_lab_tests_on_result"
+  end
+
+  create_table "health_certificates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "employee_id", null: false
+    t.uuid "health_certificate_category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["employee_id"], name: "index_health_certificates_on_employee_id"
+    t.index ["health_certificate_category_id"], name: "index_health_certificates_on_health_certificate_category_id"
+  end
+
   create_table "interest_rates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "locality_id"
     t.decimal "rate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["locality_id"], name: "index_interest_rates_on_locality_id"
+  end
+
+  create_table "lab_tests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "laboratories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "business_name"
+    t.string "address"
+    t.string "contact_number"
+    t.string "owner_name"
+    t.uuid "locality_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["locality_id"], name: "index_laboratories_on_locality_id"
+  end
+
+  create_table "laboratory_accrediations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "locality_id", null: false
+    t.uuid "laboratory_id", null: false
+    t.string "accreditation_number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["laboratory_id"], name: "index_laboratory_accrediations_on_laboratory_id"
+    t.index ["locality_id"], name: "index_laboratory_accrediations_on_locality_id"
   end
 
   create_table "lands", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1524,6 +1589,8 @@ ActiveRecord::Schema.define(version: 2020_03_04_010743) do
   add_foreign_key "business_charges", "accounts", column: "revenue_account_id"
   add_foreign_key "business_charges", "business_permit_applications"
   add_foreign_key "business_charges", "businesses"
+  add_foreign_key "business_employees", "businesses"
+  add_foreign_key "business_employees", "taxpayers", column: "employee_id"
   add_foreign_key "business_fees", "localities"
   add_foreign_key "business_names", "businesses"
   add_foreign_key "business_penalty_configs", "accounts", column: "revenue_account_id"
@@ -1595,7 +1662,15 @@ ActiveRecord::Schema.define(version: 2020_03_04_010743) do
   add_foreign_key "gross_sales_tax_ranges", "localities"
   add_foreign_key "health_certificate_configs", "accounts", column: "revenue_account_id"
   add_foreign_key "health_certificate_configs", "localities"
+  add_foreign_key "health_certificate_lab_tests", "health_certificates"
+  add_foreign_key "health_certificate_lab_tests", "lab_tests"
+  add_foreign_key "health_certificate_lab_tests", "laboratories"
+  add_foreign_key "health_certificates", "health_certificate_categories"
+  add_foreign_key "health_certificates", "taxpayers", column: "employee_id"
   add_foreign_key "interest_rates", "localities"
+  add_foreign_key "laboratories", "localities"
+  add_foreign_key "laboratory_accrediations", "laboratories"
+  add_foreign_key "laboratory_accrediations", "localities"
   add_foreign_key "lands", "localities"
   add_foreign_key "ledger_accounts", "accounts"
   add_foreign_key "line_of_business_categories", "accounts", column: "revenue_account_id"
