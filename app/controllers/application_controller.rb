@@ -16,10 +16,12 @@ class ApplicationController < ActionController::Base
   def current_cart
       Cart.find(session[:cart_id])
       rescue ActiveRecord::RecordNotFound
-      cart = Cart.create!(user: current_user)
+      cart = Cart.create!(user: current_user, taxpayer: current_taxpayer)
       session[:cart_id] = cart.id
       cart
   end
+
+  
 
   def current_locality
     if current_user

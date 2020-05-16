@@ -3,7 +3,7 @@ class Cart < ApplicationRecord
   enum application_type: [:new_business, :old_business]
   enum status: [:reviewing, :assessed]
   belongs_to :taxpayer, optional: true
-  belongs_to :user
+  belongs_to :user, optional: true 
   belongs_to :ownership_type, optional: true
   belongs_to :business_tax_category, optional: true
   belongs_to :locality, optional: true, class_name: "Locations::Locality"

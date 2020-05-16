@@ -1,5 +1,11 @@
 require 'rails_helper'
-
-RSpec.describe LabTest, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+module HealthDepartment
+  describe LabTest do
+    describe "associations" do 
+      it { is_expected.to belong_to :locality }
+    end 
+    describe "validations" do 
+      it { is_expected.to validate_presence_of :title }
+    end 
+  end 
 end

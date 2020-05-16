@@ -1,5 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe HealthCertificateLabTest, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+module HealthDepartment
+  describe HealthCertificateLabTest do
+  end 
 end

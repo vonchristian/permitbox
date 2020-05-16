@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 module HealthDepartment
-  describe HealthCertificate do
+  describe HealthCertificateApplication  do
     describe "associations" do 
     end 
-  end
-end 
+  end 
+end

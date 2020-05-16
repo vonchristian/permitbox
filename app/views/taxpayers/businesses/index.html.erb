@@ -4,7 +4,7 @@
   </div>
 </div>
       <% @businesses.each do |business| %>
-        <%= link_to taxpayer_business_path(business) do %>
+        <%= link_to taxpayer_business_path(id: business.id) do %>
           <div class="card">
             <div class="card-body">
               <div class="row">

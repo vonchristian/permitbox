@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  # devise_for :taxpayer_accounts, model_name: "Taxpayers::TaxpayerAccount", controllers: { sessions: 'taxpayer_accounts/sessions', registrations: 'taxpayer_accounts/registrations', confirmations: 'taxpayer_accounts/confirmations' }
+  devise_for :taxpayer_accounts,  controllers: { sessions: 'taxpayer_accounts/sessions', registrations: 'taxpayer_accounts/registrations', confirmations: 'taxpayer_accounts/confirmations' }
 
   # unauthenticated :user do
   #   root to: "home#index"
@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   # authenticated :user do
   #   root :to => 'gov_module/taxpayers#index'
   # end
- 
+ authenticated :taxpayer_account do 
+  root to: "taxpayers_module#index", as: :taxpayer_account_root
+ end
   authenticated :user do
     root to: "gov_module/businesses#index"
   end
@@ -314,5 +316,4 @@ Rails.application.routes.draw do
   resources :fire_safety_inspection_configs, only: [:index, :show] do 
     resources :accounts, only: [:new, :create, :destroy], module: :fire_safety_inspection_configs
   end 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

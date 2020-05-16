@@ -3,9 +3,9 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
-ruby '2.7.0'
+ruby '2.7.1'
 gem 'prawn-icon'
-gem 'rails', '6.0.2.1'
+gem 'rails'
 gem "audited", "~> 4.7"
 gem 'autonumeric-rails'
 gem 'spreadsheet'
@@ -17,7 +17,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma'
 gem 'rubyzip', '>= 1.2.1'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
-gem 'axlsx_rails'
+gem 'caxlsx_rails'
 gem 'mina', require: false
 gem 'mina-puma', require: false,  github: 'untitledkingdom/mina-puma'
 gem 'sass-rails', '~> 5.0'
