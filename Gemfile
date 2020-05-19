@@ -19,7 +19,7 @@ gem 'rubyzip', '>= 1.2.1'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'caxlsx_rails'
 gem 'mina', require: false
-gem 'mina-puma', require: false,  github: 'untitledkingdom/mina-puma'
+gem 'mina-ng-puma', require: false
 gem 'mina-sidekiq', require: false
 gem 'mina-whenever', require: false
 gem 'sass-rails', '~> 5.0'
