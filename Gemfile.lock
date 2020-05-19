@@ -213,6 +213,8 @@ GEM
       rake
     mina-sidekiq (1.0.3)
       mina (>= 1.0.2)
+    mina-whenever (1.0.1)
+      mina (~> 1.0)
     mini_magick (4.10.1)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
@@ -470,6 +472,7 @@ DEPENDENCIES
   mina
   mina-puma!
   mina-sidekiq
+  mina-whenever
   mini_magick
   money-rails (~> 1.12)
   pagy

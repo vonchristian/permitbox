@@ -21,6 +21,7 @@ gem 'caxlsx_rails'
 gem 'mina', require: false
 gem 'mina-puma', require: false,  github: 'untitledkingdom/mina-puma'
 gem 'mina-sidekiq', require: false
+gem 'mina-whenever', require: false
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'

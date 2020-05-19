@@ -4,6 +4,7 @@ require 'mina/git'
 require 'mina/rbenv'
 require 'mina/puma'
 require 'mina_sidekiq/tasks'
+require 'mina/whenever'
 Dir['./lib/mina/*.rb'].each { |mina_task| require mina_task }
 set :init_system,   :systemd
 set :whenever_name, 'production'
