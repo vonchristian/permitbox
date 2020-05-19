@@ -3,9 +3,9 @@ require 'mina/bundler'
 require 'mina/git'
 require 'mina/rbenv'
 require 'mina/puma'
-
+require 'mina_sidekiq/tasks'
 Dir['./lib/mina/*.rb'].each { |mina_task| require mina_task }
-
+set :init_system,   :systemd
 set :whenever_name, 'production'
 set :domain,        '134.209.100.104'
 set :deploy_to,     '/var/www/permitbox'
@@ -15,7 +15,7 @@ set :user,          'deploy'
 set :forward_agent, true
 set :app_path,      lambda { "#{fetch(:deploy_to)}/#{fetch(:current_path)}" }
 set :stage,         'production'
-set :shared_paths,  ['config/database.yml', 'log', 'tmp/log', 'public/system', 'tmp/pids', 'tmp/sockets', '/storage']
+set :shared_paths,  ['config/database.yml', 'config/sidekiq.yml', 'log', 'tmp/log', 'public/system', 'tmp/pids', 'tmp/sockets', '/storage']
 set :shared_dirs,   fetch(:shared_dirs, []).push('public/system', 'public/packs')
 
 task :remote_environment do
@@ -33,6 +33,7 @@ task :deploy => :remote_environment do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
+    invoke :'sidekiq:quiet'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
@@ -40,8 +41,9 @@ task :deploy => :remote_environment do
     invoke :'deploy:cleanup'
 
     on :launch do
-      # invoke :'puma:phased_restart'
-      # invoke :'whenever:update'
+      invoke :'puma:phased_restart'
+      invoke :'whenever:update'
+      invoke :'sidekiq:restart'
     end
   end
 end

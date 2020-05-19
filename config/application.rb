@@ -17,8 +17,7 @@ module GovCatalyst
     config.time_zone = 'Asia/Manila'
     config.active_record.default_timezone = :utc
     config.beginning_of_week = :sunday
-   
-
+    config.active_job.queue_adapter = :sidekiq
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading

@@ -20,6 +20,7 @@ gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'caxlsx_rails'
 gem 'mina', require: false
 gem 'mina-puma', require: false,  github: 'untitledkingdom/mina-puma'
+gem 'mina-sidekiq', require: false
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
@@ -42,6 +43,7 @@ gem 'mini_magick'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'prawn'
 gem 'prawn-table'
+gem 'sidekiq', '<7'
 # gem 'paymaya'
 gem 'precise_distance_of_time_in_words'
 gem 'image_processing', '~> 1.2'
