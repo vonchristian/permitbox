@@ -4,8 +4,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 ruby '2.7.1'
-gem 'sassc'
-gem 'sassc-rails'
+
+gem 'sass-rails', '~>5.0'
 gem 'prawn-icon'
 gem 'rails', '6.0.3.1'
 gem "audited", "~> 4.7"
