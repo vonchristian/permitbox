@@ -42,7 +42,7 @@ task :deploy => :remote_environment do
     invoke :'deploy:cleanup'
 
     on :launch do
-      invoke :'puma:phased_restart'
+      invoke :'puma:hard_restart'
       invoke :'whenever:update'
       invoke :'sidekiq:restart'
     end
