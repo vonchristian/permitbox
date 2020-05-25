@@ -4,6 +4,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 ruby '2.7.1'
+gem 'sassc'
+gem 'sassc-rails'
 gem 'prawn-icon'
 gem 'rails', '6.0.3.1'
 gem "audited", "~> 4.7"
@@ -21,7 +23,6 @@ gem 'caxlsx_rails'
 gem 'mina', require: false
 gem 'mina-ng-puma', require: false
 gem 'mina-whenever', require: false
-gem 'sass-rails', '~>6.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem "select2-rails"
@@ -40,7 +41,7 @@ gem 'simple_form'
 gem 'devise'
 gem 'devise_invitable', '~> 1.7.0'
 gem 'mini_magick'
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', require: false
 gem 'prawn'
 gem 'prawn-table'
 gem 'sidekiq', '<7'
