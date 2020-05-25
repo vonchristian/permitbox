@@ -20,7 +20,6 @@ gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'caxlsx_rails'
 gem 'mina', require: false
 gem 'mina-ng-puma', require: false
-gem 'mina-sidekiq', require: false
 gem 'mina-whenever', require: false
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -72,7 +71,6 @@ group :development, :test do
   gem 'faker'
   gem 'launchy'
   gem 'pry-rails'
-
 end
 
 group :test do
