@@ -5,7 +5,7 @@ git_source(:github) do |repo_name|
 end
 ruby '2.7.1'
 gem 'prawn-icon'
-gem 'rails'
+gem 'rails', '6.0.3.1'
 gem "audited", "~> 4.7"
 gem 'autonumeric-rails'
 gem 'spreadsheet'
@@ -21,7 +21,7 @@ gem 'caxlsx_rails'
 gem 'mina', require: false
 gem 'mina-ng-puma', require: false
 gem 'mina-whenever', require: false
-gem 'sass-rails', '~> 5.0'
+gem 'sassc-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem "select2-rails"
