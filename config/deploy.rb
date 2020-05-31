@@ -43,8 +43,8 @@ task :deploy => :remote_environment do
 
     on :launch do
       invoke :'puma:hard_restart'
-      invoke :'whenever:update'
-      invoke :'sidekiq:restart'
+      # invoke :'whenever:update'
+      # invoke :'sidekiq:restart'
     end
   end
 end
